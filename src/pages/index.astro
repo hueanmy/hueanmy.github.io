@@ -4,6 +4,7 @@ import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
 import ExtensionCard from '../components/ExtensionCard.astro';
 import ProjectCard from '../components/ProjectCard.astro';
+import CourseCard from '../components/CourseCard.astro';
 import Support from '../components/Support.astro';
 
 const extensions = (await getCollection('extensions')).sort(
@@ -14,11 +15,29 @@ const projects = (await getCollection('projects')).sort(
     Number(b.data.featured) - Number(a.data.featured) ||
     a.data.order - b.data.order
 );
+const courses = (await getCollection('courses')).sort(
+  (a, b) =>
+    Number(b.data.featured) - Number(a.data.featured) ||
+    a.data.order - b.data.order
+);
 ---
 
 <Layout title="hueanmy">
   <main>
     <Hero />
+
+    {
+      courses.length > 0 && (
+        <section id="courses">
+          <h2>Course demos</h2>
+          <div class="grid">
+            {courses.map((c) => (
+              <CourseCard id={c.id} {...c.data} />
+            ))}
+          </div>
+        </section>
+      )
+    }
 
     {
       extensions.length > 0 && (

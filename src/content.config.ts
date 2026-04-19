@@ -28,4 +28,25 @@ const projects = defineCollection({
   }),
 });
 
-export const collections = { extensions, projects };
+const courses = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/courses' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    tagline: z.string().optional(),
+    video: z.string().optional(),
+    videoFull: z.string().optional(),
+    thumbnail: z.string().optional(),
+    duration: z.string().optional(),
+    date: z.coerce.date().optional(),
+    tags: z.array(z.string()).default([]),
+    repoUrl: z.string().url().optional(),
+    courseUrl: z.string().url().optional(),
+    sourceDir: z.string().optional(),
+    sourceFiles: z.array(z.string()).default([]),
+    featured: z.boolean().default(false),
+    order: z.number().default(0),
+  }),
+});
+
+export const collections = { extensions, projects, courses };

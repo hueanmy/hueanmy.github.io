@@ -1,0 +1,8 @@
+{"id": "1", "input": "My order #1234 hasn't arrived after 2 weeks!", "expected_category": "shipping"}
+{"id": "2", "input": "How do I reset my password?", "expected_category": "account"}
+{"id": "3", "input": "The product broke after 3 days of use.", "expected_category": "quality"}
+{"id": "4", "input": "Can I get a refund for my last purchase?", "expected_category": "billing"}
+{"id": "5", "input": "Your app keeps crashing on iOS 17.", "expected_category": "technical"}
+{"id": "6", "input": "Tracking number shows delivered but I never got it.", "expected_category": "shipping"}
+{"id": "7", "input": "I was charged twice for the same order.", "expected_category": "billing"}
+{"id": "8", "input": "Login button does nothing on the website.", "expected_category": "technical"}
