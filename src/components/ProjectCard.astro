@@ -1,0 +1,42 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  repoUrl?: string;
+  demoUrl?: string;
+  tech?: string[];
+  featured?: boolean;
+}
+
+const { title, description, repoUrl, demoUrl, tech = [], featured } = Astro.props;
+---
+
+<article class={`card${featured ? ' featured' : ''}`}>
+  <h3>{title}</h3>
+  <p>{description}</p>
+  {
+    tech.length > 0 && (
+      <div class="tech">
+        {tech.map((t) => (
+          <span class="tag">{t}</span>
+        ))}
+      </div>
+    )
+  }
+  <div class="meta">
+    {demoUrl && <a href={demoUrl}>Live demo &rarr;</a>}
+    {repoUrl && <a href={repoUrl}>Source</a>}
+  </div>
+</article>
+
+<style>
+  .tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-top: 0.75rem;
+  }
+  .card.featured {
+    border-color: rgba(94, 234, 212, 0.35);
+  }
+</style>

@@ -1,0 +1,183 @@
+---
+---
+
+<section id="support">
+  <h2>Support my work</h2>
+  <p class="intro">
+    If something I built has helped you, a small contribution keeps things going.
+  </p>
+
+  <article class="channel">
+    <div class="channel-head">
+      <h3>GitHub Sponsors</h3>
+      <span class="audience">International</span>
+    </div>
+    <p>
+      One-time or monthly sponsorship, processed through Open Source Collective.
+      Goes directly to maintaining the extensions and tools listed above.
+    </p>
+    <a class="cta" href="https://github.com/sponsors/hueanmy">
+      Sponsor on GitHub &rarr;
+    </a>
+  </article>
+
+  <article class="channel">
+    <div class="channel-head">
+      <h3>MoMo</h3>
+      <span class="audience">Việt Nam</span>
+    </div>
+    <p>Quét QR bằng app MoMo để gửi nhanh, không phí.</p>
+    <details class="qr-reveal">
+      <summary>Hiện MoMo QR</summary>
+      <img src="/momo-qr.jpg" alt="MoMo QR code" class="qr" />
+    </details>
+  </article>
+
+  <article class="channel">
+    <div class="channel-head">
+      <h3>Chuyển khoản ngân hàng (VietQR)</h3>
+      <span class="audience">Việt Nam</span>
+    </div>
+    <p>Quét QR bằng app ngân hàng bất kỳ hỗ trợ VietQR.</p>
+    <details class="qr-reveal">
+      <summary>Hiện VietQR</summary>
+      <img src="/vietqr.jpg" alt="VietQR code" class="qr" />
+    </details>
+  </article>
+
+  <p class="thanks">Thank you &mdash; it really means a lot.</p>
+</section>
+
+<style>
+  .intro {
+    color: var(--fg-dim);
+    margin-bottom: 1.5rem;
+    max-width: 34rem;
+  }
+
+  .channel {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    transition: border-color 150ms ease;
+  }
+
+  .channel:hover {
+    border-color: var(--accent);
+  }
+
+  .channel-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .channel h3 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--fg);
+  }
+
+  .audience {
+    font-size: 0.7rem;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    padding: 0.15rem 0.55rem;
+    background: var(--accent-soft);
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+
+  .channel p {
+    color: var(--fg-dim);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+
+  .cta {
+    display: inline-block;
+    padding: 0.6rem 1.1rem;
+    background: var(--accent-soft);
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    color: var(--accent);
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background 150ms ease;
+  }
+
+  .cta:hover {
+    background: rgba(94, 234, 212, 0.16);
+    color: var(--accent-hover);
+  }
+
+  .qr-reveal summary {
+    display: inline-block;
+    padding: 0.6rem 1.1rem;
+    background: var(--accent-soft);
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    color: var(--accent);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    list-style: none;
+    transition: background 150ms ease;
+    user-select: none;
+  }
+
+  .qr-reveal summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .qr-reveal summary::after {
+    content: '  ↓';
+    font-size: 0.85em;
+    opacity: 0.7;
+  }
+
+  .qr-reveal[open] summary::after {
+    content: '  ↑';
+  }
+
+  .qr-reveal summary:hover {
+    background: rgba(94, 234, 212, 0.16);
+    color: var(--accent-hover);
+  }
+
+  .qr {
+    display: block;
+    width: 220px;
+    height: auto;
+    margin-top: 1rem;
+    border-radius: 8px;
+    background: #fff;
+    padding: 8px;
+    object-fit: contain;
+  }
+
+  .thanks {
+    color: var(--fg-muted);
+    font-style: italic;
+    text-align: center;
+    font-size: 0.9rem;
+    margin-top: 1.5rem;
+  }
+
+  @media (max-width: 520px) {
+    .channel-head {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.35rem;
+    }
+    .qr {
+      width: 180px;
+    }
+  }
+</style>
