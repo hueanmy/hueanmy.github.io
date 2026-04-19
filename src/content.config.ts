@@ -7,6 +7,7 @@ const extensions = defineCollection({
     title: z.string(),
     description: z.string(),
     platform: z.enum(['vscode', 'chrome', 'firefox', 'jetbrains', 'raycast', 'other']),
+    demoUrl: z.string().url().optional(),
     installUrl: z.string().url().optional(),
     repoUrl: z.string().url().optional(),
     installs: z.number().optional(),
