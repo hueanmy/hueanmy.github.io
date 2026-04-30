@@ -1,0 +1,146 @@
+---
+const sections = [
+  { id: 'claude-roadmap', label: 'Claude Roadmap', num: '01' },
+  { id: 'courses', label: 'Course demos', num: '02' },
+  { id: 'extensions', label: 'Extensions', num: '03' },
+  { id: 'token-optimization', label: 'Token Optimization', num: '04' },
+  { id: 'ai-shorts', label: 'AI Shorts', num: '05' },
+  { id: 'projects', label: 'Projects', num: '06' },
+  { id: 'support', label: 'Support', num: '07' },
+];
+---
+
+<nav class="section-nav" aria-label="Section navigation">
+  <div class="nav-label">On this page</div>
+  <ul>
+    {sections.map((s) => (
+      <li>
+        <a href={`#${s.id}`} data-target={s.id}>
+          <span class="bar"></span>
+          <span class="num">{s.num}</span>
+          <span class="text">{s.label}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<script>
+  const links = document.querySelectorAll<HTMLAnchorElement>('.section-nav a');
+  const linkByTarget = new Map<string, HTMLAnchorElement>();
+  links.forEach((a) => {
+    const t = a.dataset.target;
+    if (t) linkByTarget.set(t, a);
+  });
+
+  const targets = Array.from(linkByTarget.keys())
+    .map((id) => document.getElementById(id))
+    .filter((el): el is HTMLElement => !!el);
+
+  const setActive = (id: string) => {
+    links.forEach((a) => a.classList.toggle('active', a.dataset.target === id));
+  };
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      const visible = entries
+        .filter((e) => e.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+      if (visible[0]) setActive(visible[0].target.id);
+    },
+    { rootMargin: '-30% 0px -55% 0px', threshold: [0, 0.25, 0.5, 0.75, 1] }
+  );
+
+  targets.forEach((el) => observer.observe(el));
+</script>
+
+<style>
+  .section-nav {
+    position: fixed;
+    top: 50%;
+    left: max(1.5rem, calc((100vw - 720px) / 2 - 240px));
+    transform: translateY(-50%);
+    z-index: 5;
+    max-width: 220px;
+    font-family: var(--font-mono);
+  }
+
+  .nav-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--fg-muted);
+    margin-bottom: 1rem;
+    padding-left: 1rem;
+  }
+
+  .section-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .section-nav a {
+    display: grid;
+    grid-template-columns: 2px auto 1fr;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.5rem 1rem 0.5rem 0;
+    color: var(--fg-muted);
+    font-size: 0.78rem;
+    text-decoration: none;
+    transition: color 200ms ease;
+  }
+
+  .bar {
+    height: 14px;
+    width: 2px;
+    background: var(--border);
+    border-radius: 1px;
+    transition:
+      background 200ms ease,
+      height 200ms ease;
+  }
+
+  .num {
+    font-size: 0.7rem;
+    color: var(--fg-muted);
+    transition: color 200ms ease;
+  }
+
+  .text {
+    transition: color 200ms ease;
+    white-space: nowrap;
+  }
+
+  .section-nav a:hover {
+    color: var(--fg-dim);
+  }
+
+  .section-nav a:hover .bar {
+    background: var(--fg-muted);
+  }
+
+  .section-nav a.active {
+    color: var(--fg);
+  }
+
+  .section-nav a.active .bar {
+    background: var(--accent);
+    height: 22px;
+    box-shadow: 0 0 8px var(--accent);
+  }
+
+  .section-nav a.active .num {
+    color: var(--accent);
+  }
+
+  @media (max-width: 1180px) {
+    .section-nav {
+      display: none;
+    }
+  }
+</style>
