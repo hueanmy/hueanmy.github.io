@@ -1,4 +1,13 @@
 ---
+const phases = [
+  { num: '01', label: 'Foundation', title: 'Understand Claude', color: 'cyan' },
+  { num: '02', label: 'Prompting', title: 'Prompt Engineering', color: 'purple' },
+  { num: '03', label: 'API', title: 'Anthropic API Integration', color: 'yellow' },
+  { num: '04', label: 'Agents', title: 'Tool Use & Agents', color: 'green' },
+  { num: '05', label: 'CLI', title: 'Claude Code CLI', color: 'cyan' },
+  { num: '06', label: 'MCP', title: 'Model Context Protocol', color: 'purple' },
+  { num: '07', label: 'Scale', title: 'Production & Scale', color: 'pink' },
+];
 ---
 
 <section id="claude-roadmap" class="roadmap-section">
@@ -9,181 +18,28 @@
     </a>
   </div>
 
-  <div class="roadmap-header">
-    <div class="header-badge">Developer Roadmap</div>
-    <h3 class="roadmap-title">Working with Claude</h3>
-    <p class="roadmap-tagline">
-      Từ zero đến production — mọi thứ một developer cần biết khi làm việc với
-      Claude
-    </p>
-  </div>
-
-  <div class="roadmap">
-    <div class="rm-section">
-      <div class="phase-label">Phase 1 — Foundation</div>
-      <div class="main-node cyan">🧠 Understand Claude</div>
-      <div class="sub-row">
-        <span class="sub-node highlight-cyan">How LLMs work</span>
-        <span class="sub-node highlight-cyan">Claude vs GPT vs Gemini</span>
-        <span class="sub-node highlight-cyan">Context window</span>
-        <span class="sub-node highlight-cyan">Token & pricing</span>
-        <span class="sub-node highlight-cyan">Opus / Sonnet / Haiku</span>
-        <span class="sub-node highlight-cyan">Claude.ai vs API</span>
-      </div>
+  <a class="roadmap-card" href="/claude-roadmap.html" target="_blank" rel="noopener">
+    <div class="card-head">
+      <span class="badge">Developer Roadmap</span>
+      <h3 class="title">Working with Claude</h3>
+      <p class="tagline">
+        Từ zero đến production — mọi thứ một developer cần biết khi làm việc với
+        Claude. 7 phases, từ foundation tới production scale.
+      </p>
     </div>
 
-    <div class="connector"></div>
+    <ol class="phases">
+      {phases.map((p) => (
+        <li class={`phase phase-${p.color}`}>
+          <span class="phase-num">{p.num}</span>
+          <span class="phase-label">{p.label}</span>
+          <span class="phase-title">{p.title}</span>
+        </li>
+      ))}
+    </ol>
 
-    <div class="rm-section">
-      <div class="phase-label">Phase 2 — Prompting</div>
-      <div class="main-node purple">✍️ Prompt Engineering</div>
-      <div class="sub-row">
-        <span class="sub-node highlight-purple">System prompt</span>
-        <span class="sub-node highlight-purple">Role & persona</span>
-        <span class="sub-node highlight-purple">Few-shot examples</span>
-        <span class="sub-node highlight-purple">Chain of thought</span>
-        <span class="sub-node highlight-purple">XML tags</span>
-        <span class="sub-node highlight-purple">Output format control</span>
-        <span class="sub-node highlight-purple">Temperature & top_p</span>
-        <span class="sub-node highlight-purple">Prompt caching</span>
-      </div>
-    </div>
-
-    <div class="connector"></div>
-
-    <div class="rm-section">
-      <div class="phase-label">Phase 3 — API Integration</div>
-      <div class="main-node yellow">⚡ Anthropic API</div>
-      <div class="sub-row">
-        <span class="sub-node highlight-yellow">SDK (Python / JS)</span>
-        <span class="sub-node highlight-yellow">Messages API</span>
-        <span class="sub-node highlight-yellow">Streaming</span>
-        <span class="sub-node highlight-yellow">Batch API</span>
-        <span class="sub-node highlight-yellow">Vision / Multimodal</span>
-        <span class="sub-node highlight-yellow">PDF & documents</span>
-        <span class="sub-node highlight-yellow">Rate limits</span>
-        <span class="sub-node highlight-yellow">Error handling</span>
-      </div>
-    </div>
-
-    <div class="connector"></div>
-
-    <div class="rm-section">
-      <div class="phase-label">Phase 4 — Tools & Agents</div>
-      <div class="main-node green">🔧 Tool Use & Agents</div>
-      <div class="sub-row">
-        <span class="sub-node highlight-green">Tool / Function calling</span>
-        <span class="sub-node highlight-green">Tool schemas (JSON)</span>
-        <span class="sub-node highlight-green">Multi-tool orchestration</span>
-        <span class="sub-node highlight-green">Agentic loop</span>
-        <span class="sub-node highlight-green">Computer use</span>
-        <span class="sub-node highlight-green">Web search tool</span>
-        <span class="sub-node highlight-green">Human-in-the-loop</span>
-      </div>
-    </div>
-
-    <div class="connector"></div>
-
-    <div class="rm-section">
-      <div class="phase-label">Phase 5 — Claude Code</div>
-      <div class="main-node cyan">💻 Claude Code CLI</div>
-      <div class="section-with-sides">
-        <div class="side-panel">
-          <h4>Commands</h4>
-          <ul>
-            <li>/help</li>
-            <li>/plan</li>
-            <li>/clear</li>
-            <li>/compact</li>
-            <li>/memory</li>
-            <li>/cost</li>
-            <li>/doctor</li>
-          </ul>
-        </div>
-        <div class="center-col">
-          <div class="sub-row no-pad-top">
-            <span class="sub-node highlight-cyan">CLAUDE.md</span>
-            <span class="sub-node highlight-cyan">Skills</span>
-            <span class="sub-node highlight-cyan">Subagents</span>
-            <span class="sub-node highlight-cyan">Hooks</span>
-            <span class="sub-node highlight-cyan">MCP integration</span>
-            <span class="sub-node highlight-cyan">Slash commands</span>
-            <span class="sub-node highlight-cyan">Permission modes</span>
-            <span class="sub-node highlight-cyan">Plan mode</span>
-            <span class="sub-node highlight-cyan">Headless mode</span>
-            <span class="sub-node highlight-cyan">Git worktrees</span>
-          </div>
-        </div>
-        <div class="side-panel">
-          <h4>Shortcuts</h4>
-          <ul>
-            <li>Ctrl+C</li>
-            <li>Ctrl+R</li>
-            <li>Shift+Tab</li>
-            <li>Esc + Esc</li>
-            <li>@ mention</li>
-            <li>\ multiline</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <div class="connector"></div>
-
-    <div class="rm-section">
-      <div class="phase-label">Phase 6 — MCP</div>
-      <div class="main-node purple">🔌 Model Context Protocol</div>
-      <div class="sub-row">
-        <span class="sub-node highlight-purple">MCP architecture</span>
-        <span class="sub-node highlight-purple">MCP servers</span>
-        <span class="sub-node highlight-purple">MCP clients</span>
-        <span class="sub-node highlight-purple">Build custom MCP</span>
-        <span class="sub-node highlight-purple">MCP + Claude Code</span>
-        <span class="sub-node highlight-purple">Stdio vs SSE transport</span>
-        <span class="sub-node highlight-purple">Auth & security</span>
-      </div>
-    </div>
-
-    <div class="connector"></div>
-
-    <div class="rm-section">
-      <div class="phase-label">Phase 7 — Advanced</div>
-      <div class="main-node pink">🚀 Production & Scale</div>
-      <div class="sub-row">
-        <span class="sub-node highlight-pink">Agent Teams</span>
-        <span class="sub-node highlight-pink">Multi-agent orchestration</span>
-        <span class="sub-node highlight-pink">Evals & testing</span>
-        <span class="sub-node highlight-pink">Fine-tuning strategy</span>
-        <span class="sub-node highlight-pink">Cost optimization</span>
-        <span class="sub-node highlight-pink">Security best practices</span>
-        <span class="sub-node highlight-pink">Observability & logging</span>
-        <span class="sub-node highlight-pink">CI/CD integration</span>
-      </div>
-    </div>
-
-    <div class="legend">
-      <div class="legend-item">
-        <div class="legend-dot dot-cyan"></div>
-        Core / Claude Code
-      </div>
-      <div class="legend-item">
-        <div class="legend-dot dot-purple"></div>
-        Prompting / MCP
-      </div>
-      <div class="legend-item">
-        <div class="legend-dot dot-yellow"></div>
-        API
-      </div>
-      <div class="legend-item">
-        <div class="legend-dot dot-green"></div>
-        Tools & Agents
-      </div>
-      <div class="legend-item">
-        <div class="legend-dot dot-pink"></div>
-        Production
-      </div>
-    </div>
-  </div>
+    <div class="cta">View full roadmap ↗</div>
+  </a>
 </section>
 
 <style>
@@ -193,9 +49,6 @@
     --rm-pink: #f472b6;
     --rm-yellow: #fbbf24;
     --rm-green: #34d399;
-    --rm-surface: #13131a;
-    --rm-border: #1e1e2e;
-    --rm-muted: #64748b;
   }
 
   .section-head {
@@ -215,8 +68,6 @@
     letter-spacing: 0.14em;
     color: var(--fg-dim);
     margin: 0;
-    padding: 0;
-    border: 0;
   }
 
   .open-full {
@@ -231,28 +82,49 @@
     color: var(--rm-purple);
   }
 
-  .roadmap-header {
-    text-align: center;
-    margin-bottom: 3rem;
+  .roadmap-card {
+    display: block;
+    background: linear-gradient(180deg, var(--bg-raised), rgba(16, 20, 29, 0.6));
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.75rem;
+    color: inherit;
+    transition:
+      border-color 200ms ease,
+      transform 200ms ease,
+      box-shadow 200ms ease;
   }
 
-  .header-badge {
+  .roadmap-card:hover {
+    border-color: rgba(167, 139, 250, 0.5);
+    transform: translateY(-2px);
+    box-shadow:
+      0 0 0 1px rgba(167, 139, 250, 0.15),
+      0 8px 30px rgba(94, 234, 212, 0.06),
+      0 2px 10px rgba(167, 139, 250, 0.08);
+  }
+
+  .card-head {
+    margin-bottom: 1.5rem;
+  }
+
+  .badge {
     display: inline-block;
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: 0.65rem;
     color: var(--rm-cyan);
     border: 1px solid var(--rm-cyan);
-    padding: 4px 12px;
+    padding: 3px 10px;
     border-radius: 20px;
-    margin-bottom: 1rem;
-    letter-spacing: 2px;
+    margin-bottom: 0.85rem;
+    letter-spacing: 1.5px;
     text-transform: uppercase;
   }
 
-  .roadmap-title {
-    font-size: clamp(2rem, 5vw, 3rem);
-    font-weight: 800;
-    line-height: 1.1;
+  .title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1.15;
     background: linear-gradient(
       135deg,
       var(--rm-cyan) 0%,
@@ -262,316 +134,91 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
   }
 
-  .roadmap-tagline {
-    color: var(--rm-muted);
-    font-size: 1rem;
-    font-weight: 300;
+  .tagline {
+    color: var(--fg-dim);
+    font-size: 0.92rem;
+    line-height: 1.55;
   }
 
-  .roadmap {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0;
-  }
-
-  .rm-section {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .main-node {
-    position: relative;
-    z-index: 2;
-    padding: 14px 32px;
-    border-radius: 8px;
-    font-weight: 700;
-    font-size: 1rem;
-    letter-spacing: 0.5px;
-    transition:
-      transform 0.2s,
-      box-shadow 0.2s;
-    white-space: nowrap;
-  }
-
-  .main-node:hover {
-    transform: scale(1.04);
-  }
-
-  .main-node.cyan {
-    background: linear-gradient(135deg, #003333, #004444);
-    border: 2px solid var(--rm-cyan);
-    color: var(--rm-cyan);
-    box-shadow: 0 0 20px rgba(0, 212, 212, 0.2);
-  }
-  .main-node.cyan:hover {
-    box-shadow: 0 0 30px rgba(0, 212, 212, 0.4);
-  }
-
-  .main-node.purple {
-    background: linear-gradient(135deg, #1a0033, #220044);
-    border: 2px solid var(--rm-purple);
-    color: var(--rm-purple);
-    box-shadow: 0 0 20px rgba(168, 85, 247, 0.2);
-  }
-  .main-node.purple:hover {
-    box-shadow: 0 0 30px rgba(168, 85, 247, 0.4);
-  }
-
-  .main-node.yellow {
-    background: linear-gradient(135deg, #1a1200, #221800);
-    border: 2px solid var(--rm-yellow);
-    color: var(--rm-yellow);
-    box-shadow: 0 0 20px rgba(251, 191, 36, 0.2);
-  }
-  .main-node.yellow:hover {
-    box-shadow: 0 0 30px rgba(251, 191, 36, 0.4);
-  }
-
-  .main-node.green {
-    background: linear-gradient(135deg, #001a12, #002218);
-    border: 2px solid var(--rm-green);
-    color: var(--rm-green);
-    box-shadow: 0 0 20px rgba(52, 211, 153, 0.2);
-  }
-  .main-node.green:hover {
-    box-shadow: 0 0 30px rgba(52, 211, 153, 0.4);
-  }
-
-  .main-node.pink {
-    background: linear-gradient(135deg, #1a0011, #220018);
-    border: 2px solid var(--rm-pink);
-    color: var(--rm-pink);
-    box-shadow: 0 0 20px rgba(244, 114, 182, 0.2);
-  }
-  .main-node.pink:hover {
-    box-shadow: 0 0 30px rgba(244, 114, 182, 0.4);
-  }
-
-  .connector {
-    width: 2px;
-    height: 40px;
-    background: linear-gradient(to bottom, var(--rm-border), var(--rm-muted));
-    position: relative;
-    z-index: 1;
-  }
-
-  .connector::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 8px;
-    height: 8px;
-    background: var(--rm-muted);
-    border-radius: 50%;
-  }
-
-  .sub-row {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    padding: 20px 0;
-    position: relative;
-    max-width: 800px;
-    width: 100%;
-  }
-
-  .sub-row::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 2px;
-    height: 20px;
-    background: var(--rm-border);
-  }
-
-  .sub-row.no-pad-top {
-    padding-top: 0;
-  }
-
-  .sub-node {
-    padding: 8px 16px;
-    border-radius: 6px;
-    font-size: 0.82rem;
-    font-weight: 500;
-    border: 1px solid var(--rm-border);
-    background: var(--rm-surface);
-    color: var(--fg);
-    transition: all 0.2s;
-    font-family: var(--font-mono);
-  }
-
-  .sub-node:hover {
-    border-color: var(--rm-muted);
-    background: #1a1a2e;
-    transform: translateY(-2px);
-  }
-
-  .sub-node.highlight-cyan {
-    border-color: rgba(0, 212, 212, 0.4);
-    color: var(--rm-cyan);
-  }
-  .sub-node.highlight-purple {
-    border-color: rgba(168, 85, 247, 0.4);
-    color: var(--rm-purple);
-  }
-  .sub-node.highlight-yellow {
-    border-color: rgba(251, 191, 36, 0.4);
-    color: var(--rm-yellow);
-  }
-  .sub-node.highlight-green {
-    border-color: rgba(52, 211, 153, 0.4);
-    color: var(--rm-green);
-  }
-  .sub-node.highlight-pink {
-    border-color: rgba(244, 114, 182, 0.4);
-    color: var(--rm-pink);
-  }
-
-  .section-with-sides {
-    width: 100%;
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    gap: 20px;
-    padding: 10px 0;
-    margin-top: 20px;
-  }
-
-  .side-panel {
-    background: var(--rm-surface);
-    border: 1px solid var(--rm-border);
-    border-radius: 8px;
-    padding: 16px;
-    min-width: 140px;
-    max-width: 180px;
-    font-size: 0.78rem;
-  }
-
-  .side-panel h4 {
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    color: var(--rm-muted);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 10px;
-  }
-
-  .side-panel ul {
+  .phases {
     list-style: none;
+    padding: 0;
+    margin: 0 0 1.25rem;
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 0.4rem;
   }
 
-  .side-panel ul li {
-    color: var(--fg);
-    display: flex;
+  .phase {
+    display: grid;
+    grid-template-columns: auto 90px 1fr;
     align-items: center;
-    gap: 6px;
-    font-size: 0.78rem;
+    gap: 0.85rem;
+    padding: 0.5rem 0.65rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.85rem;
+    transition: border-color 0.2s, background 0.2s;
   }
 
-  .side-panel ul li::before {
-    content: '›';
-    color: var(--rm-muted);
+  .phase:hover {
+    background: rgba(255, 255, 255, 0.02);
   }
 
-  .center-col {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex: 1;
-    max-width: 300px;
-  }
-
-  .legend {
-    margin-top: 3rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    justify-content: center;
-    padding: 24px;
-    border: 1px solid var(--rm-border);
-    border-radius: 12px;
-    background: var(--rm-surface);
-  }
-
-  .legend-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.8rem;
-    color: var(--rm-muted);
-  }
-
-  .legend-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-  }
-
-  .dot-cyan {
-    background: var(--rm-cyan);
-  }
-  .dot-purple {
-    background: var(--rm-purple);
-  }
-  .dot-yellow {
-    background: var(--rm-yellow);
-  }
-  .dot-green {
-    background: var(--rm-green);
-  }
-  .dot-pink {
-    background: var(--rm-pink);
+  .phase-num {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--fg-muted);
   }
 
   .phase-label {
     font-family: var(--font-mono);
-    font-size: 0.65rem;
+    font-size: 0.7rem;
     text-transform: uppercase;
-    letter-spacing: 2px;
-    color: var(--rm-muted);
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    letter-spacing: 1px;
+    font-weight: 600;
   }
 
-  .phase-label::before,
-  .phase-label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--rm-border);
-    max-width: 60px;
+  .phase-title {
+    color: var(--fg);
+    font-size: 0.88rem;
   }
 
-  @media (max-width: 640px) {
-    .section-with-sides {
-      flex-direction: column;
-      align-items: center;
+  .phase-cyan { border-left: 2px solid var(--rm-cyan); }
+  .phase-cyan .phase-label { color: var(--rm-cyan); }
+  .phase-purple { border-left: 2px solid var(--rm-purple); }
+  .phase-purple .phase-label { color: var(--rm-purple); }
+  .phase-yellow { border-left: 2px solid var(--rm-yellow); }
+  .phase-yellow .phase-label { color: var(--rm-yellow); }
+  .phase-green { border-left: 2px solid var(--rm-green); }
+  .phase-green .phase-label { color: var(--rm-green); }
+  .phase-pink { border-left: 2px solid var(--rm-pink); }
+  .phase-pink .phase-label { color: var(--rm-pink); }
+
+  .cta {
+    text-align: right;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--rm-cyan);
+    transition: color 150ms ease;
+  }
+
+  .roadmap-card:hover .cta {
+    color: var(--rm-purple);
+  }
+
+  @media (max-width: 520px) {
+    .phase {
+      grid-template-columns: auto 1fr;
+      row-gap: 0.2rem;
     }
-    .side-panel {
-      max-width: 100%;
-      width: 100%;
-    }
-    .main-node {
-      white-space: normal;
-      text-align: center;
-      padding: 12px 20px;
-      font-size: 0.95rem;
+    .phase-title {
+      grid-column: 1 / -1;
+      color: var(--fg-dim);
+      font-size: 0.82rem;
     }
   }
 </style>
