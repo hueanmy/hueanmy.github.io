@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code Roadmap for Developers</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #13131a;
+    --border: #1e1e2e;
+    --cyan: #00d4d4;
+    --purple: #a855f7;
+    --pink: #f472b6;
+    --yellow: #fbbf24;
+    --green: #34d399;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --line: #1e1e2e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    min-height: 100vh;
+    padding: 60px 20px;
+  }
+
+  /* Noise overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 80px;
+    animation: fadeDown 0.8s ease forwards;
+  }
+
+  .header-badge {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--cyan);
+    border: 1px solid var(--cyan);
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .header h1 {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 800;
+    line-height: 1.1;
+    background: linear-gradient(135deg, var(--cyan) 0%, var(--purple) 50%, var(--pink) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 16px;
+  }
+
+  .header p {
+    color: var(--muted);
+    font-size: 1.1rem;
+    font-weight: 300;
+  }
+
+  /* Roadmap */
+  .roadmap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  /* Section */
+  .section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Main node */
+  .main-node {
+    position: relative;
+    z-index: 2;
+    padding: 14px 32px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+    cursor: default;
+    transition: transform 0.2s, box-shadow 0.2s;
+    white-space: nowrap;
+  }
+
+  .main-node:hover {
+    transform: scale(1.04);
+  }
+
+  .main-node.cyan {
+    background: linear-gradient(135deg, #003333, #004444);
+    border: 2px solid var(--cyan);
+    color: var(--cyan);
+    box-shadow: 0 0 20px rgba(0,212,212,0.2);
+  }
+
+  .main-node.cyan:hover {
+    box-shadow: 0 0 30px rgba(0,212,212,0.4);
+  }
+
+  .main-node.purple {
+    background: linear-gradient(135deg, #1a0033, #220044);
+    border: 2px solid var(--purple);
+    color: var(--purple);
+    box-shadow: 0 0 20px rgba(168,85,247,0.2);
+  }
+
+  .main-node.purple:hover {
+    box-shadow: 0 0 30px rgba(168,85,247,0.4);
+  }
+
+  .main-node.yellow {
+    background: linear-gradient(135deg, #1a1200, #221800);
+    border: 2px solid var(--yellow);
+    color: var(--yellow);
+    box-shadow: 0 0 20px rgba(251,191,36,0.2);
+  }
+
+  .main-node.yellow:hover {
+    box-shadow: 0 0 30px rgba(251,191,36,0.4);
+  }
+
+  .main-node.green {
+    background: linear-gradient(135deg, #001a12, #002218);
+    border: 2px solid var(--green);
+    color: var(--green);
+    box-shadow: 0 0 20px rgba(52,211,153,0.2);
+  }
+
+  .main-node.green:hover {
+    box-shadow: 0 0 30px rgba(52,211,153,0.4);
+  }
+
+  .main-node.pink {
+    background: linear-gradient(135deg, #1a0011, #220018);
+    border: 2px solid var(--pink);
+    color: var(--pink);
+    box-shadow: 0 0 20px rgba(244,114,182,0.2);
+  }
+
+  .main-node.pink:hover {
+    box-shadow: 0 0 30px rgba(244,114,182,0.4);
+  }
+
+  /* Connector line */
+  .connector {
+    width: 2px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--border), var(--muted));
+    position: relative;
+    z-index: 1;
+  }
+
+  .connector::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 8px;
+    height: 8px;
+    background: var(--muted);
+    border-radius: 50%;
+  }
+
+  /* Sub nodes row */
+  .sub-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px 0;
+    position: relative;
+    max-width: 800px;
+    width: 100%;
+  }
+
+  .sub-row::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 20px;
+    background: var(--border);
+  }
+
+  .sub-node {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    transition: all 0.2s;
+    cursor: default;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .sub-node:hover {
+    border-color: var(--muted);
+    background: #1a1a2e;
+    transform: translateY(-2px);
+  }
+
+  .sub-node.highlight-cyan { border-color: rgba(0,212,212,0.4); color: var(--cyan); }
+  .sub-node.highlight-purple { border-color: rgba(168,85,247,0.4); color: var(--purple); }
+  .sub-node.highlight-yellow { border-color: rgba(251,191,36,0.4); color: var(--yellow); }
+  .sub-node.highlight-green { border-color: rgba(52,211,153,0.4); color: var(--green); }
+  .sub-node.highlight-pink { border-color: rgba(244,114,182,0.4); color: var(--pink); }
+
+  /* Side annotations */
+  .section-with-sides {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 20px;
+    padding: 10px 0;
+  }
+
+  .side-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    min-width: 160px;
+    max-width: 180px;
+    font-size: 0.78rem;
+  }
+
+  .side-panel h4 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+
+  .side-panel ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .side-panel ul li {
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.78rem;
+  }
+
+  .side-panel ul li::before {
+    content: '›';
+    color: var(--muted);
+  }
+
+  .center-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    max-width: 300px;
+  }
+
+  /* Legend */
+  .legend {
+    margin-top: 80px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+    padding: 24px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface);
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    margin-top: 60px;
+    color: var(--muted);
+    font-size: 0.8rem;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* Animations */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Phase label */
+  .phase-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--muted);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .phase-label::before, .phase-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+    max-width: 60px;
+  }
+
+  /* Separator */
+  .sep {
+    width: 2px;
+    height: 50px;
+    background: linear-gradient(to bottom, transparent, var(--border), transparent);
+  }
+
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-badge">Developer Roadmap</div>
+    <h1>Working with Claude</h1>
+    <p>Từ zero đến production — mọi thứ một developer cần biết khi làm việc với Claude</p>
+  </div>
+
+  <!-- Roadmap -->
+  <div class="roadmap">
+
+    <!-- Phase 1: Foundation -->
+    <div class="section" id="s1">
+      <div class="phase-label">Phase 1 — Foundation</div>
+      <div class="main-node cyan">🧠 Understand Claude</div>
+      <div class="sub-row">
+        <span class="sub-node highlight-cyan">How LLMs work</span>
+        <span class="sub-node highlight-cyan">Claude vs GPT vs Gemini</span>
+        <span class="sub-node highlight-cyan">Context window</span>
+        <span class="sub-node highlight-cyan">Token & pricing</span>
+        <span class="sub-node highlight-cyan">Opus / Sonnet / Haiku</span>
+        <span class="sub-node highlight-cyan">Claude.ai vs API</span>
+      </div>
+    </div>
+
+    <div class="connector"></div>
+
+    <!-- Phase 2: Prompt Engineering -->
+    <div class="section" id="s2">
+      <div class="phase-label">Phase 2 — Prompting</div>
+      <div class="main-node purple">✍️ Prompt Engineering</div>
+      <div class="sub-row">
+        <span class="sub-node highlight-purple">System prompt</span>
+        <span class="sub-node highlight-purple">Role & persona</span>
+        <span class="sub-node highlight-purple">Few-shot examples</span>
+        <span class="sub-node highlight-purple">Chain of thought</span>
+        <span class="sub-node highlight-purple">XML tags</span>
+        <span class="sub-node highlight-purple">Output format control</span>
+        <span class="sub-node highlight-purple">Temperature & top_p</span>
+        <span class="sub-node highlight-purple">Prompt caching</span>
+      </div>
+    </div>
+
+    <div class="connector"></div>
+
+    <!-- Phase 3: API -->
+    <div class="section" id="s3">
+      <div class="phase-label">Phase 3 — API Integration</div>
+      <div class="main-node yellow">⚡ Anthropic API</div>
+      <div class="sub-row">
+        <span class="sub-node highlight-yellow">SDK (Python / JS)</span>
+        <span class="sub-node highlight-yellow">Messages API</span>
+        <span class="sub-node highlight-yellow">Streaming</span>
+        <span class="sub-node highlight-yellow">Batch API</span>
+        <span class="sub-node highlight-yellow">Vision / Multimodal</span>
+        <span class="sub-node highlight-yellow">PDF & documents</span>
+        <span class="sub-node highlight-yellow">Rate limits</span>
+        <span class="sub-node highlight-yellow">Error handling</span>
+      </div>
+    </div>
+
+    <div class="connector"></div>
+
+    <!-- Phase 4: Tool Use -->
+    <div class="section" id="s4">
+      <div class="phase-label">Phase 4 — Tools & Agents</div>
+      <div class="main-node green">🔧 Tool Use & Agents</div>
+      <div class="sub-row">
+        <span class="sub-node highlight-green">Tool / Function calling</span>
+        <span class="sub-node highlight-green">Tool schemas (JSON)</span>
+        <span class="sub-node highlight-green">Multi-tool orchestration</span>
+        <span class="sub-node highlight-green">Agentic loop</span>
+        <span class="sub-node highlight-green">Computer use</span>
+        <span class="sub-node highlight-green">Web search tool</span>
+        <span class="sub-node highlight-green">Human-in-the-loop</span>
+      </div>
+    </div>
+
+    <div class="connector"></div>
+
+    <!-- Phase 5: Claude Code -->
+    <div class="section" id="s5">
+      <div class="phase-label">Phase 5 — Claude Code</div>
+      <div class="main-node cyan">💻 Claude Code CLI</div>
+      <div class="section-with-sides" style="margin-top: 20px;">
+        <div class="side-panel">
+          <h4>Commands</h4>
+          <ul>
+            <li>/help</li>
+            <li>/plan</li>
+            <li>/clear</li>
+            <li>/compact</li>
+            <li>/memory</li>
+            <li>/cost</li>
+            <li>/doctor</li>
+          </ul>
+        </div>
+        <div class="center-col">
+          <div class="sub-row" style="padding-top: 0;">
+            <span class="sub-node highlight-cyan">CLAUDE.md</span>
+            <span class="sub-node highlight-cyan">Skills</span>
+            <span class="sub-node highlight-cyan">Subagents</span>
+            <span class="sub-node highlight-cyan">Hooks</span>
+            <span class="sub-node highlight-cyan">MCP integration</span>
+            <span class="sub-node highlight-cyan">Slash commands</span>
+            <span class="sub-node highlight-cyan">Permission modes</span>
+            <span class="sub-node highlight-cyan">Plan mode</span>
+            <span class="sub-node highlight-cyan">Headless mode</span>
+            <span class="sub-node highlight-cyan">Git worktrees</span>
+          </div>
+        </div>
+        <div class="side-panel">
+          <h4>Shortcuts</h4>
+          <ul>
+            <li>Ctrl+C</li>
+            <li>Ctrl+R</li>
+            <li>Shift+Tab</li>
+            <li>Esc + Esc</li>
+            <li>@ mention</li>
+            <li>\ multiline</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="connector"></div>
+
+    <!-- Phase 6: MCP -->
+    <div class="section" id="s6">
+      <div class="phase-label">Phase 6 — MCP</div>
+      <div class="main-node purple">🔌 Model Context Protocol</div>
+      <div class="sub-row">
+        <span class="sub-node highlight-purple">MCP architecture</span>
+        <span class="sub-node highlight-purple">MCP servers</span>
+        <span class="sub-node highlight-purple">MCP clients</span>
+        <span class="sub-node highlight-purple">Build custom MCP</span>
+        <span class="sub-node highlight-purple">MCP + Claude Code</span>
+        <span class="sub-node highlight-purple">Stdio vs SSE transport</span>
+        <span class="sub-node highlight-purple">Auth & security</span>
+      </div>
+    </div>
+
+    <div class="connector"></div>
+
+    <!-- Phase 7: Advanced -->
+    <div class="section" id="s7">
+      <div class="phase-label">Phase 7 — Advanced</div>
+      <div class="main-node pink">🚀 Production & Scale</div>
+      <div class="sub-row">
+        <span class="sub-node highlight-pink">Agent Teams</span>
+        <span class="sub-node highlight-pink">Multi-agent orchestration</span>
+        <span class="sub-node highlight-pink">Evals & testing</span>
+        <span class="sub-node highlight-pink">Fine-tuning strategy</span>
+        <span class="sub-node highlight-pink">Cost optimization</span>
+        <span class="sub-node highlight-pink">Security best practices</span>
+        <span class="sub-node highlight-pink">Observability & logging</span>
+        <span class="sub-node highlight-pink">CI/CD integration</span>
+      </div>
+    </div>
+
+    <!-- Legend -->
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--cyan)"></div>Core / Claude Code</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--purple)"></div>Prompting / MCP</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--yellow)"></div>API</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>Tools & Agents</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--pink)"></div>Production</div>
+    </div>
+
+    <div class="footer">
+      <p>claude-dev-roadmap · hueanmy.github.io</p>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // Intersection Observer for scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, 100);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.section').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

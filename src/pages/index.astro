@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
+import ClaudeRoadmap from '../components/ClaudeRoadmap.astro';
 import ExtensionCard from '../components/ExtensionCard.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import CourseCard from '../components/CourseCard.astro';
@@ -35,6 +36,8 @@ const shorts = (await getCollection('shorts')).sort(
 <Layout title="hueanmy">
   <main>
     <Hero />
+
+    <ClaudeRoadmap />
 
     {
       courses.length > 0 && (
