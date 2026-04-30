@@ -25,6 +25,11 @@ const tokenTools = (await getCollection('tokenTools')).sort(
     Number(b.data.featured) - Number(a.data.featured) ||
     a.data.order - b.data.order
 );
+const shorts = (await getCollection('shorts')).sort(
+  (a, b) =>
+    Number(b.data.featured) - Number(a.data.featured) ||
+    a.data.order - b.data.order
+);
 ---
 
 <Layout title="hueanmy">
@@ -64,6 +69,19 @@ const tokenTools = (await getCollection('tokenTools')).sort(
           <div class="grid">
             {tokenTools.map((t) => (
               <ProjectCard {...t.data} />
+            ))}
+          </div>
+        </section>
+      )
+    }
+
+    {
+      shorts.length > 0 && (
+        <section id="ai-shorts">
+          <h2>AI Shorts</h2>
+          <div class="grid">
+            {shorts.map((s) => (
+              <ProjectCard {...s.data} />
             ))}
           </div>
         </section>

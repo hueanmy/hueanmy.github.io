@@ -62,4 +62,17 @@ const tokenTools = defineCollection({
   }),
 });
 
-export const collections = { extensions, projects, courses, tokenTools };
+const shorts = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/shorts' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    repoUrl: z.string().url().optional(),
+    demoUrl: z.string().url().optional(),
+    tech: z.array(z.string()).default([]),
+    featured: z.boolean().default(false),
+    order: z.number().default(0),
+  }),
+});
+
+export const collections = { extensions, projects, courses, tokenTools, shorts };
