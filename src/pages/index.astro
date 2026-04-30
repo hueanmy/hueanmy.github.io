@@ -20,6 +20,11 @@ const courses = (await getCollection('courses')).sort(
     Number(b.data.featured) - Number(a.data.featured) ||
     a.data.order - b.data.order
 );
+const tokenTools = (await getCollection('tokenTools')).sort(
+  (a, b) =>
+    Number(b.data.featured) - Number(a.data.featured) ||
+    a.data.order - b.data.order
+);
 ---
 
 <Layout title="hueanmy">
@@ -46,6 +51,19 @@ const courses = (await getCollection('courses')).sort(
           <div class="grid">
             {extensions.map((e) => (
               <ExtensionCard {...e.data} />
+            ))}
+          </div>
+        </section>
+      )
+    }
+
+    {
+      tokenTools.length > 0 && (
+        <section id="token-optimization">
+          <h2>Token Optimization</h2>
+          <div class="grid">
+            {tokenTools.map((t) => (
+              <ProjectCard {...t.data} />
             ))}
           </div>
         </section>
