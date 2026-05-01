@@ -44,7 +44,7 @@ const shorts = (await getCollection('shorts')).sort(
     {
       courses.length > 0 && (
         <section id="courses">
-          <h2>Course demos</h2>
+          <h2>AI tech notes</h2>
           <div class="grid">
             {courses.map((c) => (
               <CourseCard id={c.id} {...c.data} />
@@ -57,7 +57,7 @@ const shorts = (await getCollection('shorts')).sort(
     {
       extensions.length > 0 && (
         <section id="extensions">
-          <h2>Extensions</h2>
+          <h2>SDLC pipeline</h2>
           <div class="grid">
             {extensions.map((e) => (
               <ExtensionCard {...e.data} />
@@ -83,7 +83,7 @@ const shorts = (await getCollection('shorts')).sort(
     {
       shorts.length > 0 && (
         <section id="ai-shorts">
-          <h2>AI Shorts</h2>
+          <h2>AI video generators</h2>
           <div class="grid">
             {shorts.map((s) => (
               <ProjectCard {...s.data} />
