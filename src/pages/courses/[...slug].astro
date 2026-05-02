@@ -81,13 +81,21 @@ const dateStr = d.date
         <section class="source">
           <h2>Source</h2>
           <ul>
-            {d.sourceFiles.map((f) => (
-              <li>
-                <a href={`${d.sourceDir}/${f}`} download>
-                  {f}
-                </a>
-              </li>
-            ))}
+            {d.sourceFiles.map((f) => {
+              const isHtml = f.toLowerCase().endsWith('.html');
+              const href = `${d.sourceDir}/${f}`;
+              return (
+                <li>
+                  {isHtml ? (
+                    <a href={href} target="_blank" rel="noopener" class="view">
+                      {f} ↗
+                    </a>
+                  ) : (
+                    <a href={href} download>{f}</a>
+                  )}
+                </li>
+              );
+            })}
           </ul>
           {d.repoUrl && (
             <p>
@@ -253,5 +261,13 @@ const dateStr = d.date
   }
   .source li a:hover {
     border-color: var(--accent);
+  }
+  .source li a.view {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .source li a.view:hover {
+    background: rgba(94, 234, 212, 0.18);
   }
 </style>

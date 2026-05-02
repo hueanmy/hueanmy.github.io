@@ -7,10 +7,11 @@ thumbnail: /courses/claude-code-hooks/thumbnail.png
 duration: '0:22'
 date: 2026-05-02
 tags: [Claude Code, Hooks, Automation, Shell]
-demoUrl: /courses/claude-code-hooks/source/slides.html
+demoUrl: /courses/claude-code-hooks/source/slides-vi.html
 sourceDir: /courses/claude-code-hooks/source
 sourceFiles:
-  - slides.html
+  - slides-vi.html
+  - slides-en.html
   - claude-code-hooks-vi.pptx
   - claude-code-hooks-en.pptx
 featured: true

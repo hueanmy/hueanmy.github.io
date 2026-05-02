@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Claude Code Hooks</title>
+<title>Claude Code Hooks (EN)</title>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -87,6 +87,27 @@
     font-family: var(--mono); font-size: 10px; color: var(--muted);
   }
   .slide-counter span { color: var(--text); }
+
+  .lang-switch {
+    display: flex; align-items: center; gap: 4px;
+    font-family: var(--mono); font-size: 9px;
+    margin-right: 10px;
+  }
+  .lang-switch a {
+    color: var(--muted); text-decoration: none;
+    padding: 2px 6px; border-radius: 4px;
+    border: 1px solid transparent;
+    transition: all 0.15s;
+  }
+  .lang-switch a:hover { color: var(--text); }
+  .lang-switch a.active {
+    color: var(--cyan);
+    border-color: rgba(0,229,204,0.35);
+    background: rgba(0,229,204,0.08);
+  }
+  .topnav-right {
+    display: flex; align-items: center;
+  }
 
   .slides { position: absolute; inset: 0; z-index: 1; }
 
@@ -323,7 +344,13 @@
 
   <div class="topnav">
     <div class="topnav-logo"><span class="topnav-logo-dot"></span>Claude Code · Hooks</div>
-    <div class="slide-counter"><span id="currentSlide">1</span> / <span id="totalSlides">7</span></div>
+    <div class="topnav-right">
+      <div class="lang-switch">
+        <a href="slides-vi.html">VI</a>
+        <a href="slides-en.html" class="active">EN</a>
+      </div>
+      <div class="slide-counter"><span id="currentSlide">1</span> / <span id="totalSlides">7</span></div>
+    </div>
   </div>
 
   <div class="slides" id="slidesContainer">
@@ -334,16 +361,16 @@
       <div class="slide-inner-hero" style="margin-top: 32px">
         <div class="slide-tag">Claude Code Feature</div>
         <h1 class="slide-h1">Hooks<br><span>&gt;_</span></h1>
-        <p class="slide-sub">Tự động hóa workflow với lệnh shell — chạy đúng tại các điểm vòng đời xác định khi Claude sửa file, hoàn thành task, hoặc cần input từ bạn.</p>
+        <p class="slide-sub">Automate workflows with shell commands — run guaranteed at specific lifecycle points when Claude edits files, finishes tasks, or needs input.</p>
         <div style="margin-top: 32px; display: flex; flex-direction: column; gap: 10px;">
           <div style="display:flex; align-items:center; gap:10px; font-family: var(--mono); font-size: 10px; color: var(--muted);">
-            <span style="color: var(--green)">⚙️ 20+</span> sự kiện vòng đời
+            <span style="color: var(--green)">⚙️ 20+</span> lifecycle events
           </div>
           <div style="display:flex; align-items:center; gap:10px; font-family: var(--mono); font-size: 10px; color: var(--muted);">
-            <span style="color: var(--cyan)">🔌 5</span> loại hook
+            <span style="color: var(--cyan)">🔌 5</span> hook types
           </div>
           <div style="display:flex; align-items:center; gap:10px; font-family: var(--mono); font-size: 10px; color: var(--muted);">
-            <span style="color: var(--yellow)">🎯</span> Deterministic, không phụ thuộc LLM
+            <span style="color: var(--yellow)">🎯</span> Deterministic, not LLM best-effort
           </div>
         </div>
       </div>
@@ -351,20 +378,20 @@
 
     <!-- SLIDE 2: 3 pillars -->
     <div class="slide" data-slide="1">
-      <div class="slide-title-sm">Hooks là gì? <span>3 trụ cột</span></div>
+      <div class="slide-title-sm">What are hooks? <span>3 pillars</span></div>
       <div class="slide-scroll">
         <div class="pillar-stack">
           <div class="pillar">
-            <div class="pillar-head">🎯 KIỂM SOÁT TUYỆT ĐỐI</div>
-            <div class="pillar-body">Lệnh shell do bạn định nghĩa — chạy đúng tại các điểm vòng đời xác định, không phụ thuộc vào quyết định của LLM.</div>
+            <div class="pillar-head">🎯 DETERMINISTIC CONTROL</div>
+            <div class="pillar-body">User-defined shell commands that execute at specific lifecycle points — guaranteed to run, not left to the LLM.</div>
           </div>
           <div class="pillar o">
-            <div class="pillar-head">⚡ HƯỚNG SỰ KIỆN</div>
-            <div class="pillar-body">Hooks kích hoạt theo event như <strong style="color:#fff">PreToolUse</strong>, <strong style="color:#fff">PostToolUse</strong>, <strong style="color:#fff">Notification</strong>, <strong style="color:#fff">SessionStart</strong> — hơn 20 loại.</div>
+            <div class="pillar-head">⚡ EVENT-DRIVEN</div>
+            <div class="pillar-body">Hooks fire on events like <strong style="color:#fff">PreToolUse</strong>, <strong style="color:#fff">PostToolUse</strong>, <strong style="color:#fff">Notification</strong>, <strong style="color:#fff">SessionStart</strong> — 20+ types.</div>
           </div>
           <div class="pillar p">
-            <div class="pillar-head">🔌 NHIỀU LOẠI HOOK</div>
-            <div class="pillar-body"><strong style="color:#fff">command</strong> · <strong style="color:#fff">http</strong> · <strong style="color:#fff">mcp_tool</strong> · <strong style="color:#fff">prompt</strong> · <strong style="color:#fff">agent</strong> — chọn đúng mô hình thực thi cho từng use case.</div>
+            <div class="pillar-head">🔌 MULTIPLE TYPES</div>
+            <div class="pillar-body"><strong style="color:#fff">command</strong> · <strong style="color:#fff">http</strong> · <strong style="color:#fff">mcp_tool</strong> · <strong style="color:#fff">prompt</strong> · <strong style="color:#fff">agent</strong> — pick the right execution model for each use case.</div>
           </div>
         </div>
       </div>
@@ -372,28 +399,28 @@
 
     <!-- SLIDE 3: Lifecycle events -->
     <div class="slide" data-slide="2">
-      <div class="slide-title-sm">Sự kiện <span>vòng đời</span></div>
+      <div class="slide-title-sm">Lifecycle <span>events</span></div>
       <div class="slide-scroll">
         <div class="event-list">
-          <div class="event-row"><span class="event-name">SessionStart</span><span class="event-desc">Phiên bắt đầu hoặc tiếp tục</span></div>
-          <div class="event-row"><span class="event-name">UserPromptSubmit</span><span class="event-desc">Trước khi Claude xử lý prompt</span></div>
-          <div class="event-row"><span class="event-name">PreToolUse</span><span class="event-desc">Trước khi tool call thực thi — có thể chặn</span></div>
-          <div class="event-row"><span class="event-name">PostToolUse</span><span class="event-desc">Sau khi tool call thành công</span></div>
-          <div class="event-row"><span class="event-name">Notification</span><span class="event-desc">Khi Claude cần input từ bạn</span></div>
-          <div class="event-row"><span class="event-name">PermissionRequest</span><span class="event-desc">Khi hộp thoại xin quyền xuất hiện</span></div>
-          <div class="event-row"><span class="event-name">FileChanged</span><span class="event-desc">File đang theo dõi thay đổi</span></div>
-          <div class="event-row"><span class="event-name">PreCompact</span><span class="event-desc">Trước khi context compaction</span></div>
-          <div class="event-row"><span class="event-name">Stop</span><span class="event-desc">Khi Claude xong hoặc xảy ra lỗi</span></div>
+          <div class="event-row"><span class="event-name">SessionStart</span><span class="event-desc">Session begins or resumes</span></div>
+          <div class="event-row"><span class="event-name">UserPromptSubmit</span><span class="event-desc">Before Claude processes your prompt</span></div>
+          <div class="event-row"><span class="event-name">PreToolUse</span><span class="event-desc">Before a tool call executes — can block it</span></div>
+          <div class="event-row"><span class="event-name">PostToolUse</span><span class="event-desc">After a tool call succeeds</span></div>
+          <div class="event-row"><span class="event-name">Notification</span><span class="event-desc">When Claude needs your input</span></div>
+          <div class="event-row"><span class="event-name">PermissionRequest</span><span class="event-desc">When a permission dialog appears</span></div>
+          <div class="event-row"><span class="event-name">FileChanged</span><span class="event-desc">A watched file changes on disk</span></div>
+          <div class="event-row"><span class="event-name">PreCompact</span><span class="event-desc">Before context compaction</span></div>
+          <div class="event-row"><span class="event-name">Stop</span><span class="event-desc">When Claude finishes or errors out</span></div>
         </div>
       </div>
     </div>
 
     <!-- SLIDE 4: First hook example -->
     <div class="slide" data-slide="3">
-      <div class="slide-title-sm">Hook đầu tiên: <span>Notification</span></div>
+      <div class="slide-title-sm">First hook: <span>Notification</span></div>
       <div class="slide-scroll">
         <p style="font-family: var(--display); font-size: 0.74rem; color: var(--muted); line-height: 1.6; margin-bottom: 12px;">
-          Thông báo desktop khi Claude cần input — không bỏ lỡ prompt. Thêm vào <strong style="color:var(--cyan)">~/.claude/settings.json</strong>:
+          Desktop notification when Claude needs input — never miss a prompt. Add to <strong style="color:var(--cyan)">~/.claude/settings.json</strong>:
         </p>
         <div class="code-block"><span class="c">// ~/.claude/settings.json</span>
 {
@@ -404,52 +431,52 @@
         <span class="k">"type"</span>: <span class="s">"command"</span>,
         <span class="k">"command"</span>: <span class="s">"osascript -e</span>
 <span class="s">  'display notification</span>
-<span class="s">  \"Claude can input\"</span>
+<span class="s">  \"Claude needs input\"</span>
 <span class="s">  with title \"Claude Code\"'"</span>
       }]
     }]
   }
 }</div>
         <p style="font-family: var(--display); font-size: 0.7rem; color: var(--muted); line-height: 1.6; margin-top: 10px;">
-          → Mở <strong style="color:var(--cyan)">/hooks</strong> để xem event đã đăng ký. Hỏi Claude gì đó, chuyển tab — thông báo sẽ bật lên.
+          → Open <strong style="color:var(--cyan)">/hooks</strong> to see registered events. Ask Claude something, switch tabs — notification fires.
         </p>
       </div>
     </div>
 
     <!-- SLIDE 5: Patterns -->
     <div class="slide" data-slide="4">
-      <div class="slide-title-sm">Pattern <span>tự động hóa</span></div>
+      <div class="slide-title-sm">Common <span>automation patterns</span></div>
       <div class="slide-scroll">
         <div class="pattern-grid">
           <div class="pattern">
             <div class="pattern-emoji">🔔</div>
-            <div class="pattern-name">THÔNG BÁO</div>
-            <div class="pattern-desc">Alert desktop khi cần input qua Notification</div>
+            <div class="pattern-name">NOTIFICATIONS</div>
+            <div class="pattern-desc">Desktop alert when input is needed via Notification</div>
           </div>
           <div class="pattern">
             <div class="pattern-emoji">✨</div>
             <div class="pattern-name">AUTO-FORMAT</div>
-            <div class="pattern-desc">Prettier/ESLint sau Edit|Write qua PostToolUse</div>
+            <div class="pattern-desc">Prettier/ESLint after Edit|Write via PostToolUse</div>
           </div>
           <div class="pattern">
             <div class="pattern-emoji">🔒</div>
-            <div class="pattern-name">BẢO VỆ FILE</div>
-            <div class="pattern-desc">Chặn sửa .env, .git qua PreToolUse</div>
+            <div class="pattern-name">PROTECT FILES</div>
+            <div class="pattern-desc">Block edits to .env, .git via PreToolUse</div>
           </div>
           <div class="pattern">
             <div class="pattern-emoji">💾</div>
             <div class="pattern-name">RELOAD CONTEXT</div>
-            <div class="pattern-desc">Đẩy lại reminders sau compaction</div>
+            <div class="pattern-desc">Re-inject reminders after compaction</div>
           </div>
           <div class="pattern">
             <div class="pattern-emoji">📋</div>
             <div class="pattern-name">AUDIT LOG</div>
-            <div class="pattern-desc">Log mọi ConfigChange ra file</div>
+            <div class="pattern-desc">Log every ConfigChange to a file</div>
           </div>
           <div class="pattern">
             <div class="pattern-emoji">✅</div>
             <div class="pattern-name">AUTO-APPROVE</div>
-            <div class="pattern-desc">Skip prompt cho tool đáng tin cậy</div>
+            <div class="pattern-desc">Skip prompts for trusted tools</div>
           </div>
         </div>
       </div>
@@ -457,23 +484,23 @@
 
     <!-- SLIDE 6: Communication / exit codes -->
     <div class="slide" data-slide="5">
-      <div class="slide-title-sm">Hooks giao tiếp <span>như thế nào</span></div>
+      <div class="slide-title-sm">How hooks <span>communicate</span></div>
       <div class="slide-scroll">
         <p style="font-family: var(--display); font-size: 0.72rem; color: var(--muted); line-height: 1.6; margin-bottom: 10px;">
-          Claude gửi JSON qua <strong style="color:var(--cyan)">stdin</strong>. Script trả về qua exit code + stdout/stderr:
+          Claude sends JSON via <strong style="color:var(--cyan)">stdin</strong>. Your script replies via exit code + stdout/stderr:
         </p>
         <div class="exit-table">
           <div class="exit-row">
             <span class="exit-code">exit 0</span>
-            <span class="exit-desc">Hành động tiến hành bình thường</span>
+            <span class="exit-desc">Action proceeds normally</span>
           </div>
           <div class="exit-row bad">
             <span class="exit-code">exit 2</span>
-            <span class="exit-desc">Chặn — stderr gửi cho Claude làm phản hồi</span>
+            <span class="exit-desc">Blocked — stderr is sent to Claude as feedback</span>
           </div>
           <div class="exit-row">
             <span class="exit-code">JSON</span>
-            <span class="exit-desc">Stdout structured: allow/deny + reason</span>
+            <span class="exit-desc">Structured stdout: allow/deny + reason</span>
           </div>
         </div>
         <div class="code-block"><span class="c">// PreToolUse — deny + reason</span>
@@ -490,34 +517,34 @@
 
     <!-- SLIDE 7: Matchers + takeaways -->
     <div class="slide" data-slide="6">
-      <div class="slide-title-sm">Lọc với <span>matchers</span></div>
+      <div class="slide-title-sm">Filter with <span>matchers</span></div>
       <div class="slide-scroll">
         <p style="font-family: var(--display); font-size: 0.7rem; color: var(--muted); line-height: 1.55; margin-bottom: 10px;">
-          Trường <strong style="color:var(--cyan)">matcher</strong> giới hạn hook nào được chạy — càng hẹp càng tốt.
+          The <strong style="color:var(--cyan)">matcher</strong> field scopes which hooks run — keep it as narrow as possible.
         </p>
         <div class="matcher-list">
           <div class="matcher">
             <div class="matcher-head">PostToolUse · <span class="m">"Edit|Write"</span></div>
-            <div class="matcher-desc">Chỉ chạy cho tool sửa file</div>
+            <div class="matcher-desc">Runs only for file-editing tools</div>
           </div>
           <div class="matcher">
             <div class="matcher-head">PreToolUse · <span class="m">"Bash"</span></div>
-            <div class="matcher-desc">Chỉ kích hoạt khi Claude dùng Bash</div>
+            <div class="matcher-desc">Fires only when Claude runs Bash</div>
           </div>
           <div class="matcher">
             <div class="matcher-head">SessionStart · <span class="m">"compact"</span></div>
-            <div class="matcher-desc">Chỉ trigger sau khi compaction</div>
+            <div class="matcher-desc">Triggers only after compaction</div>
           </div>
           <div class="matcher">
             <div class="matcher-head">PermissionRequest · <span class="m">"ExitPlanMode"</span></div>
-            <div class="matcher-desc">Auto-approve khi hoàn thành plan</div>
+            <div class="matcher-desc">Auto-approve plan completion only</div>
           </div>
         </div>
         <div class="note" style="margin-top: 12px;">
-          <strong>Nhớ 3 điều:</strong><br>
-          • <strong>exit 2</strong> chặn hành động · <strong>exit 0 + JSON</strong> cho phép quyết định có cấu trúc<br>
-          • Dùng <strong>matcher</strong> để giới hạn phạm vi — tránh tự động hóa quá rộng<br>
-          • Xác minh bằng <strong>/hooks</strong>, debug qua log, iterate nhanh
+          <strong>3 things to remember:</strong><br>
+          • <strong>exit 2</strong> blocks · <strong>exit 0 + JSON</strong> for structured decisions<br>
+          • Use <strong>matcher</strong> to scope hooks — avoid over-broad automation<br>
+          • Verify with <strong>/hooks</strong>, debug via log, iterate fast
         </div>
       </div>
     </div>
@@ -556,7 +583,7 @@ function updateUI() {
   progressBar.style.width = ((currentSlide + 1) / totalSlides * 100) + '%';
   currentSlideEl.textContent = currentSlide + 1;
   prevBtn.disabled = currentSlide === 0;
-  nextBtn.textContent = currentSlide === totalSlides - 1 ? 'Xong ✓' : 'Next →';
+  nextBtn.textContent = currentSlide === totalSlides - 1 ? 'Done ✓' : 'Next →';
   document.querySelectorAll('.dot-ind').forEach((d, i) => {
     d.classList.toggle('active', i === currentSlide);
   });
