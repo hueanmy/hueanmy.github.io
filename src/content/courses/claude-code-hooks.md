@@ -12,6 +12,7 @@ sourceDir: /courses/claude-code-hooks/source
 sourceFiles:
   - slides.html
   - claude-code-hooks-vi.pptx
+  - claude-code-hooks-en.pptx
 featured: true
 order: 1
 ---
