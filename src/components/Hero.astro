@@ -11,13 +11,13 @@
     <div class="avatar-wrap">
       <img
         src="/avatar.png"
-        alt="hueanmy avatar"
+        alt="Meii avatar"
         class="avatar"
         width="72"
         height="72"
       />
     </div>
-    <h1 class="name">hueanmy</h1>
+    <h1 class="name">Meii <span class="bell">🔔</span></h1>
   </div>
 
   <p class="tagline">
@@ -113,6 +113,25 @@
     -webkit-background-clip: text;
     color: transparent;
     -webkit-text-fill-color: transparent;
+  }
+
+  .bell {
+    display: inline-block;
+    -webkit-text-fill-color: initial;
+    background: none;
+    font-size: 0.7em;
+    margin-left: 0.15em;
+    transform-origin: top center;
+    animation: bell-ring 3s ease-in-out infinite;
+  }
+
+  @keyframes bell-ring {
+    0%, 70%, 100% { transform: rotate(0deg); }
+    75% { transform: rotate(14deg); }
+    80% { transform: rotate(-12deg); }
+    85% { transform: rotate(8deg); }
+    90% { transform: rotate(-6deg); }
+    95% { transform: rotate(0deg); }
   }
 
   .tagline {
