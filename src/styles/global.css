@@ -107,12 +107,50 @@ section > h2 {
   gap: 1rem;
 }
 
+#courses .grid {
+  display: flex;
+  grid-template-columns: none;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 0.5rem;
+  margin-inline: -1.5rem;
+  padding-inline: 1.5rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+#courses .grid::-webkit-scrollbar {
+  height: 6px;
+}
+#courses .grid::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+#courses .grid::-webkit-scrollbar-thumb:hover {
+  background: var(--fg-muted);
+}
+
+#courses .grid > * {
+  flex: 0 0 calc(33.333% - 0.667rem);
+  min-width: 220px;
+  scroll-snap-align: start;
+}
+
 @media (max-width: 640px) {
   .grid {
     grid-template-columns: 1fr;
   }
   main {
     padding: 3rem 1.25rem 3rem;
+  }
+  #courses .grid {
+    margin-inline: -1.25rem;
+    padding-inline: 1.25rem;
+  }
+  #courses .grid > * {
+    flex: 0 0 85%;
   }
 }
 

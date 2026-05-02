@@ -11,7 +11,7 @@ sourceDir: /courses/prompt-caching/source
 sourceFiles:
   - slides.html
 featured: true
-order: 1
+order: 2
 ---
 
 Prompt caching là tính năng tự động trong Claude Code: phần "tĩnh" của context (CLAUDE.md, project structure, source files) được lưu lại như một checkpoint. Từ message thứ 2 trở đi, bạn chỉ trả token cho phần mới.

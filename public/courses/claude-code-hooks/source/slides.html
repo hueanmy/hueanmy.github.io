@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code Hooks</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080810;
+    --surface: #0f0f1a;
+    --card: #13131f;
+    --border: #1c1c30;
+    --cyan: #00e5cc;
+    --cyan-dim: rgba(0,229,204,0.12);
+    --orange: #ff6b35;
+    --orange-dim: rgba(255,107,53,0.12);
+    --green: #39d98a;
+    --green-dim: rgba(57,217,138,0.10);
+    --yellow: #ffd166;
+    --purple: #a78bfa;
+    --purple-dim: rgba(167,139,250,0.10);
+    --text: #dde1f0;
+    --muted: #5a5f7a;
+    --mono: 'JetBrains Mono', monospace;
+    --display: 'JetBrains Mono', monospace;
+    --slide-w: 480px;
+    --slide-h: 854px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 100%; min-height: 100vh;
+    background: #030305;
+    font-family: var(--display);
+    display: flex; justify-content: center; align-items: center;
+  }
+
+  .stage {
+    position: relative;
+    width: var(--slide-w); height: var(--slide-h);
+    background: var(--bg);
+    border-radius: 20px; overflow: hidden;
+    box-shadow:
+      0 0 0 1px rgba(0,229,204,0.12),
+      0 40px 120px rgba(0,0,0,0.8),
+      0 0 80px rgba(0,229,204,0.04);
+  }
+
+  .stage::before {
+    content: ''; position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,204,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,204,0.03) 1px, transparent 1px);
+    background-size: 30px 30px;
+    pointer-events: none; z-index: 0;
+  }
+
+  .progress-bar {
+    position: absolute; top: 0; left: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--cyan), var(--green));
+    transition: width 0.4s ease; z-index: 100;
+  }
+
+  .topnav {
+    position: absolute; top: 0; left: 0; right: 0;
+    padding: 14px 20px 10px;
+    display: flex; justify-content: space-between; align-items: center;
+    z-index: 50;
+    background: linear-gradient(to bottom, rgba(8,8,16,0.98) 60%, transparent);
+  }
+
+  .topnav-logo {
+    font-family: var(--mono); font-size: 9px; letter-spacing: 2px;
+    color: var(--cyan); text-transform: uppercase;
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  .topnav-logo-dot {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--cyan); animation: blink 1.4s infinite;
+  }
+
+  .slide-counter {
+    font-family: var(--mono); font-size: 10px; color: var(--muted);
+  }
+  .slide-counter span { color: var(--text); }
+
+  .slides { position: absolute; inset: 0; z-index: 1; }
+
+  .slide {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    justify-content: flex-start; align-items: flex-start;
+    padding: 52px 20px 70px;
+    opacity: 0; transform: translateX(40px);
+    transition: opacity 0.45s ease, transform 0.45s ease;
+    pointer-events: none; overflow: hidden;
+  }
+
+  .slide.active { opacity: 1; transform: translateX(0); pointer-events: all; }
+
+  .nav-controls {
+    position: absolute; bottom: 14px; left: 16px; right: 16px;
+    display: flex; align-items: center; justify-content: space-between;
+    z-index: 50;
+  }
+  body.clean .nav-controls,
+  body.clean .progress-bar { display: none; }
+  body.clean .slide { padding-bottom: 30px; }
+  .nav-btn {
+    padding: 7px 20px; border-radius: 7px;
+    font-family: var(--mono); font-size: 10px; letter-spacing: 1px;
+    text-transform: uppercase; cursor: pointer;
+    border: 1px solid var(--border);
+    background: var(--card); color: var(--muted);
+    transition: all 0.2s;
+  }
+  .nav-btn:hover:not(:disabled) { border-color: var(--muted); color: var(--text); }
+  .nav-btn.primary {
+    background: linear-gradient(135deg, rgba(0,229,204,0.15), rgba(0,229,204,0.05));
+    border-color: rgba(0,229,204,0.4); color: var(--cyan);
+  }
+  .nav-btn.primary:hover:not(:disabled) {
+    background: linear-gradient(135deg, rgba(0,229,204,0.25), rgba(0,229,204,0.1));
+    box-shadow: 0 0 16px rgba(0,229,204,0.2);
+  }
+  .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  .dots { display: flex; gap: 6px; align-items: center; }
+  .dot-ind {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--border); transition: all 0.3s; cursor: pointer;
+  }
+  .dot-ind.active { background: var(--cyan); transform: scale(1.5); }
+
+  .slide-tag {
+    font-family: var(--mono); font-size: 9px; letter-spacing: 2.5px;
+    text-transform: uppercase; color: var(--cyan);
+    margin-bottom: 16px; display: flex; align-items: center; gap: 6px;
+  }
+  .slide-tag::before { content: '//'; color: var(--muted); }
+
+  h1.slide-h1 {
+    font-size: 2.6rem; font-weight: 600; line-height: 1.1;
+    color: #fff; margin-bottom: 14px;
+    font-family: var(--mono); letter-spacing: -0.5px;
+  }
+  h1.slide-h1 span { color: var(--cyan); }
+
+  .slide-sub {
+    font-family: var(--display);
+    font-size: 0.88rem; color: var(--muted); line-height: 1.75;
+  }
+
+  .slide-title-sm {
+    font-family: var(--mono);
+    font-size: 1.1rem; font-weight: 600; letter-spacing: -0.3px;
+    color: #fff; margin-bottom: 16px; width: 100%;
+  }
+  .slide-title-sm span { color: var(--cyan); }
+
+  .pillar-stack { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+  .pillar {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 2px solid var(--cyan);
+    border-radius: 9px;
+    padding: 12px 14px;
+    width: 100%;
+  }
+  .pillar.o { border-left-color: var(--orange); }
+  .pillar.p { border-left-color: var(--purple); }
+  .pillar-head {
+    font-family: var(--mono); font-size: 10px;
+    color: var(--cyan); margin-bottom: 6px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .pillar.o .pillar-head { color: var(--orange); }
+  .pillar.p .pillar-head { color: var(--purple); }
+  .pillar-body {
+    font-family: var(--display); font-size: 0.78rem;
+    color: rgba(221,225,240,0.85); line-height: 1.55;
+  }
+
+  .event-list { display: flex; flex-direction: column; gap: 7px; width: 100%; }
+  .event-row {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 8px 10px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+  }
+  .event-name {
+    font-family: var(--mono); font-size: 9px;
+    color: var(--cyan); white-space: nowrap; flex-shrink: 0;
+    min-width: 95px;
+  }
+  .event-desc {
+    font-family: var(--display); font-size: 0.7rem;
+    color: var(--muted); line-height: 1.5;
+  }
+
+  .code-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 9px; padding: 12px 14px;
+    width: 100%;
+    font-family: var(--mono); font-size: 0.72rem;
+    line-height: 1.6;
+    color: var(--text);
+    overflow-x: auto;
+    white-space: pre;
+  }
+  .code-block .k { color: var(--cyan); }
+  .code-block .s { color: var(--green); }
+  .code-block .c { color: var(--muted); font-style: italic; }
+  .code-block .o { color: var(--orange); }
+
+  .pattern-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%;
+  }
+  .pattern {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 8px; padding: 10px;
+  }
+  .pattern-emoji { font-size: 1.1rem; margin-bottom: 4px; }
+  .pattern-name {
+    font-family: var(--mono); font-size: 9px;
+    color: var(--cyan); margin-bottom: 3px;
+  }
+  .pattern-desc {
+    font-family: var(--display); font-size: 0.65rem;
+    color: var(--muted); line-height: 1.45;
+  }
+
+  .exit-table { display: flex; flex-direction: column; gap: 6px; width: 100%; margin-bottom: 10px; }
+  .exit-row {
+    display: flex; align-items: center; gap: 10px;
+    padding: 7px 10px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+  }
+  .exit-code {
+    font-family: var(--mono); font-size: 9px;
+    padding: 2px 7px; border-radius: 4px;
+    background: var(--cyan-dim); color: var(--cyan);
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .exit-row.bad .exit-code { background: var(--orange-dim); color: var(--orange); }
+  .exit-desc {
+    font-family: var(--display); font-size: 0.72rem;
+    color: var(--text); line-height: 1.45;
+  }
+
+  .matcher-list { display: flex; flex-direction: column; gap: 6px; width: 100%; }
+  .matcher {
+    display: flex; flex-direction: column; gap: 2px;
+    padding: 8px 10px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+  }
+  .matcher-head {
+    font-family: var(--mono); font-size: 9px;
+    color: var(--cyan);
+  }
+  .matcher-head .m { color: var(--orange); }
+  .matcher-desc {
+    font-family: var(--display); font-size: 0.68rem;
+    color: var(--muted);
+  }
+
+  .note {
+    background: var(--cyan-dim);
+    border: 1px solid rgba(0,229,204,0.18);
+    border-left: 2px solid var(--cyan);
+    border-radius: 9px; padding: 12px 14px;
+    font-family: var(--display); font-size: 0.76rem;
+    color: rgba(221,225,240,0.9); line-height: 1.6; width: 100%;
+  }
+  .note strong { color: var(--cyan); }
+
+  .slide-scroll {
+    width: 100%; flex: 1;
+    overflow-y: auto; overflow-x: hidden;
+    scrollbar-width: none;
+  }
+  .slide-scroll::-webkit-scrollbar { display: none; }
+
+  .hero-glow {
+    position: absolute;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,229,204,0.08) 0%, transparent 70%);
+    top: -80px; right: -80px;
+    pointer-events: none; z-index: 0;
+  }
+  .slide-inner-hero { position: relative; z-index: 1; width: 100%; }
+
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+  @media (max-width: 520px) {
+    :root {
+      --slide-w: min(480px, 100vw);
+      --slide-h: calc(min(480px, 100vw) * 16 / 9);
+    }
+    .stage {
+      border-radius: 0;
+      width: 100vw;
+      height: calc(100vw * 16 / 9);
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="stage" id="stage">
+  <div class="progress-bar" id="progressBar"></div>
+
+  <div class="topnav">
+    <div class="topnav-logo"><span class="topnav-logo-dot"></span>Claude Code · Hooks</div>
+    <div class="slide-counter"><span id="currentSlide">1</span> / <span id="totalSlides">7</span></div>
+  </div>
+
+  <div class="slides" id="slidesContainer">
+
+    <!-- SLIDE 1: Title -->
+    <div class="slide active" data-slide="0">
+      <div class="hero-glow"></div>
+      <div class="slide-inner-hero" style="margin-top: 32px">
+        <div class="slide-tag">Claude Code Feature</div>
+        <h1 class="slide-h1">Hooks<br><span>&gt;_</span></h1>
+        <p class="slide-sub">Tự động hóa workflow với lệnh shell — chạy đúng tại các điểm vòng đời xác định khi Claude sửa file, hoàn thành task, hoặc cần input từ bạn.</p>
+        <div style="margin-top: 32px; display: flex; flex-direction: column; gap: 10px;">
+          <div style="display:flex; align-items:center; gap:10px; font-family: var(--mono); font-size: 10px; color: var(--muted);">
+            <span style="color: var(--green)">⚙️ 20+</span> sự kiện vòng đời
+          </div>
+          <div style="display:flex; align-items:center; gap:10px; font-family: var(--mono); font-size: 10px; color: var(--muted);">
+            <span style="color: var(--cyan)">🔌 5</span> loại hook
+          </div>
+          <div style="display:flex; align-items:center; gap:10px; font-family: var(--mono); font-size: 10px; color: var(--muted);">
+            <span style="color: var(--yellow)">🎯</span> Deterministic, không phụ thuộc LLM
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2: 3 pillars -->
+    <div class="slide" data-slide="1">
+      <div class="slide-title-sm">Hooks là gì? <span>3 trụ cột</span></div>
+      <div class="slide-scroll">
+        <div class="pillar-stack">
+          <div class="pillar">
+            <div class="pillar-head">🎯 KIỂM SOÁT TUYỆT ĐỐI</div>
+            <div class="pillar-body">Lệnh shell do bạn định nghĩa — chạy đúng tại các điểm vòng đời xác định, không phụ thuộc vào quyết định của LLM.</div>
+          </div>
+          <div class="pillar o">
+            <div class="pillar-head">⚡ HƯỚNG SỰ KIỆN</div>
+            <div class="pillar-body">Hooks kích hoạt theo event như <strong style="color:#fff">PreToolUse</strong>, <strong style="color:#fff">PostToolUse</strong>, <strong style="color:#fff">Notification</strong>, <strong style="color:#fff">SessionStart</strong> — hơn 20 loại.</div>
+          </div>
+          <div class="pillar p">
+            <div class="pillar-head">🔌 NHIỀU LOẠI HOOK</div>
+            <div class="pillar-body"><strong style="color:#fff">command</strong> · <strong style="color:#fff">http</strong> · <strong style="color:#fff">mcp_tool</strong> · <strong style="color:#fff">prompt</strong> · <strong style="color:#fff">agent</strong> — chọn đúng mô hình thực thi cho từng use case.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3: Lifecycle events -->
+    <div class="slide" data-slide="2">
+      <div class="slide-title-sm">Sự kiện <span>vòng đời</span></div>
+      <div class="slide-scroll">
+        <div class="event-list">
+          <div class="event-row"><span class="event-name">SessionStart</span><span class="event-desc">Phiên bắt đầu hoặc tiếp tục</span></div>
+          <div class="event-row"><span class="event-name">UserPromptSubmit</span><span class="event-desc">Trước khi Claude xử lý prompt</span></div>
+          <div class="event-row"><span class="event-name">PreToolUse</span><span class="event-desc">Trước khi tool call thực thi — có thể chặn</span></div>
+          <div class="event-row"><span class="event-name">PostToolUse</span><span class="event-desc">Sau khi tool call thành công</span></div>
+          <div class="event-row"><span class="event-name">Notification</span><span class="event-desc">Khi Claude cần input từ bạn</span></div>
+          <div class="event-row"><span class="event-name">PermissionRequest</span><span class="event-desc">Khi hộp thoại xin quyền xuất hiện</span></div>
+          <div class="event-row"><span class="event-name">FileChanged</span><span class="event-desc">File đang theo dõi thay đổi</span></div>
+          <div class="event-row"><span class="event-name">PreCompact</span><span class="event-desc">Trước khi context compaction</span></div>
+          <div class="event-row"><span class="event-name">Stop</span><span class="event-desc">Khi Claude xong hoặc xảy ra lỗi</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4: First hook example -->
+    <div class="slide" data-slide="3">
+      <div class="slide-title-sm">Hook đầu tiên: <span>Notification</span></div>
+      <div class="slide-scroll">
+        <p style="font-family: var(--display); font-size: 0.74rem; color: var(--muted); line-height: 1.6; margin-bottom: 12px;">
+          Thông báo desktop khi Claude cần input — không bỏ lỡ prompt. Thêm vào <strong style="color:var(--cyan)">~/.claude/settings.json</strong>:
+        </p>
+        <div class="code-block"><span class="c">// ~/.claude/settings.json</span>
+{
+  <span class="k">"hooks"</span>: {
+    <span class="k">"Notification"</span>: [{
+      <span class="k">"matcher"</span>: <span class="s">""</span>,
+      <span class="k">"hooks"</span>: [{
+        <span class="k">"type"</span>: <span class="s">"command"</span>,
+        <span class="k">"command"</span>: <span class="s">"osascript -e</span>
+<span class="s">  'display notification</span>
+<span class="s">  \"Claude can input\"</span>
+<span class="s">  with title \"Claude Code\"'"</span>
+      }]
+    }]
+  }
+}</div>
+        <p style="font-family: var(--display); font-size: 0.7rem; color: var(--muted); line-height: 1.6; margin-top: 10px;">
+          → Mở <strong style="color:var(--cyan)">/hooks</strong> để xem event đã đăng ký. Hỏi Claude gì đó, chuyển tab — thông báo sẽ bật lên.
+        </p>
+      </div>
+    </div>
+
+    <!-- SLIDE 5: Patterns -->
+    <div class="slide" data-slide="4">
+      <div class="slide-title-sm">Pattern <span>tự động hóa</span></div>
+      <div class="slide-scroll">
+        <div class="pattern-grid">
+          <div class="pattern">
+            <div class="pattern-emoji">🔔</div>
+            <div class="pattern-name">THÔNG BÁO</div>
+            <div class="pattern-desc">Alert desktop khi cần input qua Notification</div>
+          </div>
+          <div class="pattern">
+            <div class="pattern-emoji">✨</div>
+            <div class="pattern-name">AUTO-FORMAT</div>
+            <div class="pattern-desc">Prettier/ESLint sau Edit|Write qua PostToolUse</div>
+          </div>
+          <div class="pattern">
+            <div class="pattern-emoji">🔒</div>
+            <div class="pattern-name">BẢO VỆ FILE</div>
+            <div class="pattern-desc">Chặn sửa .env, .git qua PreToolUse</div>
+          </div>
+          <div class="pattern">
+            <div class="pattern-emoji">💾</div>
+            <div class="pattern-name">RELOAD CONTEXT</div>
+            <div class="pattern-desc">Đẩy lại reminders sau compaction</div>
+          </div>
+          <div class="pattern">
+            <div class="pattern-emoji">📋</div>
+            <div class="pattern-name">AUDIT LOG</div>
+            <div class="pattern-desc">Log mọi ConfigChange ra file</div>
+          </div>
+          <div class="pattern">
+            <div class="pattern-emoji">✅</div>
+            <div class="pattern-name">AUTO-APPROVE</div>
+            <div class="pattern-desc">Skip prompt cho tool đáng tin cậy</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6: Communication / exit codes -->
+    <div class="slide" data-slide="5">
+      <div class="slide-title-sm">Hooks giao tiếp <span>như thế nào</span></div>
+      <div class="slide-scroll">
+        <p style="font-family: var(--display); font-size: 0.72rem; color: var(--muted); line-height: 1.6; margin-bottom: 10px;">
+          Claude gửi JSON qua <strong style="color:var(--cyan)">stdin</strong>. Script trả về qua exit code + stdout/stderr:
+        </p>
+        <div class="exit-table">
+          <div class="exit-row">
+            <span class="exit-code">exit 0</span>
+            <span class="exit-desc">Hành động tiến hành bình thường</span>
+          </div>
+          <div class="exit-row bad">
+            <span class="exit-code">exit 2</span>
+            <span class="exit-desc">Chặn — stderr gửi cho Claude làm phản hồi</span>
+          </div>
+          <div class="exit-row">
+            <span class="exit-code">JSON</span>
+            <span class="exit-desc">Stdout structured: allow/deny + reason</span>
+          </div>
+        </div>
+        <div class="code-block"><span class="c">// PreToolUse — deny + reason</span>
+{
+  <span class="k">"hookSpecificOutput"</span>: {
+    <span class="k">"hookEventName"</span>: <span class="s">"PreToolUse"</span>,
+    <span class="k">"permissionDecision"</span>: <span class="s">"deny"</span>,
+    <span class="k">"permissionDecisionReason"</span>:
+      <span class="s">"Use rg instead of grep"</span>
+  }
+}</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 7: Matchers + takeaways -->
+    <div class="slide" data-slide="6">
+      <div class="slide-title-sm">Lọc với <span>matchers</span></div>
+      <div class="slide-scroll">
+        <p style="font-family: var(--display); font-size: 0.7rem; color: var(--muted); line-height: 1.55; margin-bottom: 10px;">
+          Trường <strong style="color:var(--cyan)">matcher</strong> giới hạn hook nào được chạy — càng hẹp càng tốt.
+        </p>
+        <div class="matcher-list">
+          <div class="matcher">
+            <div class="matcher-head">PostToolUse · <span class="m">"Edit|Write"</span></div>
+            <div class="matcher-desc">Chỉ chạy cho tool sửa file</div>
+          </div>
+          <div class="matcher">
+            <div class="matcher-head">PreToolUse · <span class="m">"Bash"</span></div>
+            <div class="matcher-desc">Chỉ kích hoạt khi Claude dùng Bash</div>
+          </div>
+          <div class="matcher">
+            <div class="matcher-head">SessionStart · <span class="m">"compact"</span></div>
+            <div class="matcher-desc">Chỉ trigger sau khi compaction</div>
+          </div>
+          <div class="matcher">
+            <div class="matcher-head">PermissionRequest · <span class="m">"ExitPlanMode"</span></div>
+            <div class="matcher-desc">Auto-approve khi hoàn thành plan</div>
+          </div>
+        </div>
+        <div class="note" style="margin-top: 12px;">
+          <strong>Nhớ 3 điều:</strong><br>
+          • <strong>exit 2</strong> chặn hành động · <strong>exit 0 + JSON</strong> cho phép quyết định có cấu trúc<br>
+          • Dùng <strong>matcher</strong> để giới hạn phạm vi — tránh tự động hóa quá rộng<br>
+          • Xác minh bằng <strong>/hooks</strong>, debug qua log, iterate nhanh
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="nav-controls">
+    <button class="nav-btn" id="prevBtn" disabled onclick="changeSlide(-1)">← Prev</button>
+    <div class="dots" id="dotsContainer"></div>
+    <button class="nav-btn primary" id="nextBtn" onclick="changeSlide(1)">Next →</button>
+  </div>
+
+</div>
+
+<script>
+const totalSlides = 7;
+let currentSlide = 0;
+
+const progressBar = document.getElementById('progressBar');
+const currentSlideEl = document.getElementById('currentSlide');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const dotsContainer = document.getElementById('dotsContainer');
+const slides = document.querySelectorAll('.slide');
+
+for (let i = 0; i < totalSlides; i++) {
+  const dot = document.createElement('div');
+  dot.className = 'dot-ind' + (i === 0 ? ' active' : '');
+  dot.onclick = () => goToSlide(i);
+  dotsContainer.appendChild(dot);
+}
+
+document.getElementById('totalSlides').textContent = totalSlides;
+
+function updateUI() {
+  progressBar.style.width = ((currentSlide + 1) / totalSlides * 100) + '%';
+  currentSlideEl.textContent = currentSlide + 1;
+  prevBtn.disabled = currentSlide === 0;
+  nextBtn.textContent = currentSlide === totalSlides - 1 ? 'Xong ✓' : 'Next →';
+  document.querySelectorAll('.dot-ind').forEach((d, i) => {
+    d.classList.toggle('active', i === currentSlide);
+  });
+}
+
+const params = new URLSearchParams(location.search);
+if (params.get('clean') === '1') document.body.classList.add('clean');
+const startSlide = parseInt(params.get('s') || '0', 10);
+
+function goToSlide(index) {
+  if (index === currentSlide) return;
+  slides.forEach(s => s.classList.remove('active'));
+  currentSlide = index;
+  slides[currentSlide].classList.add('active');
+  updateUI();
+}
+
+function changeSlide(dir) {
+  const next = currentSlide + dir;
+  if (next < 0 || next >= totalSlides) return;
+
+  const outSlide = slides[currentSlide];
+  outSlide.classList.remove('active');
+  outSlide.style.transition = 'opacity 0.38s ease, transform 0.38s ease';
+  outSlide.style.opacity = '0';
+  outSlide.style.transform = dir > 0 ? 'translateX(-40px)' : 'translateX(40px)';
+
+  currentSlide = next;
+
+  const inSlide = slides[currentSlide];
+  inSlide.style.transition = 'none';
+  inSlide.style.opacity = '0';
+  inSlide.style.transform = dir > 0 ? 'translateX(40px)' : 'translateX(-40px)';
+  inSlide.classList.add('active');
+
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      inSlide.style.transition = 'opacity 0.38s ease, transform 0.38s ease';
+      inSlide.style.opacity = '1';
+      inSlide.style.transform = 'translateX(0)';
+    });
+  });
+
+  setTimeout(() => {
+    outSlide.style.transition = '';
+    outSlide.style.opacity = '';
+    outSlide.style.transform = '';
+  }, 420);
+
+  updateUI();
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') changeSlide(1);
+  if (e.key === 'ArrowLeft') changeSlide(-1);
+});
+
+let touchStartX = 0;
+const stage = document.getElementById('stage');
+stage.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+stage.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  if (Math.abs(dx) > 40) changeSlide(dx < 0 ? 1 : -1);
+}, { passive: true });
+
+if (startSlide > 0 && startSlide < totalSlides) goToSlide(startSlide);
+else updateUI();
+</script>
+</body>
+</html>

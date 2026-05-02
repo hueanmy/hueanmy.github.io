@@ -44,7 +44,7 @@ const shorts = (await getCollection('shorts')).sort(
     {
       courses.length > 0 && (
         <section id="courses">
-          <h2>AI tech notes</h2>
+          <h2>Claude Knowledge Base</h2>
           <div class="grid">
             {courses.map((c) => (
               <CourseCard id={c.id} {...c.data} />

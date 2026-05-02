@@ -18,7 +18,7 @@ sourceFiles:
   - dataset.jsonl
   - requirements.txt
 featured: true
-order: 2
+order: 3
 ---
 
 A tiny end-to-end demo showing how to evaluate a classifier prompt:

@@ -42,6 +42,7 @@ const courses = defineCollection({
     tags: z.array(z.string()).default([]),
     repoUrl: z.string().url().optional(),
     courseUrl: z.string().url().optional(),
+    demoUrl: z.string().optional(),
     sourceDir: z.string().optional(),
     sourceFiles: z.array(z.string()).default([]),
     featured: z.boolean().default(false),
