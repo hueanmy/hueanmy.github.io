@@ -13,9 +13,14 @@ const phases = [
 <section id="claude-roadmap" class="roadmap-section">
   <div class="section-head">
     <h2>Claude Dev Roadmap</h2>
-    <a class="open-full" href="/claude-roadmap.html" target="_blank" rel="noopener">
-      Open full version ↗
-    </a>
+    <div class="head-actions">
+      <a class="open-full" href="https://github.com/hueanmy/claude-roadmap" target="_blank" rel="noopener">
+        Working examples on GitHub ↗
+      </a>
+      <a class="open-full" href="/claude-roadmap.html" target="_blank" rel="noopener">
+        Open full version ↗
+      </a>
+    </div>
   </div>
 
   <a class="roadmap-card" href="/claude-roadmap.html" target="_blank" rel="noopener">
@@ -59,6 +64,20 @@ const phases = [
     margin-bottom: 1.5rem;
     padding-bottom: 0.75rem;
     border-bottom: 1px solid var(--border);
+  }
+
+  .head-actions {
+    display: flex;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  @media (max-width: 520px) {
+    .head-actions {
+      gap: 0.75rem;
+      font-size: 0.72rem;
+    }
   }
 
   .section-head h2 {
