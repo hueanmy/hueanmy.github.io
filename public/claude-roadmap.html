@@ -118,10 +118,13 @@
     font-weight: 700;
     font-size: 1rem;
     letter-spacing: 0.5px;
-    cursor: default;
+    cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
     white-space: nowrap;
+    text-decoration: none;
+    display: inline-block;
   }
+  a.main-node { text-decoration: none; }
 
   .main-node:hover {
     transform: scale(1.04);
@@ -235,9 +238,12 @@
     background: var(--surface);
     color: var(--text);
     transition: all 0.2s;
-    cursor: default;
+    cursor: pointer;
     font-family: 'JetBrains Mono', monospace;
+    text-decoration: none;
+    display: inline-block;
   }
+  a.sub-node { text-decoration: none; }
 
   .sub-node:hover {
     border-color: var(--muted);
@@ -396,14 +402,14 @@
     <!-- Phase 1: Foundation -->
     <div class="section" id="s1">
       <div class="phase-label">Phase 1 — Foundation</div>
-      <div class="main-node cyan">🧠 Understand Claude</div>
+      <a class="main-node cyan" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-1-foundation" target="_blank" rel="noopener noreferrer">🧠 Understand Claude</a>
       <div class="sub-row">
-        <span class="sub-node highlight-cyan">How LLMs work</span>
-        <span class="sub-node highlight-cyan">Claude vs GPT vs Gemini</span>
-        <span class="sub-node highlight-cyan">Context window</span>
-        <span class="sub-node highlight-cyan">Token & pricing</span>
-        <span class="sub-node highlight-cyan">Opus / Sonnet / Haiku</span>
-        <span class="sub-node highlight-cyan">Claude.ai vs API</span>
+        <a class="sub-node highlight-cyan" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-1-foundation#--how-llms-work" target="_blank" rel="noopener noreferrer">How LLMs work</a>
+        <a class="sub-node highlight-cyan" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-1-foundation#--claude-vs-gpt-vs-gemini" target="_blank" rel="noopener noreferrer">Claude vs GPT vs Gemini</a>
+        <a class="sub-node highlight-cyan" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-1-foundation#--context-window" target="_blank" rel="noopener noreferrer">Context window</a>
+        <a class="sub-node highlight-cyan" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-1-foundation#--token--pricing" target="_blank" rel="noopener noreferrer">Token & pricing</a>
+        <a class="sub-node highlight-cyan" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-1-foundation" target="_blank" rel="noopener noreferrer">Opus / Sonnet / Haiku</a>
+        <a class="sub-node highlight-cyan" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-1-foundation#--claudeai-vs-api" target="_blank" rel="noopener noreferrer">Claude.ai vs API</a>
       </div>
     </div>
 
@@ -412,16 +418,16 @@
     <!-- Phase 2: Prompt Engineering -->
     <div class="section" id="s2">
       <div class="phase-label">Phase 2 — Prompting</div>
-      <div class="main-node purple">✍️ Prompt Engineering</div>
+      <a class="main-node purple" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-2-prompting" target="_blank" rel="noopener noreferrer">✍️ Prompt Engineering</a>
       <div class="sub-row">
-        <span class="sub-node highlight-purple">System prompt</span>
-        <span class="sub-node highlight-purple">Role & persona</span>
-        <span class="sub-node highlight-purple">Few-shot examples</span>
-        <span class="sub-node highlight-purple">Chain of thought</span>
-        <span class="sub-node highlight-purple">XML tags</span>
-        <span class="sub-node highlight-purple">Output format control</span>
-        <span class="sub-node highlight-purple">Temperature & top_p</span>
-        <span class="sub-node highlight-purple">Prompt caching</span>
+        <a class="sub-node highlight-purple" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-2-prompting#--system-prompt" target="_blank" rel="noopener noreferrer">System prompt</a>
+        <a class="sub-node highlight-purple" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-2-prompting#--role--persona" target="_blank" rel="noopener noreferrer">Role & persona</a>
+        <a class="sub-node highlight-purple" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-2-prompting#--few-shot-examples" target="_blank" rel="noopener noreferrer">Few-shot examples</a>
+        <a class="sub-node highlight-purple" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-2-prompting#--chain-of-thought-cot" target="_blank" rel="noopener noreferrer">Chain of thought</a>
+        <a class="sub-node highlight-purple" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-2-prompting#--xml-tags" target="_blank" rel="noopener noreferrer">XML tags</a>
+        <a class="sub-node highlight-purple" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-2-prompting#--output-format-control" target="_blank" rel="noopener noreferrer">Output format control</a>
+        <a class="sub-node highlight-purple" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-2-prompting" target="_blank" rel="noopener noreferrer">Temperature & top_p</a>
+        <a class="sub-node highlight-purple" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-2-prompting#--prompt-caching" target="_blank" rel="noopener noreferrer">Prompt caching</a>
       </div>
     </div>
 
@@ -430,16 +436,16 @@
     <!-- Phase 3: API -->
     <div class="section" id="s3">
       <div class="phase-label">Phase 3 — API Integration</div>
-      <div class="main-node yellow">⚡ Anthropic API</div>
+      <a class="main-node yellow" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-3-api" target="_blank" rel="noopener noreferrer">⚡ Anthropic API</a>
       <div class="sub-row">
-        <span class="sub-node highlight-yellow">SDK (Python / JS)</span>
-        <span class="sub-node highlight-yellow">Messages API</span>
-        <span class="sub-node highlight-yellow">Streaming</span>
-        <span class="sub-node highlight-yellow">Batch API</span>
-        <span class="sub-node highlight-yellow">Vision / Multimodal</span>
-        <span class="sub-node highlight-yellow">PDF & documents</span>
-        <span class="sub-node highlight-yellow">Rate limits</span>
-        <span class="sub-node highlight-yellow">Error handling</span>
+        <a class="sub-node highlight-yellow" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-3-api" target="_blank" rel="noopener noreferrer">SDK (Python / JS)</a>
+        <a class="sub-node highlight-yellow" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-3-api#--messages-api" target="_blank" rel="noopener noreferrer">Messages API</a>
+        <a class="sub-node highlight-yellow" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-3-api#--streaming" target="_blank" rel="noopener noreferrer">Streaming</a>
+        <a class="sub-node highlight-yellow" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-3-api#--batch-api" target="_blank" rel="noopener noreferrer">Batch API</a>
+        <a class="sub-node highlight-yellow" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-3-api#--vision--multimodal" target="_blank" rel="noopener noreferrer">Vision / Multimodal</a>
+        <a class="sub-node highlight-yellow" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-3-api#--pdf--documents" target="_blank" rel="noopener noreferrer">PDF & documents</a>
+        <a class="sub-node highlight-yellow" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-3-api#--rate-limits" target="_blank" rel="noopener noreferrer">Rate limits</a>
+        <a class="sub-node highlight-yellow" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-3-api#--error-handling" target="_blank" rel="noopener noreferrer">Error handling</a>
       </div>
     </div>
 
@@ -448,15 +454,15 @@
     <!-- Phase 4: Tool Use -->
     <div class="section" id="s4">
       <div class="phase-label">Phase 4 — Tools & Agents</div>
-      <div class="main-node green">🔧 Tool Use & Agents</div>
+      <a class="main-node green" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-4-tools-agents" target="_blank" rel="noopener noreferrer">🔧 Tool Use & Agents</a>
       <div class="sub-row">
-        <span class="sub-node highlight-green">Tool / Function calling</span>
-        <span class="sub-node highlight-green">Tool schemas (JSON)</span>
-        <span class="sub-node highlight-green">Multi-tool orchestration</span>
-        <span class="sub-node highlight-green">Agentic loop</span>
-        <span class="sub-node highlight-green">Computer use</span>
-        <span class="sub-node highlight-green">Web search tool</span>
-        <span class="sub-node highlight-green">Human-in-the-loop</span>
+        <a class="sub-node highlight-green" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-4-tools-agents#---tool--function-calling" target="_blank" rel="noopener noreferrer">Tool / Function calling</a>
+        <a class="sub-node highlight-green" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-4-tools-agents" target="_blank" rel="noopener noreferrer">Tool schemas (JSON)</a>
+        <a class="sub-node highlight-green" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-4-tools-agents#--multi-tool-orchestration" target="_blank" rel="noopener noreferrer">Multi-tool orchestration</a>
+        <a class="sub-node highlight-green" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-4-tools-agents#--agentic-loop" target="_blank" rel="noopener noreferrer">Agentic loop</a>
+        <a class="sub-node highlight-green" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-4-tools-agents#--computer-use" target="_blank" rel="noopener noreferrer">Computer use</a>
+        <a class="sub-node highlight-green" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-4-tools-agents#--web-search-tool" target="_blank" rel="noopener noreferrer">Web search tool</a>
+        <a class="sub-node highlight-green" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-4-tools-agents" target="_blank" rel="noopener noreferrer">Human-in-the-loop</a>
       </div>
     </div>
 
@@ -465,7 +471,7 @@
     <!-- Phase 5: Claude Code -->
     <div class="section" id="s5">
       <div class="phase-label">Phase 5 — Claude Code</div>
-      <div class="main-node cyan">💻 Claude Code CLI</div>
+      <a class="main-node cyan" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-5-claude-code" target="_blank" rel="noopener noreferrer">💻 Claude Code CLI</a>
       <div class="section-with-sides" style="margin-top: 20px;">
         <div class="side-panel">
           <h4>Commands</h4>
@@ -481,16 +487,16 @@
         </div>
         <div class="center-col">
           <div class="sub-row" style="padding-top: 0;">
-            <span class="sub-node highlight-cyan">CLAUDE.md</span>
-            <span class="sub-node highlight-cyan">Skills</span>
-            <span class="sub-node highlight-cyan">Subagents</span>
-            <span class="sub-node highlight-cyan">Hooks</span>
-            <span class="sub-node highlight-cyan">MCP integration</span>
-            <span class="sub-node highlight-cyan">Slash commands</span>
-            <span class="sub-node highlight-cyan">Permission modes</span>
-            <span class="sub-node highlight-cyan">Plan mode</span>
-            <span class="sub-node highlight-cyan">Headless mode</span>
-            <span class="sub-node highlight-cyan">Git worktrees</span>
+            <a class="sub-node highlight-cyan" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-5-claude-code#--claudemd-memory-file" target="_blank" rel="noopener noreferrer">CLAUDE.md</a>
+            <a class="sub-node highlight-cyan" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-5-claude-code#--skills" target="_blank" rel="noopener noreferrer">Skills</a>
+            <a class="sub-node highlight-cyan" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-5-claude-code#--subagents" target="_blank" rel="noopener noreferrer">Subagents</a>
+            <a class="sub-node highlight-cyan" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-5-claude-code#--hooks" target="_blank" rel="noopener noreferrer">Hooks</a>
+            <a class="sub-node highlight-cyan" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-5-claude-code#--mcp-integration" target="_blank" rel="noopener noreferrer">MCP integration</a>
+            <a class="sub-node highlight-cyan" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-5-claude-code#--slash-commands" target="_blank" rel="noopener noreferrer">Slash commands</a>
+            <a class="sub-node highlight-cyan" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-5-claude-code#--permission-modes" target="_blank" rel="noopener noreferrer">Permission modes</a>
+            <a class="sub-node highlight-cyan" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-5-claude-code#--plan-mode" target="_blank" rel="noopener noreferrer">Plan mode</a>
+            <a class="sub-node highlight-cyan" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-5-claude-code#--headless-mode" target="_blank" rel="noopener noreferrer">Headless mode</a>
+            <a class="sub-node highlight-cyan" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-5-claude-code#--git-worktrees" target="_blank" rel="noopener noreferrer">Git worktrees</a>
           </div>
         </div>
         <div class="side-panel">
@@ -512,15 +518,15 @@
     <!-- Phase 6: MCP -->
     <div class="section" id="s6">
       <div class="phase-label">Phase 6 — MCP</div>
-      <div class="main-node purple">🔌 Model Context Protocol</div>
+      <a class="main-node purple" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-6-mcp" target="_blank" rel="noopener noreferrer">🔌 Model Context Protocol</a>
       <div class="sub-row">
-        <span class="sub-node highlight-purple">MCP architecture</span>
-        <span class="sub-node highlight-purple">MCP servers</span>
-        <span class="sub-node highlight-purple">MCP clients</span>
-        <span class="sub-node highlight-purple">Build custom MCP</span>
-        <span class="sub-node highlight-purple">MCP + Claude Code</span>
-        <span class="sub-node highlight-purple">Stdio vs SSE transport</span>
-        <span class="sub-node highlight-purple">Auth & security</span>
+        <a class="sub-node highlight-purple" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-6-mcp#--mcp-architecture" target="_blank" rel="noopener noreferrer">MCP architecture</a>
+        <a class="sub-node highlight-purple" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-6-mcp#--mcp-servers" target="_blank" rel="noopener noreferrer">MCP servers</a>
+        <a class="sub-node highlight-purple" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-6-mcp#--mcp-clients" target="_blank" rel="noopener noreferrer">MCP clients</a>
+        <a class="sub-node highlight-purple" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-6-mcp#--build-custom-mcp-server" target="_blank" rel="noopener noreferrer">Build custom MCP</a>
+        <a class="sub-node highlight-purple" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-6-mcp#--mcp--claude-code" target="_blank" rel="noopener noreferrer">MCP + Claude Code</a>
+        <a class="sub-node highlight-purple" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-6-mcp#--stdio-vs-streamable-http-transport" target="_blank" rel="noopener noreferrer">Stdio vs SSE transport</a>
+        <a class="sub-node highlight-purple" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-6-mcp#--auth--security" target="_blank" rel="noopener noreferrer">Auth & security</a>
       </div>
     </div>
 
@@ -529,16 +535,16 @@
     <!-- Phase 7: Advanced -->
     <div class="section" id="s7">
       <div class="phase-label">Phase 7 — Advanced</div>
-      <div class="main-node pink">🚀 Production & Scale</div>
+      <a class="main-node pink" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-7-advanced" target="_blank" rel="noopener noreferrer">🚀 Production & Scale</a>
       <div class="sub-row">
-        <span class="sub-node highlight-pink">Agent Teams</span>
-        <span class="sub-node highlight-pink">Multi-agent orchestration</span>
-        <span class="sub-node highlight-pink">Evals & testing</span>
-        <span class="sub-node highlight-pink">Fine-tuning strategy</span>
-        <span class="sub-node highlight-pink">Cost optimization</span>
-        <span class="sub-node highlight-pink">Security best practices</span>
-        <span class="sub-node highlight-pink">Observability & logging</span>
-        <span class="sub-node highlight-pink">CI/CD integration</span>
+        <a class="sub-node highlight-pink" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-7-advanced#--agent-teams" target="_blank" rel="noopener noreferrer">Agent Teams</a>
+        <a class="sub-node highlight-pink" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-7-advanced#--multi-agent-orchestration" target="_blank" rel="noopener noreferrer">Multi-agent orchestration</a>
+        <a class="sub-node highlight-pink" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-7-advanced#--evals--testing" target="_blank" rel="noopener noreferrer">Evals & testing</a>
+        <a class="sub-node highlight-pink" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-7-advanced#--fine-tuning-strategy" target="_blank" rel="noopener noreferrer">Fine-tuning strategy</a>
+        <a class="sub-node highlight-pink" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-7-advanced#--cost-optimization" target="_blank" rel="noopener noreferrer">Cost optimization</a>
+        <a class="sub-node highlight-pink" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-7-advanced#--security-best-practices" target="_blank" rel="noopener noreferrer">Security best practices</a>
+        <a class="sub-node highlight-pink" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-7-advanced#--observability--logging" target="_blank" rel="noopener noreferrer">Observability & logging</a>
+        <a class="sub-node highlight-pink" href="https://github.com/hueanmy/claude-roadmap/tree/main/phase-7-advanced#--cicd-integration" target="_blank" rel="noopener noreferrer">CI/CD integration</a>
       </div>
     </div>
 
