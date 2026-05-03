@@ -44,6 +44,24 @@ const dateStr = d.date
     </header>
 
     {
+      d.paid && (
+        <aside class="buy-cta">
+          <div class="buy-text">
+            <span class="buy-label">Khóa học có phí</span>
+            {d.price && <span class="buy-price">{d.price}</span>}
+          </div>
+          {d.buyUrl ? (
+            <a class="buy-btn" href={d.buyUrl} target="_blank" rel="noopener">
+              Mua khóa học &rarr;
+            </a>
+          ) : (
+            <span class="buy-btn disabled">Sắp mở bán</span>
+          )}
+        </aside>
+      )
+    }
+
+    {
       d.video && (
         <figure class="video-wrap">
           <video
@@ -154,6 +172,68 @@ const dateStr = d.date
     color: var(--fg-muted);
     font-family: var(--font-mono);
     align-items: center;
+  }
+  .buy-cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 1.75rem 0 0.5rem;
+    padding: 1rem 1.15rem;
+    background: linear-gradient(180deg, var(--bg-raised), rgba(16, 20, 29, 0.6));
+    border: 1px solid var(--accent);
+    border-radius: var(--radius);
+    box-shadow: 0 0 0 1px rgba(94, 234, 212, 0.1), 0 8px 30px rgba(94, 234, 212, 0.08);
+  }
+  .buy-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+  .buy-label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--fg-muted);
+  }
+  .buy-price {
+    font-size: 1.4rem;
+    font-weight: 700;
+    background: var(--gradient-accent);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+  .buy-btn {
+    display: inline-block;
+    padding: 0.7rem 1.2rem;
+    background: var(--gradient-accent);
+    color: #07090e;
+    font-weight: 600;
+    border-radius: var(--radius);
+    font-size: 0.92rem;
+    transition: transform 150ms ease, box-shadow 150ms ease;
+    white-space: nowrap;
+  }
+  .buy-btn:hover {
+    color: #07090e;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(94, 234, 212, 0.3);
+  }
+  .buy-btn.disabled {
+    background: var(--bg-raised);
+    color: var(--fg-muted);
+    border: 1px solid var(--border);
+    cursor: not-allowed;
+  }
+  @media (max-width: 520px) {
+    .buy-cta {
+      flex-direction: column;
+      align-items: stretch;
+      text-align: center;
+    }
   }
   .video-wrap {
     margin: 2rem 0 2.5rem;

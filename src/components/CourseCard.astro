@@ -8,6 +8,8 @@ interface Props {
   duration?: string;
   tags?: string[];
   featured?: boolean;
+  paid?: boolean;
+  price?: string;
 }
 
 const {
@@ -19,7 +21,11 @@ const {
   duration,
   tags = [],
   featured,
+  paid,
+  price,
 } = Astro.props;
+
+const priceLabel = paid ? (price ?? 'Paid') : null;
 
 const href = `/courses/${id}/`;
 ---
@@ -29,10 +35,12 @@ const href = `/courses/${id}/`;
     thumbnail && (
       <div class="thumb">
         <img src={thumbnail} alt={title} loading="lazy" />
+        {priceLabel && <span class="price-badge">{priceLabel}</span>}
         {duration && <span class="duration">{duration}</span>}
       </div>
     )
   }
+  {!thumbnail && priceLabel && <span class="price-badge inline">{priceLabel}</span>}
   <h3>{title}</h3>
   {tagline && <p class="tagline">{tagline}</p>}
   <p>{description}</p>
@@ -83,6 +91,25 @@ const href = `/courses/${id}/`;
     font-size: 0.68rem;
     padding: 0.1rem 0.4rem;
     border-radius: 4px;
+  }
+  .price-badge {
+    position: absolute;
+    top: 0.4rem;
+    right: 0.4rem;
+    background: var(--gradient-accent);
+    color: #07090e;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 600;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    letter-spacing: 0.02em;
+    box-shadow: 0 2px 8px rgba(94, 234, 212, 0.25);
+  }
+  .price-badge.inline {
+    position: static;
+    align-self: flex-start;
+    margin-bottom: 0.25rem;
   }
   a.card.course :global(h3) {
     font-size: 0.95rem;

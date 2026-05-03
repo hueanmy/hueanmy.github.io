@@ -1,0 +1,106 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="My Desk Setup — Meii"
+  description="A look at the gear and tools that make up my daily setup."
+>
+  <main class="placeholder">
+    <a href="/" class="back">← Back to home</a>
+
+    <header class="hero">
+      <h1 class="title">My Desk Setup</h1>
+      <p class="tagline">
+        Hardware, peripherals, and the small things that make my day better.
+      </p>
+    </header>
+
+    <section class="soon">
+      <span class="badge">coming soon</span>
+      <p>
+        I'm putting this page together. Check back shortly — or follow along on
+        <a href="https://www.youtube.com/@studyingwithmeii">YouTube</a> and
+        <a href="https://www.tiktok.com/@studyingwithmeii">TikTok</a>.
+      </p>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .placeholder {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 5rem 1.5rem 4rem;
+  }
+
+  .back {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--fg-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .back:hover {
+    color: var(--accent);
+  }
+
+  .hero {
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    background: var(--gradient-accent);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 1rem;
+  }
+
+  .tagline {
+    color: var(--fg-dim);
+    font-size: 1.05rem;
+    max-width: 36rem;
+  }
+
+  .soon {
+    background: linear-gradient(180deg, var(--bg-raised), rgba(16, 20, 29, 0.6));
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .badge {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    background: var(--accent-soft);
+    border: 1px solid var(--accent);
+    border-radius: 4px;
+    padding: 0.2rem 0.6rem;
+    margin-bottom: 1rem;
+  }
+
+  .soon p {
+    color: var(--fg-dim);
+    font-size: 0.95rem;
+    max-width: 30rem;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 520px) {
+    .title {
+      font-size: 2rem;
+    }
+  }
+</style>

@@ -39,73 +39,181 @@ const shorts = (await getCollection('shorts')).sort(
   <main>
     <Hero />
 
-    <ClaudeRoadmap />
+    <div id="learn" class="section-group">
+      <div class="group-head">
+        <span class="group-num">①</span>
+        <h2 class="group-title">Learn</h2>
+        <span class="group-rule"></span>
+      </div>
 
-    {
-      courses.length > 0 && (
-        <section id="courses">
-          <h2>Claude Knowledge Base</h2>
-          <div class="grid">
-            {courses.map((c) => (
-              <CourseCard id={c.id} {...c.data} />
-            ))}
-          </div>
-        </section>
-      )
-    }
+      <ClaudeRoadmap />
 
-    {
-      extensions.length > 0 && (
-        <section id="extensions">
-          <h2>SDLC pipeline</h2>
-          <div class="grid">
-            {extensions.map((e) => (
-              <ExtensionCard {...e.data} />
-            ))}
-          </div>
-        </section>
-      )
-    }
+      {
+        courses.length > 0 && (
+          <section id="courses">
+            <h2>Claude Knowledge Base</h2>
+            <div class="grid">
+              {courses.map((c) => (
+                <CourseCard id={c.id} {...c.data} />
+              ))}
+            </div>
+          </section>
+        )
+      }
+    </div>
 
-    {
-      tokenTools.length > 0 && (
-        <section id="token-optimization">
-          <h2>Token Optimization</h2>
-          <div class="grid">
-            {tokenTools.map((t) => (
-              <ProjectCard {...t.data} />
-            ))}
-          </div>
-        </section>
-      )
-    }
+    <div id="build" class="section-group">
+      <div class="group-head">
+        <span class="group-num">②</span>
+        <h2 class="group-title">Open Source</h2>
+        <span class="group-rule"></span>
+      </div>
 
-    {
-      shorts.length > 0 && (
-        <section id="ai-shorts">
-          <h2>AI video generators</h2>
-          <div class="grid">
-            {shorts.map((s) => (
-              <ProjectCard {...s.data} />
-            ))}
-          </div>
-        </section>
-      )
-    }
+      {
+        extensions.length > 0 && (
+          <section id="extensions">
+            <h2>SDLC pipeline</h2>
+            <div class="grid">
+              {extensions.map((e) => (
+                <ExtensionCard {...e.data} />
+              ))}
+            </div>
+          </section>
+        )
+      }
 
-    {
-      projects.length > 0 && (
-        <section id="projects">
-          <h2>Projects</h2>
-          <div class="grid">
-            {projects.map((p) => (
-              <ProjectCard {...p.data} />
-            ))}
-          </div>
-        </section>
-      )
-    }
+      {
+        tokenTools.length > 0 && (
+          <section id="token-optimization">
+            <h2>Token Optimization</h2>
+            <div class="grid">
+              {tokenTools.map((t) => (
+                <ProjectCard {...t.data} />
+              ))}
+            </div>
+          </section>
+        )
+      }
 
-    <Support />
+      {
+        shorts.length > 0 && (
+          <section id="ai-shorts">
+            <h2>AI video generators</h2>
+            <div class="grid">
+              {shorts.map((s) => (
+                <ProjectCard {...s.data} />
+              ))}
+            </div>
+          </section>
+        )
+      }
+
+      {
+        projects.length > 0 && (
+          <section id="projects">
+            <h2>Projects</h2>
+            <div class="grid">
+              {projects.map((p) => (
+                <ProjectCard {...p.data} />
+              ))}
+            </div>
+          </section>
+        )
+      }
+    </div>
+
+    <div id="shop" class="section-group">
+      <div class="group-head">
+        <span class="group-num">③</span>
+        <h2 class="group-title">WFH Setup</h2>
+        <span class="group-rule"></span>
+      </div>
+
+      <section id="shop-items">
+        <div class="grid">
+          <a class="card shop-card" href="/setup">
+            <h3>My Desk Setup</h3>
+            <p>Hardware, peripherals, and the small things that make my day better.</p>
+            <div class="meta">
+              <span class="tag">coming soon</span>
+            </div>
+          </a>
+        </div>
+      </section>
+    </div>
+
+    <div id="support" class="section-group">
+      <div class="group-head">
+        <span class="group-num">④</span>
+        <h2 class="group-title">Support</h2>
+        <span class="group-rule"></span>
+      </div>
+
+      <Support />
+    </div>
   </main>
 </Layout>
+
+<style is:global>
+  .section-group {
+    margin-bottom: 4.5rem;
+  }
+
+  .section-group > section {
+    margin-bottom: 2.75rem;
+  }
+
+  .section-group > section:last-child {
+    margin-bottom: 0;
+  }
+
+  .group-head {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    margin-bottom: 2rem;
+  }
+
+  .group-num {
+    font-family: var(--font-mono);
+    font-size: 1.05rem;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .group-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--fg);
+    text-transform: none;
+    background: var(--gradient-accent);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    border-bottom: 0;
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+
+  .group-rule {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .shop-card {
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .shop-card:hover {
+    color: inherit;
+  }
+
+  /* SUPPORT group: the inner Support section already has its own h2.
+     Keep it, but the group head ("Support") sits above. */
+  #support > section { margin-bottom: 0; }
+</style>
