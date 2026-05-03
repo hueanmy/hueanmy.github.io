@@ -384,16 +384,58 @@
     background: linear-gradient(to bottom, transparent, var(--border), transparent);
   }
 
+  /* Language toggle */
+  .lang-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+    display: flex;
+    gap: 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  .lang-toggle button {
+    background: transparent;
+    border: 0;
+    color: var(--muted);
+    padding: 7px 14px;
+    cursor: pointer;
+    letter-spacing: 0.08em;
+    font-family: inherit;
+    font-size: inherit;
+    transition: color 150ms ease, background 150ms ease;
+  }
+  .lang-toggle button:hover { color: var(--text); }
+  .lang-toggle button.active {
+    background: rgba(0, 212, 212, 0.12);
+    color: var(--cyan);
+  }
+  @media (max-width: 640px) {
+    .lang-toggle { top: 12px; right: 12px; font-size: 10px; }
+    .lang-toggle button { padding: 6px 10px; }
+  }
+
 </style>
 </head>
 <body>
+<div class="lang-toggle" role="group" aria-label="Language">
+  <button type="button" data-lang="vi">VI</button>
+  <button type="button" data-lang="en">EN</button>
+</div>
 <div class="container">
 
   <!-- Header -->
   <div class="header">
     <div class="header-badge">Developer Roadmap</div>
     <h1>Working with Claude</h1>
-    <p>Từ zero đến production — mọi thứ một developer cần biết khi làm việc với Claude</p>
+    <p data-i18n="tagline">Từ zero đến production — mọi thứ một developer cần biết khi làm việc với Claude</p>
   </div>
 
   <!-- Roadmap -->
@@ -577,6 +619,61 @@
   }, { threshold: 0.1 });
 
   document.querySelectorAll('.section').forEach(el => observer.observe(el));
+</script>
+
+<script>
+  // Language detection + toggle
+  const I18N = {
+    vi: {
+      tagline: 'Từ zero đến production — mọi thứ một developer cần biết khi làm việc với Claude',
+    },
+    en: {
+      tagline: 'From zero to production — everything a developer needs to know when working with Claude',
+    },
+  };
+
+  function detectLanguage() {
+    // Manual override (persisted) wins
+    try {
+      const stored = localStorage.getItem('roadmap-lang');
+      if (stored === 'vi' || stored === 'en') return stored;
+    } catch (e) {}
+
+    // Vietnam timezone → VI
+    try {
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      if (tz === 'Asia/Ho_Chi_Minh' || tz === 'Asia/Saigon') return 'vi';
+    } catch (e) {}
+
+    // Browser language starts with vi → VI
+    if (navigator.language && navigator.language.toLowerCase().startsWith('vi')) return 'vi';
+    if (navigator.languages && navigator.languages.some(l => l.toLowerCase().startsWith('vi'))) return 'vi';
+
+    return 'en';
+  }
+
+  function applyLanguage(lang) {
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (I18N[lang] && I18N[lang][key] != null) el.textContent = I18N[lang][key];
+    });
+    document.documentElement.lang = lang;
+    document.querySelectorAll('.lang-toggle button').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.lang === lang);
+      btn.setAttribute('aria-pressed', btn.dataset.lang === lang ? 'true' : 'false');
+    });
+  }
+
+  const initialLang = detectLanguage();
+  applyLanguage(initialLang);
+
+  document.querySelectorAll('.lang-toggle button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const lang = btn.dataset.lang;
+      try { localStorage.setItem('roadmap-lang', lang); } catch (e) {}
+      applyLanguage(lang);
+    });
+  });
 </script>
 </body>
 </html>
