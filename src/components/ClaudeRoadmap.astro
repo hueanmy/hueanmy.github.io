@@ -103,7 +103,7 @@ const phases = [
 
   .roadmap-card {
     display: block;
-    background: linear-gradient(180deg, var(--bg-raised), rgba(16, 20, 29, 0.6));
+    background: linear-gradient(180deg, var(--bg-raised), var(--card-tint));
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 1.75rem;
@@ -184,7 +184,7 @@ const phases = [
   }
 
   .phase:hover {
-    background: rgba(255, 255, 255, 0.02);
+    background: var(--accent-soft);
   }
 
   .phase-num {
