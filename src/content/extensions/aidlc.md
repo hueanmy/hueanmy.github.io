@@ -4,6 +4,6 @@ description: AI-driven SDLC in VS Code. Slash commands drive epic, PRD, tech des
 platform: vscode
 demoUrl: https://open-vsx.org/extension/hueanmy/aidlc
 repoUrl: https://github.com/hueanmy/aidlc-extension
-installs: 1322
+installs: 2300
 order: 1
 ---
