@@ -45,33 +45,36 @@
 }
 
 :root[data-theme='light'] {
-  --bg: #f8fafc;
+  /* Claude-inspired cream / paper */
+  --bg: #faf9f5;
   --bg-raised: #ffffff;
-  --bg-elevated: #eef2f7;
-  --card-tint: rgba(255, 255, 255, 0.6);
+  --bg-elevated: #f3f1ea;
+  --card-tint: rgba(255, 255, 255, 0.75);
 
-  --border: #d8dee6;
-  --border-strong: #b6bfcc;
+  --border: #e8e4d8;
+  --border-strong: #c9c3b3;
 
-  --fg: #0b1220;
-  --fg-dim: #2d3a4d;
-  --fg-muted: #5b6776;
+  --fg: #1a1915;
+  --fg-dim: #4a4842;
+  --fg-muted: #7a7770;
 
-  --accent: #0d9488;
-  --accent-hover: #0f766e;
-  --accent-2: #7c3aed;
-  --accent-3: #db2777;
-  --accent-soft: rgba(13, 148, 136, 0.08);
-  --gradient-accent: linear-gradient(135deg, #14b8a6 0%, #8b5cf6 55%, #ec4899 100%);
+  /* Claude coral — solid, no gradient */
+  --accent: #cc785c;
+  --accent-hover: #b8633f;
+  --accent-2: #cc785c;
+  --accent-3: #cc785c;
+  --accent-soft: rgba(204, 120, 92, 0.08);
+  --gradient-accent: #cc785c;
 
-  --orb-1: rgba(124, 58, 237, 0.07);
-  --orb-2: rgba(13, 148, 136, 0.05);
-  --orb-3: rgba(219, 39, 119, 0.04);
+  /* Drop ambient orbs and dot grid for minimal feel */
+  --orb-1: transparent;
+  --orb-2: transparent;
+  --orb-3: transparent;
 
-  --grid-dot: rgba(15, 23, 42, 0.05);
+  --grid-dot: transparent;
 
-  --avatar-glow-1: rgba(13, 148, 136, 0.16);
-  --avatar-glow-2: rgba(124, 58, 237, 0.1);
+  --avatar-glow-1: rgba(204, 120, 92, 0.1);
+  --avatar-glow-2: rgba(204, 120, 92, 0.04);
 
   color-scheme: light;
 }
