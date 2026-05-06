@@ -106,7 +106,7 @@ const phases = [
     background: linear-gradient(180deg, var(--bg-raised), var(--card-tint));
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 1.75rem;
+    padding: 1.25rem;
     color: inherit;
     transition:
       border-color 200ms ease,
@@ -124,24 +124,24 @@ const phases = [
   }
 
   .card-head {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
   }
 
   .badge {
     display: inline-block;
     font-family: var(--font-mono);
-    font-size: 0.65rem;
+    font-size: 0.6rem;
     color: var(--rm-cyan);
     border: 1px solid var(--rm-cyan);
-    padding: 3px 10px;
+    padding: 2px 8px;
     border-radius: 20px;
-    margin-bottom: 0.85rem;
+    margin-bottom: 0.6rem;
     letter-spacing: 1.5px;
     text-transform: uppercase;
   }
 
   .title {
-    font-size: 1.6rem;
+    font-size: 1.25rem;
     font-weight: 700;
     line-height: 1.15;
     background: linear-gradient(
@@ -153,33 +153,33 @@ const phases = [
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.35rem;
   }
 
   .tagline {
     color: var(--fg-dim);
-    font-size: 0.92rem;
-    line-height: 1.55;
+    font-size: 0.82rem;
+    line-height: 1.5;
   }
 
   .phases {
     list-style: none;
     padding: 0;
-    margin: 0 0 1.25rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
+    margin: 0 0 0.85rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.3rem 0.5rem;
   }
 
   .phase {
     display: grid;
-    grid-template-columns: auto 90px 1fr;
+    grid-template-columns: auto auto 1fr;
     align-items: center;
-    gap: 0.85rem;
-    padding: 0.5rem 0.65rem;
+    gap: 0.5rem;
+    padding: 0.3rem 0.55rem;
     border: 1px solid var(--border);
     border-radius: 6px;
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     transition: border-color 0.2s, background 0.2s;
   }
 
@@ -189,21 +189,24 @@ const phases = [
 
   .phase-num {
     font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-size: 0.65rem;
     color: var(--fg-muted);
   }
 
   .phase-label {
     font-family: var(--font-mono);
-    font-size: 0.7rem;
+    font-size: 0.6rem;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.06em;
     font-weight: 600;
   }
 
   .phase-title {
     color: var(--fg);
-    font-size: 0.88rem;
+    font-size: 0.74rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .phase-cyan { border-left: 2px solid var(--rm-cyan); }
@@ -229,15 +232,22 @@ const phases = [
     color: var(--rm-purple);
   }
 
+  @media (max-width: 720px) {
+    .phases {
+      grid-template-columns: 1fr;
+    }
+  }
+
   @media (max-width: 520px) {
     .phase {
       grid-template-columns: auto 1fr;
-      row-gap: 0.2rem;
+      row-gap: 0.15rem;
     }
     .phase-title {
       grid-column: 1 / -1;
       color: var(--fg-dim);
-      font-size: 0.82rem;
+      font-size: 0.75rem;
+      white-space: normal;
     }
   }
 </style>
