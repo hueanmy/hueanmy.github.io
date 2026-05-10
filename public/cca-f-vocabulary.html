@@ -5,6 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CCA-F Vocabulary Guide</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<script>
+  // Mirror theme picked on hueanmy.github.io. Same origin → same localStorage.
+  // Default light; switch to dark only if explicitly stored.
+  (function () {
+    try {
+      var stored = localStorage.getItem('theme');
+      var theme = stored === 'dark' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', theme);
+    } catch (e) {
+      document.documentElement.setAttribute('data-theme', 'light');
+    }
+  })();
+</script>
 <style>
   :root {
     --bg: #ffffff;
@@ -19,18 +32,16 @@
     --radius-lg: 12px;
     --code-bg: #f0efe8;
   }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #1c1c1a;
-      --bg2: #252523;
-      --bg3: #2e2e2b;
-      --text: #e8e8e2;
-      --text2: #a8a8a0;
-      --text3: #6a6a62;
-      --border: rgba(255,255,255,0.1);
-      --border2: rgba(255,255,255,0.22);
-      --code-bg: #2a2a28;
-    }
+  :root[data-theme='dark'] {
+    --bg: #1c1c1a;
+    --bg2: #252523;
+    --bg3: #2e2e2b;
+    --text: #e8e8e2;
+    --text2: #a8a8a0;
+    --text3: #6a6a62;
+    --border: rgba(255,255,255,0.1);
+    --border2: rgba(255,255,255,0.22);
+    --code-bg: #2a2a28;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -153,9 +164,7 @@
   mark {
     background: #fef08a; color: inherit; border-radius: 2px;
   }
-  @media (prefers-color-scheme: dark) {
-    mark { background: #713f12; }
-  }
+  :root[data-theme='dark'] mark { background: #713f12; }
 </style>
 </head>
 <body>

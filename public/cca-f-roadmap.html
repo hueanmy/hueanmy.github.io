@@ -5,6 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CCA-F Study Roadmap</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<script>
+  // Mirror theme picked on hueanmy.github.io. Same origin → same localStorage.
+  // Default light; switch to dark only if explicitly stored.
+  (function () {
+    try {
+      var stored = localStorage.getItem('theme');
+      var theme = stored === 'dark' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', theme);
+    } catch (e) {
+      document.documentElement.setAttribute('data-theme', 'light');
+    }
+  })();
+</script>
 <style>
   :root {
     --bg: #ffffff;
@@ -44,39 +57,37 @@
     --p4-bg: #FAECE7;
     --p4-text: #993C1D;
   }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #1c1c1a;
-      --bg2: #252523;
-      --bg3: #2e2e2b;
-      --text: #e8e8e2;
-      --text2: #a8a8a0;
-      --text3: #6a6a62;
-      --border: rgba(255,255,255,0.1);
-      --border2: rgba(255,255,255,0.22);
-      --code-bg: #2a2a28;
+  :root[data-theme='dark'] {
+    --bg: #1c1c1a;
+    --bg2: #252523;
+    --bg3: #2e2e2b;
+    --text: #e8e8e2;
+    --text2: #a8a8a0;
+    --text3: #6a6a62;
+    --border: rgba(255,255,255,0.1);
+    --border2: rgba(255,255,255,0.22);
+    --code-bg: #2a2a28;
 
-      --warn-bg: #2c1a0a;
-      --warn-border: #c2410c;
-      --warn-text: #fb923c;
+    --warn-bg: #2c1a0a;
+    --warn-border: #c2410c;
+    --warn-text: #fb923c;
 
-      --info-bg: #0f1d33;
-      --info-border: #3b82f6;
-      --info-text: #93c5fd;
+    --info-bg: #0f1d33;
+    --info-border: #3b82f6;
+    --info-text: #93c5fd;
 
-      --tip-bg: #052e16;
-      --tip-border: #16a34a;
-      --tip-text: #4ade80;
+    --tip-bg: #052e16;
+    --tip-border: #16a34a;
+    --tip-text: #4ade80;
 
-      --p1-bg: #0d2d22;
-      --p1-text: #4ade80;
-      --p2-bg: #0d2138;
-      --p2-text: #93c5fd;
-      --p3-bg: #1d1b3a;
-      --p3-text: #c4b5fd;
-      --p4-bg: #321810;
-      --p4-text: #fdba74;
-    }
+    --p1-bg: #0d2d22;
+    --p1-text: #4ade80;
+    --p2-bg: #0d2138;
+    --p2-text: #93c5fd;
+    --p3-bg: #1d1b3a;
+    --p3-text: #c4b5fd;
+    --p4-bg: #321810;
+    --p4-text: #fdba74;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -277,9 +288,7 @@
   }
   .badge-trap { background: #fee2e2; color: #991b1b; }
   .badge-model { background: var(--info-bg); color: var(--info-text); border: 0.5px solid var(--info-border); }
-  @media (prefers-color-scheme: dark) {
-    .badge-trap { background: #3b0f0f; color: #fca5a5; }
-  }
+  :root[data-theme='dark'] .badge-trap { background: #3b0f0f; color: #fca5a5; }
 
   /* ── Overview phase grid ── */
   .phase-grid {
