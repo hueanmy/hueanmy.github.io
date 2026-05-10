@@ -140,7 +140,48 @@
     font-weight: 500;
     background: var(--bg3);
   }
-  .sb-item i { font-size: 14px; flex-shrink: 0; }
+  .sb-item > i { font-size: 14px; flex-shrink: 0; }
+  .sb-name { flex: 1; }
+  .sb-chev {
+    background: transparent;
+    border: 0;
+    margin: -2px -4px -2px 2px;
+    padding: 4px;
+    color: var(--text3);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 4px;
+    transition: color .12s, background .12s;
+  }
+  .sb-chev i { font-size: 12px; transition: transform .2s; display: inline-block; }
+  .sb-chev:hover { color: var(--text); background: var(--bg2); }
+  .sb-domain.expanded .sb-chev i { transform: rotate(180deg); }
+
+  /* Phase sub-list — collapsed by default, expand on chevron click */
+  .sb-sub-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 240ms ease, opacity 200ms ease;
+  }
+  .sb-domain.expanded .sb-sub-list {
+    max-height: 200px;
+    opacity: 1;
+  }
+  .sb-sub {
+    padding: 5px 1rem 5px 2.5rem;
+    font-size: 11.5px;
+    color: var(--text3);
+    cursor: pointer;
+    transition: color .12s, background .12s;
+    line-height: 1.4;
+  }
+  .sb-sub:hover { color: var(--text); background: var(--bg3); }
+  .sb-sub.active { color: var(--text); font-weight: 500; }
   .sb-tag {
     margin-left: auto; font-size: 9px; font-weight: 600;
     padding: 1px 6px; border-radius: 8px;
@@ -511,24 +552,54 @@
     </div>
 
     <div class="sb-nav-label">4-Week Plan · 30h</div>
-    <div class="sb-item" data-panel="phase-1" style="--active-color:#1D9E75">
-      <i class="ti ti-topology-star" style="color:#1D9E75"></i>
-      Phase 1 · Foundation
-      <span class="sb-tag" style="background:var(--p1-bg);color:var(--p1-text)">8h</span>
+
+    <div class="sb-domain" data-panel-key="phase-1">
+      <div class="sb-item" data-panel="phase-1" style="--active-color:#1D9E75">
+        <i class="ti ti-topology-star" style="color:#1D9E75"></i>
+        <span class="sb-name">Phase 1 · Foundation</span>
+        <span class="sb-tag" style="background:var(--p1-bg);color:var(--p1-text)">8h</span>
+        <button class="sb-chev" onclick="togglePhaseList(event, 'phase-1')" aria-label="Toggle sub-domains">
+          <i class="ti ti-chevron-down"></i>
+        </button>
+      </div>
+      <ul class="sb-sub-list">
+        <li class="sb-sub" onclick="navigateToSection('phase-1', 'ph1-d1')">Domain 1 · Agentic Architecture</li>
+      </ul>
     </div>
-    <div class="sb-item" data-panel="phase-2" style="--active-color:#378ADD">
-      <i class="ti ti-tool" style="color:#378ADD"></i>
-      Phase 2 · Tools & Code
-      <span class="sb-tag" style="background:var(--p2-bg);color:var(--p2-text)">10h</span>
+
+    <div class="sb-domain" data-panel-key="phase-2">
+      <div class="sb-item" data-panel="phase-2" style="--active-color:#378ADD">
+        <i class="ti ti-tool" style="color:#378ADD"></i>
+        <span class="sb-name">Phase 2 · Tools &amp; Code</span>
+        <span class="sb-tag" style="background:var(--p2-bg);color:var(--p2-text)">10h</span>
+        <button class="sb-chev" onclick="togglePhaseList(event, 'phase-2')" aria-label="Toggle sub-domains">
+          <i class="ti ti-chevron-down"></i>
+        </button>
+      </div>
+      <ul class="sb-sub-list">
+        <li class="sb-sub" onclick="navigateToSection('phase-2', 'ph2-d2')">Domain 2 · Tool Design &amp; MCP</li>
+        <li class="sb-sub" onclick="navigateToSection('phase-2', 'ph2-d3')">Domain 3 · Claude Code Config</li>
+      </ul>
     </div>
-    <div class="sb-item" data-panel="phase-3" style="--active-color:#7F77DD">
-      <i class="ti ti-brain" style="color:#7F77DD"></i>
-      Phase 3 · Prompt & Context
-      <span class="sb-tag" style="background:var(--p3-bg);color:var(--p3-text)">8h</span>
+
+    <div class="sb-domain" data-panel-key="phase-3">
+      <div class="sb-item" data-panel="phase-3" style="--active-color:#7F77DD">
+        <i class="ti ti-brain" style="color:#7F77DD"></i>
+        <span class="sb-name">Phase 3 · Prompt &amp; Context</span>
+        <span class="sb-tag" style="background:var(--p3-bg);color:var(--p3-text)">8h</span>
+        <button class="sb-chev" onclick="togglePhaseList(event, 'phase-3')" aria-label="Toggle sub-domains">
+          <i class="ti ti-chevron-down"></i>
+        </button>
+      </div>
+      <ul class="sb-sub-list">
+        <li class="sb-sub" onclick="navigateToSection('phase-3', 'ph3-d4')">Domain 4 · Prompt Engineering</li>
+        <li class="sb-sub" onclick="navigateToSection('phase-3', 'ph3-d5')">Domain 5 · Context &amp; Reliability</li>
+      </ul>
     </div>
+
     <div class="sb-item" data-panel="phase-4" style="--active-color:#D85A30">
       <i class="ti ti-target" style="color:#D85A30"></i>
-      Phase 4 · Practice
+      <span class="sb-name">Phase 4 · Practice</span>
       <span class="sb-tag" style="background:var(--p4-bg);color:var(--p4-text)">4h</span>
     </div>
 
@@ -780,7 +851,7 @@
         <div class="th-pct" style="background:var(--p1-bg);color:var(--p1-text)">27%</div>
       </div>
 
-      <div class="section">
+      <div class="section" id="ph1-d1">
         <div class="sec-header" onclick="togSec(this)">
           <i class="ti ti-hexagon sec-icon" style="color:var(--p1)"></i>
           <span class="sec-label">Domain 1 · Agentic Architecture & Orchestration</span>
@@ -812,7 +883,7 @@
         <div class="th-pct" style="background:var(--p2-bg);color:var(--p2-text)">38%</div>
       </div>
 
-      <div class="section">
+      <div class="section" id="ph2-d2">
         <div class="sec-header" onclick="togSec(this)">
           <i class="ti ti-plug sec-icon" style="color:var(--p2)"></i>
           <span class="sec-label">Domain 2 · Tool Design & MCP Integration</span>
@@ -830,7 +901,7 @@
         </div>
       </div>
 
-      <div class="section">
+      <div class="section" id="ph2-d3">
         <div class="sec-header" onclick="togSec(this)">
           <i class="ti ti-code sec-icon" style="color:var(--p2)"></i>
           <span class="sec-label">Domain 3 · Claude Code Configuration & Workflows</span>
@@ -860,7 +931,7 @@
         <div class="th-pct" style="background:var(--p3-bg);color:var(--p3-text)">35%</div>
       </div>
 
-      <div class="section">
+      <div class="section" id="ph3-d4">
         <div class="sec-header" onclick="togSec(this)">
           <i class="ti ti-message-2 sec-icon" style="color:var(--p3)"></i>
           <span class="sec-label">Domain 4 · Prompt Engineering & Structured Output</span>
@@ -878,7 +949,7 @@
         </div>
       </div>
 
-      <div class="section">
+      <div class="section" id="ph3-d5">
         <div class="sec-header" onclick="togSec(this)">
           <i class="ti ti-rotate sec-icon" style="color:var(--p3)"></i>
           <span class="sec-label">Domain 5 · Context Management & Reliability</span>
@@ -1033,14 +1104,16 @@
   // Tab switching
   const sbItems = document.querySelectorAll('.sb-item');
   const panels = document.querySelectorAll('.panel');
-  function switchPanel(name) {
+  function switchPanel(name, opts = {}) {
     sbItems.forEach((it) => it.classList.toggle('active', it.dataset.panel === name));
     panels.forEach((p) => p.classList.toggle('active', p.id === 'panel-' + name));
     if (location.hash !== '#' + name) {
       history.replaceState(null, '', '#' + name);
     }
     document.querySelector('.sidebar')?.classList.remove('open');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (!opts.noScroll) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }
   sbItems.forEach((it) => {
     it.addEventListener('click', () => switchPanel(it.dataset.panel));
@@ -1059,6 +1132,40 @@
     chev.classList.toggle('open');
   }
   window.togSec = togSec;
+
+  // Toggle sub-domain list in sidebar (chevron click only — does NOT switch panel)
+  function togglePhaseList(event, panelKey) {
+    if (event) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
+    const dom = document.querySelector(`.sb-domain[data-panel-key="${panelKey}"]`);
+    if (dom) dom.classList.toggle('expanded');
+  }
+  window.togglePhaseList = togglePhaseList;
+
+  // Click sub-domain → switch to phase + open + scroll to that section
+  function navigateToSection(panelKey, secId) {
+    switchPanel(panelKey, { noScroll: true });
+    document.querySelectorAll('.sb-sub').forEach((s) => s.classList.remove('active'));
+    const dom = document.querySelector(`.sb-domain[data-panel-key="${panelKey}"]`);
+    if (dom) {
+      const target = dom.querySelector(`.sb-sub[onclick*="'${secId}'"]`);
+      if (target) target.classList.add('active');
+    }
+    const sec = document.getElementById(secId);
+    if (sec) {
+      const body = sec.querySelector('.sec-body');
+      const chev = sec.querySelector('.sec-chev');
+      if (body && !body.classList.contains('open')) {
+        body.classList.add('open');
+        chev?.classList.add('open');
+      }
+      // Defer scroll until after switchPanel renders the panel.
+      setTimeout(() => sec.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
+    }
+  }
+  window.navigateToSection = navigateToSection;
 
   // Initial route from #hash if present
   const initial = (location.hash || '').replace(/^#/, '');
