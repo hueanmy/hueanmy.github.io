@@ -1,82 +1,122 @@
 ---
-const phases = [
-  { num: '01', label: 'Agentic', title: 'Architecture & Orchestration', weight: '27%', color: 'green' },
-  { num: '02', label: 'Tools/MCP', title: 'Tool Design & Integration', weight: '18%', color: 'cyan' },
-  { num: '03', label: 'Claude Code', title: 'Configuration & Workflows', weight: '20%', color: 'cyan' },
-  { num: '04', label: 'Prompting', title: 'Structured Output', weight: '20%', color: 'purple' },
-  { num: '05', label: 'Context', title: 'Management & Reliability', weight: '15%', color: 'purple' },
-  { num: '06', label: 'Practice', title: '6 Exam Scenarios', weight: '—', color: 'pink' },
-];
-
 const meta = [
   { k: '60', v: 'câu' },
   { k: '120', v: 'phút' },
   { k: '720', v: '/1000 pass' },
   { k: '$99', v: 'phí thi' },
 ];
+
+const cards = [
+  {
+    href: '/cca-f-roadmap.html',
+    badge: '8-week study plan',
+    title: 'Study Roadmap',
+    tagline:
+      'Lộ trình ôn 8 tuần — 5 domains, 6 exam scenarios, common traps và mental models. Học theo phase.',
+    bullets: [
+      ['①', 'Agentic Architecture', '27%'],
+      ['②', 'Tool Design & MCP', '18%'],
+      ['③', 'Claude Code Config', '20%'],
+      ['④', 'Prompt Engineering', '20%'],
+      ['⑤', 'Context & Reliability', '15%'],
+      ['⑥', '6 Exam Scenarios', '—'],
+    ],
+    cta: 'View roadmap ↗',
+    accent: 'green',
+  },
+  {
+    href: '/cca-f-knowledge-map.html',
+    badge: 'Per-domain reference',
+    title: 'Knowledge Map',
+    tagline:
+      'Deep-dive cấu trúc từng domain — knowledge items K1…Kn, code snippets, traps & refs. Sidebar nav, tra cứu nhanh.',
+    bullets: [
+      ['K', '35+ knowledge items'],
+      ['◆', 'Code snippets per concept'],
+      ['◆', 'Sidebar nav by domain'],
+      ['◆', 'Traps + mental models inline'],
+      ['◆', 'Refs to docs.anthropic.com'],
+      ['◆', 'TypeScript + Python examples'],
+    ],
+    cta: 'View knowledge map ↗',
+    accent: 'purple',
+  },
+];
 ---
 
-<section id="ccaf-roadmap" class="roadmap-section">
+<section id="ccaf-exam" class="exam-section">
   <div class="section-head">
-    <h2>CCA-F Exam Roadmap</h2>
+    <div class="head-left">
+      <h2>CCA-F Exam</h2>
+      <p class="head-sub">Claude Certified Architect — Foundations</p>
+    </div>
     <div class="head-actions">
       <a class="open-full" href="https://github.com/hueanmy/cca-f-roadmap" target="_blank" rel="noopener">
         Working examples on GitHub ↗
       </a>
-      <a class="open-full" href="/cca-f-roadmap.html" target="_blank" rel="noopener">
-        Open full version ↗
-      </a>
     </div>
   </div>
 
-  <a class="roadmap-card" href="/cca-f-roadmap.html" target="_blank" rel="noopener">
-    <div class="card-head">
-      <span class="badge">Exam Prep · 8 weeks</span>
-      <h3 class="title">Claude Certified Architect — Foundations</h3>
-      <p class="tagline">
-        Lộ trình ôn thi CCA-F 8 tuần — 5 domains, 6 exam scenarios, common
-        traps và mental models. Scenario-based, không phải trivia.
-      </p>
-      <ul class="meta">
-        {meta.map((m) => (
-          <li><strong>{m.k}</strong> {m.v}</li>
-        ))}
-      </ul>
-    </div>
+  <ul class="meta">
+    {meta.map((m) => (
+      <li><strong>{m.k}</strong> {m.v}</li>
+    ))}
+    <li class="meta-soft">scenario-based, không phải trivia</li>
+  </ul>
 
-    <ol class="phases">
-      {phases.map((p) => (
-        <li class={`phase phase-${p.color}`}>
-          <span class="phase-num">{p.num}</span>
-          <span class="phase-label">{p.label}</span>
-          <span class="phase-title">{p.title}</span>
-          <span class="phase-weight">{p.weight}</span>
-        </li>
-      ))}
-    </ol>
-
-    <div class="cta">View full roadmap ↗</div>
-  </a>
+  <div class="card-grid">
+    {cards.map((c) => (
+      <a class={`exam-card accent-${c.accent}`} href={c.href} target="_blank" rel="noopener">
+        <span class="badge">{c.badge}</span>
+        <h3 class="title">{c.title}</h3>
+        <p class="tagline">{c.tagline}</p>
+        <ul class="bullets">
+          {c.bullets.map((b) => (
+            <li>
+              <span class="bullet-mark">{b[0]}</span>
+              <span class="bullet-text">{b[1]}</span>
+              {b[2] && <span class="bullet-pct">{b[2]}</span>}
+            </li>
+          ))}
+        </ul>
+        <div class="cta">{c.cta}</div>
+      </a>
+    ))}
+  </div>
 </section>
 
 <style>
-  .roadmap-section {
+  .exam-section {
     --rm-cyan: #00d4d4;
     --rm-purple: #a855f7;
     --rm-pink: #f472b6;
-    --rm-yellow: #fbbf24;
     --rm-green: #34d399;
     margin-top: 2.75rem;
   }
 
   .section-head {
     display: flex;
-    align-items: baseline;
+    align-items: flex-start;
     justify-content: space-between;
     gap: 1rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.85rem;
     padding-bottom: 0.75rem;
     border-bottom: 1px solid var(--border);
+  }
+
+  .head-left h2 {
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--fg-dim);
+    margin: 0 0 0.2rem;
+  }
+
+  .head-sub {
+    font-size: 0.86rem;
+    color: var(--fg);
+    margin: 0;
   }
 
   .head-actions {
@@ -84,22 +124,7 @@ const meta = [
     gap: 1.25rem;
     flex-wrap: wrap;
     justify-content: flex-end;
-  }
-
-  @media (max-width: 520px) {
-    .head-actions {
-      gap: 0.75rem;
-      font-size: 0.72rem;
-    }
-  }
-
-  .section-head h2 {
-    font-size: 0.78rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    color: var(--fg-dim);
-    margin: 0;
+    padding-top: 0.15rem;
   }
 
   .open-full {
@@ -114,73 +139,10 @@ const meta = [
     color: var(--rm-pink);
   }
 
-  .roadmap-card {
-    display: block;
-    background: linear-gradient(180deg, var(--bg-raised), var(--card-tint));
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1.25rem;
-    color: inherit;
-    transition:
-      border-color 200ms ease,
-      transform 200ms ease,
-      box-shadow 200ms ease;
-  }
-
-  .roadmap-card:hover {
-    border-color: rgba(244, 114, 182, 0.5);
-    transform: translateY(-2px);
-    box-shadow:
-      0 0 0 1px rgba(244, 114, 182, 0.15),
-      0 8px 30px rgba(52, 211, 153, 0.06),
-      0 2px 10px rgba(244, 114, 182, 0.08);
-  }
-
-  .card-head {
-    margin-bottom: 1rem;
-  }
-
-  .badge {
-    display: inline-block;
-    font-family: var(--font-mono);
-    font-size: 0.6rem;
-    color: var(--rm-green);
-    border: 1px solid var(--rm-green);
-    padding: 2px 8px;
-    border-radius: 20px;
-    margin-bottom: 0.6rem;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-  }
-
-  .title {
-    font-size: 1.25rem;
-    font-weight: 700;
-    line-height: 1.15;
-    background: linear-gradient(
-      135deg,
-      var(--rm-green) 0%,
-      var(--rm-cyan) 35%,
-      var(--rm-purple) 70%,
-      var(--rm-pink) 100%
-    );
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 0.35rem;
-  }
-
-  .tagline {
-    color: var(--fg-dim);
-    font-size: 0.82rem;
-    line-height: 1.5;
-    margin-bottom: 0.75rem;
-  }
-
   .meta {
     list-style: none;
     padding: 0;
-    margin: 0;
+    margin: 0 0 1.25rem;
     display: flex;
     gap: 0.5rem;
     flex-wrap: wrap;
@@ -200,101 +162,182 @@ const meta = [
     font-weight: 600;
   }
 
-  .phases {
-    list-style: none;
-    padding: 0;
-    margin: 1rem 0 0.85rem;
+  .meta li.meta-soft {
+    color: var(--fg-dim);
+    border-color: transparent;
+    padding-left: 0;
+  }
+
+  .card-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 0.3rem 0.5rem;
+    gap: 1rem;
   }
 
-  .phase {
-    display: grid;
-    grid-template-columns: auto auto 1fr auto;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.3rem 0.55rem;
+  .exam-card {
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(180deg, var(--bg-raised), var(--card-tint));
     border: 1px solid var(--border);
-    border-radius: 6px;
-    font-size: 0.75rem;
-    transition: border-color 0.2s, background 0.2s;
+    border-radius: var(--radius);
+    padding: 1.1rem 1.15rem 1rem;
+    color: inherit;
+    text-decoration: none;
+    transition:
+      border-color 200ms ease,
+      transform 200ms ease,
+      box-shadow 200ms ease;
   }
 
-  .phase:hover {
-    background: var(--accent-soft);
+  .accent-green:hover {
+    border-color: rgba(52, 211, 153, 0.55);
+    transform: translateY(-2px);
+    box-shadow:
+      0 0 0 1px rgba(52, 211, 153, 0.15),
+      0 8px 30px rgba(0, 212, 212, 0.06),
+      0 2px 10px rgba(52, 211, 153, 0.08);
   }
 
-  .phase-num {
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
-    color: var(--fg-muted);
+  .accent-purple:hover {
+    border-color: rgba(168, 85, 247, 0.55);
+    transform: translateY(-2px);
+    box-shadow:
+      0 0 0 1px rgba(168, 85, 247, 0.15),
+      0 8px 30px rgba(244, 114, 182, 0.06),
+      0 2px 10px rgba(168, 85, 247, 0.08);
   }
 
-  .phase-label {
+  .badge {
+    display: inline-block;
+    align-self: flex-start;
     font-family: var(--font-mono);
     font-size: 0.6rem;
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-bottom: 0.5rem;
+    letter-spacing: 1.5px;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
-    font-weight: 600;
   }
 
-  .phase-title {
-    color: var(--fg);
+  .accent-green .badge {
+    color: var(--rm-green);
+    border: 1px solid var(--rm-green);
+  }
+
+  .accent-purple .badge {
+    color: var(--rm-purple);
+    border: 1px solid var(--rm-purple);
+  }
+
+  .title {
+    font-size: 1.08rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 0.35rem;
+  }
+
+  .accent-green .title {
+    background: linear-gradient(135deg, var(--rm-green) 0%, var(--rm-cyan) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .accent-purple .title {
+    background: linear-gradient(135deg, var(--rm-purple) 0%, var(--rm-pink) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .tagline {
+    color: var(--fg-dim);
+    font-size: 0.78rem;
+    line-height: 1.5;
+    margin-bottom: 0.85rem;
+  }
+
+  .bullets {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 0.85rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.18rem;
+    flex: 1;
+  }
+
+  .bullets li {
+    display: grid;
+    grid-template-columns: 1.4rem 1fr auto;
+    align-items: center;
+    gap: 0.4rem;
     font-size: 0.74rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    color: var(--fg);
+    padding: 0.18rem 0;
+    border-bottom: 1px dashed transparent;
   }
 
-  .phase-weight {
+  .bullet-mark {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--fg-muted);
+    text-align: center;
+  }
+
+  .accent-green .bullet-mark {
+    color: var(--rm-green);
+  }
+
+  .accent-purple .bullet-mark {
+    color: var(--rm-purple);
+  }
+
+  .bullet-pct {
     font-family: var(--font-mono);
     font-size: 0.62rem;
     color: var(--fg-muted);
   }
 
-  .phase-cyan { border-left: 2px solid var(--rm-cyan); }
-  .phase-cyan .phase-label { color: var(--rm-cyan); }
-  .phase-purple { border-left: 2px solid var(--rm-purple); }
-  .phase-purple .phase-label { color: var(--rm-purple); }
-  .phase-yellow { border-left: 2px solid var(--rm-yellow); }
-  .phase-yellow .phase-label { color: var(--rm-yellow); }
-  .phase-green { border-left: 2px solid var(--rm-green); }
-  .phase-green .phase-label { color: var(--rm-green); }
-  .phase-pink { border-left: 2px solid var(--rm-pink); }
-  .phase-pink .phase-label { color: var(--rm-pink); }
-
   .cta {
     text-align: right;
     font-family: var(--font-mono);
-    font-size: 0.78rem;
-    color: var(--rm-green);
+    font-size: 0.76rem;
     transition: color 150ms ease;
+    margin-top: auto;
   }
 
-  .roadmap-card:hover .cta {
+  .accent-green .cta {
+    color: var(--rm-green);
+  }
+
+  .accent-purple .cta {
+    color: var(--rm-purple);
+  }
+
+  .accent-green:hover .cta {
+    color: var(--rm-cyan);
+  }
+
+  .accent-purple:hover .cta {
     color: var(--rm-pink);
   }
 
   @media (max-width: 720px) {
-    .phases {
+    .card-grid {
       grid-template-columns: 1fr;
     }
   }
 
   @media (max-width: 520px) {
-    .phase {
-      grid-template-columns: auto 1fr auto;
-      row-gap: 0.15rem;
+    .section-head {
+      flex-direction: column;
+      gap: 0.5rem;
     }
-    .phase-title {
-      grid-column: 1 / -1;
-      color: var(--fg-dim);
-      font-size: 0.75rem;
-      white-space: normal;
-    }
-    .phase-weight {
-      grid-row: 1;
+    .head-actions {
+      gap: 0.75rem;
+      font-size: 0.72rem;
+      justify-content: flex-start;
     }
   }
 </style>
