@@ -282,48 +282,52 @@ section > h2 {
    layout.
    ───────────────────────────────────────────────────────────────────── */
 
+/* !important is used here because the Astro-scoped component rules
+   (.tagline[data-astro-cid] strong[data-astro-cid] etc.) tie us on
+   specificity and load AFTER global.css in the bundle order, so they
+   win without it. Each rule is theme-gated and only fires in dark. */
 :root[data-theme='dark'] .tagline strong {
-  background: none;
-  background-clip: initial;
-  -webkit-background-clip: initial;
-  color: var(--fg);
-  -webkit-text-fill-color: var(--fg);
+  background: none !important;
+  background-clip: initial !important;
+  -webkit-background-clip: initial !important;
+  color: var(--fg) !important;
+  -webkit-text-fill-color: var(--fg) !important;
 }
 
 /* Claude Dev Roadmap card — collapse rainbow title to single accent */
 :root[data-theme='dark'] .roadmap-section .title {
-  background: none;
-  background-clip: initial;
-  -webkit-background-clip: initial;
-  color: var(--accent);
-  -webkit-text-fill-color: var(--accent);
+  background: none !important;
+  background-clip: initial !important;
+  -webkit-background-clip: initial !important;
+  color: var(--accent) !important;
+  -webkit-text-fill-color: var(--accent) !important;
 }
 
 /* CCA-F Exam cards — keep each card's identity color but drop the
    second gradient stop so each title is one solid color, not two. */
 :root[data-theme='dark'] .exam-section .accent-green .title {
-  background: none;
-  background-clip: initial;
-  -webkit-background-clip: initial;
-  color: #34d399;
-  -webkit-text-fill-color: #34d399;
+  background: none !important;
+  background-clip: initial !important;
+  -webkit-background-clip: initial !important;
+  color: #34d399 !important;
+  -webkit-text-fill-color: #34d399 !important;
 }
 :root[data-theme='dark'] .exam-section .accent-purple .title {
-  background: none;
-  background-clip: initial;
-  -webkit-background-clip: initial;
-  color: #a855f7;
-  -webkit-text-fill-color: #a855f7;
+  background: none !important;
+  background-clip: initial !important;
+  -webkit-background-clip: initial !important;
+  color: #a855f7 !important;
+  -webkit-text-fill-color: #a855f7 !important;
 }
 :root[data-theme='dark'] .exam-section .accent-cyan .title {
-  background: none;
-  background-clip: initial;
-  -webkit-background-clip: initial;
-  color: #00d4d4;
-  -webkit-text-fill-color: #00d4d4;
+  background: none !important;
+  background-clip: initial !important;
+  -webkit-background-clip: initial !important;
+  color: #00d4d4 !important;
+  -webkit-text-fill-color: #00d4d4 !important;
 }
 
 /* SectionNav active bar — keep the colored bar but drop the outer glow */
 :root[data-theme='dark'] .section-nav .section-link.active .bar {
-  box-shadow: none;
+  box-shadow: none !important;
 }
