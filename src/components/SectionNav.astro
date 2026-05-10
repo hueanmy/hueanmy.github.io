@@ -1,9 +1,32 @@
 ---
-const sections = [
-  { id: 'learn', label: 'Learn', num: '01' },
-  { id: 'build', label: 'Open Source', num: '02' },
-  { id: 'shop', label: 'WFH Setup', num: '03' },
-  { id: 'support', label: 'Support', num: '04' },
+type SubItem = { id: string; label: string };
+type Section = { id: string; label: string; num: string; children: SubItem[] };
+
+const sections: Section[] = [
+  {
+    id: 'learn',
+    label: 'Learn',
+    num: '01',
+    children: [
+      { id: 'claude-roadmap', label: 'Claude Roadmap' },
+      { id: 'ccaf-exam', label: 'CCA-F Exam' },
+      { id: 'anthropic-courses', label: 'Anthropic Courses' },
+      { id: 'courses', label: 'Knowledge Base' },
+    ],
+  },
+  {
+    id: 'build',
+    label: 'Open Source',
+    num: '02',
+    children: [
+      { id: 'extensions', label: 'SDLC pipeline' },
+      { id: 'token-optimization', label: 'Token Optimization' },
+      { id: 'ai-shorts', label: 'AI Shorts' },
+      { id: 'projects', label: 'Projects' },
+    ],
+  },
+  { id: 'shop', label: 'WFH Setup', num: '03', children: [] },
+  { id: 'support', label: 'Support', num: '04', children: [] },
 ];
 ---
 
@@ -11,31 +34,111 @@ const sections = [
   <div class="nav-label">On this page</div>
   <ul>
     {sections.map((s) => (
-      <li>
-        <a href={`#${s.id}`} data-target={s.id}>
+      <li class="section-row" data-section={s.id}>
+        <a class="section-link" href={`#${s.id}`} data-target={s.id}>
           <span class="bar"></span>
           <span class="num">{s.num}</span>
           <span class="text">{s.label}</span>
+          {s.children.length > 0 && (
+            <svg
+              class="chev"
+              viewBox="0 0 12 12"
+              width="9"
+              height="9"
+              aria-hidden="true"
+            >
+              <path
+                d="M3 4.5 L6 7.5 L9 4.5"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          )}
         </a>
+        {s.children.length > 0 && (
+          <ul class="sub-list">
+            {s.children.map((c) => (
+              <li>
+                <a class="sub-link" href={`#${c.id}`} data-target={c.id}>
+                  <span class="sub-dot"></span>
+                  <span class="sub-text">{c.label}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
       </li>
     ))}
   </ul>
 </nav>
 
 <script>
-  const links = document.querySelectorAll<HTMLAnchorElement>('.section-nav a');
-  const linkByTarget = new Map<string, HTMLAnchorElement>();
-  links.forEach((a) => {
-    const t = a.dataset.target;
-    if (t) linkByTarget.set(t, a);
-  });
+  // Build maps from the rendered DOM so the data shape stays in one place.
+  const navLinkByTarget = new Map<string, HTMLAnchorElement>();
+  const parentRowByObservedId = new Map<string, HTMLElement>();
+  const observableEls: HTMLElement[] = [];
 
-  const targets = Array.from(linkByTarget.keys())
-    .map((id) => document.getElementById(id))
-    .filter((el): el is HTMLElement => !!el);
+  document
+    .querySelectorAll<HTMLAnchorElement>('.section-nav a[data-target]')
+    .forEach((a) => {
+      const id = a.dataset.target;
+      if (id) navLinkByTarget.set(id, a);
+    });
 
-  const setActive = (id: string) => {
-    links.forEach((a) => a.classList.toggle('active', a.dataset.target === id));
+  document
+    .querySelectorAll<HTMLLIElement>('.section-row')
+    .forEach((row) => {
+      const subLinks = row.querySelectorAll<HTMLAnchorElement>('.sub-link');
+      if (subLinks.length === 0) {
+        // No sub-sections — observe the section itself.
+        const id = row.dataset.section;
+        if (!id) return;
+        const el = document.getElementById(id);
+        if (el) {
+          observableEls.push(el);
+          parentRowByObservedId.set(id, row);
+        }
+      } else {
+        // Observe each child instead of the parent wrapper. The parent <div>
+        // contains all children, so its intersection ratio always dominates
+        // and would prevent us from highlighting the specific child in view.
+        subLinks.forEach((sl) => {
+          const id = sl.dataset.target;
+          if (!id) return;
+          const el = document.getElementById(id);
+          if (el) {
+            observableEls.push(el);
+            parentRowByObservedId.set(id, row);
+          }
+        });
+      }
+    });
+
+  const clearActive = () => {
+    document
+      .querySelectorAll('.section-nav .active, .section-nav .parent-active')
+      .forEach((el) => {
+        el.classList.remove('active', 'parent-active');
+      });
+  };
+
+  const setActive = (observedId: string) => {
+    clearActive();
+    const link = navLinkByTarget.get(observedId);
+    if (link) link.classList.add('active');
+    const row = parentRowByObservedId.get(observedId);
+    if (row) {
+      row.classList.add('parent-active');
+      // If a child is the active link, also mark the parent's section-link
+      // softly so the user sees which top-level section they're in.
+      const parentLink = row.querySelector<HTMLAnchorElement>('.section-link');
+      if (parentLink && parentLink !== link) {
+        parentLink.classList.add('parent-active');
+      }
+    }
   };
 
   const observer = new IntersectionObserver(
@@ -48,7 +151,7 @@ const sections = [
     { rootMargin: '-30% 0px -55% 0px', threshold: [0, 0.25, 0.5, 0.75, 1] }
   );
 
-  targets.forEach((el) => observer.observe(el));
+  observableEls.forEach((el) => observer.observe(el));
 </script>
 
 <style>
@@ -71,7 +174,7 @@ const sections = [
     padding-left: 1rem;
   }
 
-  .section-nav ul {
+  .section-nav > ul {
     list-style: none;
     padding: 0;
     margin: 0;
@@ -80,9 +183,13 @@ const sections = [
     gap: 0.15rem;
   }
 
-  .section-nav a {
+  .section-row {
+    list-style: none;
+  }
+
+  .section-link {
     display: grid;
-    grid-template-columns: 2px auto 1fr;
+    grid-template-columns: 2px auto 1fr auto;
     align-items: center;
     gap: 0.65rem;
     padding: 0.5rem 1rem 0.5rem 0;
@@ -113,26 +220,112 @@ const sections = [
     white-space: nowrap;
   }
 
-  .section-nav a:hover {
+  .chev {
+    color: var(--fg-muted);
+    transition:
+      transform 220ms ease,
+      color 200ms ease;
+  }
+
+  .section-link:hover {
     color: var(--fg-dim);
   }
 
-  .section-nav a:hover .bar {
+  .section-link:hover .bar {
     background: var(--fg-muted);
   }
 
-  .section-nav a.active {
+  /* Active = the specific link whose section is most visible */
+  .section-link.active {
     color: var(--fg);
   }
 
-  .section-nav a.active .bar {
+  .section-link.active .num {
+    color: var(--accent);
+  }
+
+  .section-link.active .bar {
     background: var(--accent);
     height: 22px;
     box-shadow: 0 0 8px var(--accent);
   }
 
-  .section-nav a.active .num {
+  /* parent-active = a child of this row is the most visible section */
+  .section-link.parent-active {
+    color: var(--fg-dim);
+  }
+
+  .section-link.parent-active .num {
     color: var(--accent);
+  }
+
+  .section-link.parent-active .bar {
+    background: var(--accent);
+    opacity: 0.55;
+    height: 18px;
+  }
+
+  .section-row.parent-active .chev {
+    transform: rotate(180deg);
+    color: var(--fg-dim);
+  }
+
+  /* ── Sub-list (collapses unless parent-active) ───────────────────────── */
+  .sub-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition:
+      max-height 240ms ease,
+      opacity 200ms ease;
+  }
+
+  .section-row.parent-active .sub-list {
+    max-height: 280px;
+    opacity: 1;
+  }
+
+  .sub-link {
+    display: grid;
+    grid-template-columns: 12px 1fr;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.3rem 1rem 0.3rem 1.7rem;
+    color: var(--fg-muted);
+    font-size: 0.72rem;
+    text-decoration: none;
+    transition: color 180ms ease;
+  }
+
+  .sub-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--border);
+    margin-left: auto;
+    transition:
+      background 180ms ease,
+      box-shadow 180ms ease;
+  }
+
+  .sub-link:hover {
+    color: var(--fg-dim);
+  }
+
+  .sub-link:hover .sub-dot {
+    background: var(--fg-muted);
+  }
+
+  .sub-link.active {
+    color: var(--fg);
+  }
+
+  .sub-link.active .sub-dot {
+    background: var(--accent);
+    box-shadow: 0 0 6px var(--accent);
   }
 
   @media (max-width: 1180px) {
