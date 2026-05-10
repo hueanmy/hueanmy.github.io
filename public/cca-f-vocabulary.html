@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CCA-F Vocabulary Guide</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg2: #f5f5f3;
+    --bg3: #ebebea;
+    --text: #1a1a18;
+    --text2: #5a5a56;
+    --text3: #8a8a84;
+    --border: rgba(0,0,0,0.1);
+    --border2: rgba(0,0,0,0.2);
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --code-bg: #f0efe8;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1a;
+      --bg2: #252523;
+      --bg3: #2e2e2b;
+      --text: #e8e8e2;
+      --text2: #a8a8a0;
+      --text3: #6a6a62;
+      --border: rgba(255,255,255,0.1);
+      --border2: rgba(255,255,255,0.22);
+      --code-bg: #2a2a28;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.6;
+    padding: 2rem 1rem;
+  }
+  .container { max-width: 860px; margin: 0 auto; }
+
+  /* Header */
+  .page-title { font-size: 22px; font-weight: 600; margin-bottom: 4px; }
+  .page-sub { font-size: 13px; color: var(--text2); margin-bottom: 1.5rem; }
+  .tip-banner {
+    display: flex; gap: 10px; align-items: flex-start;
+    background: var(--bg2); border: 0.5px solid var(--border);
+    border-radius: var(--radius-lg); padding: 12px 14px;
+    margin-bottom: 1.5rem; font-size: 13px; color: var(--text2);
+  }
+  .tip-banner i { color: #1D9E75; font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+
+  /* Search */
+  .search-wrap { position: relative; margin-bottom: 1.25rem; }
+  .search-wrap i {
+    position: absolute; left: 12px; top: 50%;
+    transform: translateY(-50%); font-size: 16px; color: var(--text3);
+    pointer-events: none;
+  }
+  .search-input {
+    width: 100%; padding: 9px 12px 9px 36px;
+    border: 0.5px solid var(--border2); border-radius: var(--radius-md);
+    background: var(--bg); color: var(--text);
+    font-size: 13px; font-family: inherit;
+    outline: none; transition: border-color .15s;
+  }
+  .search-input:focus { border-color: #1D9E75; }
+  .search-count { font-size: 11px; color: var(--text3); margin-top: 5px; }
+
+  /* Category filter */
+  .filter-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .filter-btn {
+    padding: 5px 12px; border-radius: 20px;
+    border: 0.5px solid var(--border2); font-size: 12px; font-weight: 500;
+    cursor: pointer; background: var(--bg); color: var(--text2);
+    transition: all .12s;
+  }
+  .filter-btn:hover { background: var(--bg2); }
+  .filter-btn.active { color: #fff; border-color: transparent; }
+
+  /* Category sections */
+  .cat-section { margin-bottom: 1.5rem; }
+  .cat-header {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 12px; border-radius: var(--radius-md);
+    margin-bottom: 8px; cursor: pointer; user-select: none;
+  }
+  .cat-header i { font-size: 16px; }
+  .cat-title { font-size: 13px; font-weight: 600; flex: 1; }
+  .cat-count { font-size: 11px; opacity: 0.7; }
+  .cat-chev { font-size: 13px; transition: transform .18s; }
+  .cat-chev.open { transform: rotate(180deg); }
+  .cat-body { display: none; }
+  .cat-body.open { display: block; }
+
+  /* Term cards */
+  .terms-grid { display: flex; flex-direction: column; gap: 6px; }
+  .term-card {
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: border-color .12s;
+  }
+  .term-card:hover { border-color: var(--border2); }
+  .term-card.hidden { display: none; }
+  .term-header {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 13px; cursor: pointer;
+    background: var(--bg); transition: background .1s;
+  }
+  .term-header:hover { background: var(--bg2); }
+  .term-en {
+    font-size: 13px; font-weight: 600; color: var(--text);
+    font-family: 'SFMono-Regular', Consolas, monospace;
+  }
+  .term-vi { font-size: 12px; color: var(--text2); flex: 1; }
+  .term-tag {
+    font-size: 10px; font-weight: 600; padding: 2px 7px;
+    border-radius: 8px; flex-shrink: 0;
+  }
+  .term-chev { font-size: 12px; color: var(--text3); transition: transform .18s; flex-shrink: 0; }
+  .term-chev.open { transform: rotate(180deg); }
+  .term-body {
+    display: none; padding: 10px 14px 12px;
+    border-top: 0.5px solid var(--border);
+    background: var(--bg2);
+  }
+  .term-body.open { display: block; }
+  .term-desc { font-size: 13px; color: var(--text2); line-height: 1.65; margin-bottom: 6px; }
+  .term-desc strong { color: var(--text); font-weight: 600; }
+  .term-example {
+    font-size: 12px; color: var(--text3);
+    font-style: italic; margin-top: 5px;
+    padding: 6px 10px; background: var(--bg);
+    border-radius: var(--radius-md);
+    border-left: 2px solid var(--border2);
+  }
+  .term-example strong { color: var(--text2); font-style: normal; font-weight: 600; }
+  code {
+    font-family: 'SFMono-Regular', Consolas, monospace;
+    font-size: 11px; background: var(--code-bg);
+    padding: 1px 5px; border-radius: 3px; color: var(--text);
+  }
+
+  .no-results {
+    text-align: center; padding: 2rem;
+    color: var(--text3); font-size: 13px;
+  }
+  mark {
+    background: #fef08a; color: inherit; border-radius: 2px;
+  }
+  @media (prefers-color-scheme: dark) {
+    mark { background: #713f12; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="page-title">CCA-F Vocabulary Guide</div>
+  <div class="page-sub">Từ vựng tiếng Anh hay gặp trong đề thi — giải thích bằng tiếng Việt</div>
+
+  <div class="tip-banner">
+    <i class="ti ti-bulb"></i>
+    <span>Đề thi viết bằng tiếng Anh, scenario-based. File này có <strong>3 loại nội dung</strong>: từ vựng kỹ thuật theo domain, từ hay gặp trong câu MCQ, và <strong>cụm từ đặt câu hỏi</strong> — giúp đọc đề không bị nhầm dạng câu hỏi. Click vào từng term để xem giải thích và ví dụ cụ thể.</span>
+
+  </div>
+
+  <div class="search-wrap">
+    <i class="ti ti-search"></i>
+    <input class="search-input" id="searchInput" type="text" placeholder="Tìm từ tiếng Anh hoặc tiếng Việt..." oninput="doSearch()">
+  </div>
+  <div class="search-count" id="searchCount"></div>
+
+  <div class="filter-row" id="filterRow"></div>
+
+  <div id="content"></div>
+  <div class="no-results" id="noResults" style="display:none">Không tìm thấy từ nào phù hợp.</div>
+
+</div>
+
+<script>
+const CATS = [
+  {
+    id: 'agentic',
+    label: 'Agentic & Orchestration',
+    icon: 'ti-topology-star',
+    color: '#1D9E75',
+    bg: '#E1F5EE',
+    terms: [
+      {
+        en: 'agentic loop',
+        vi: 'vòng lặp tự chủ của agent',
+        tag: 'Core',
+        desc: 'Vòng lặp chính mà một AI agent hoạt động: gửi request → nhận response → kiểm tra <code>stop_reason</code> → nếu là <code>"tool_use"</code> thì execute tool và lặp lại, nếu là <code>"end_turn"</code> thì dừng.',
+        example: '"The agentic loop continues until stop_reason is end_turn" → Vòng lặp agent tiếp tục cho đến khi stop_reason là end_turn.'
+      },
+      {
+        en: 'orchestration',
+        vi: 'điều phối / quản lý các agents',
+        tag: 'Core',
+        desc: 'Việc phối hợp, điều phối nhiều agents hoặc tools làm việc cùng nhau để hoàn thành một task phức tạp. Coordinator agent làm vai trò orchestration.',
+        example: '"Multi-agent orchestration" → Điều phối nhiều agents cùng lúc.'
+      },
+      {
+        en: 'hub-and-spoke',
+        vi: 'mô hình trung tâm - nhánh',
+        tag: 'Architecture',
+        desc: 'Kiến trúc có một coordinator (hub/trung tâm) kết nối với nhiều subagents (spokes/nhánh). Tất cả giao tiếp đi qua trung tâm, các nhánh không nói chuyện trực tiếp với nhau.',
+        example: '"Hub-and-spoke model for the research system" → Dùng mô hình trung tâm-nhánh cho hệ thống nghiên cứu.'
+      },
+      {
+        en: 'coordinator',
+        vi: 'agent điều phối / agent trung tâm',
+        tag: 'Role',
+        desc: 'Agent đảm nhiệm việc chia nhỏ task, giao việc cho subagents, tổng hợp kết quả và xử lý lỗi. Là "người quản lý" trong hệ thống multi-agent.',
+        example: '"The coordinator decomposes the task and delegates to subagents" → Coordinator phân rã task và giao cho subagents.'
+      },
+      {
+        en: 'subagent',
+        vi: 'agent con / agent chuyên biệt',
+        tag: 'Role',
+        desc: 'Agent được coordinator giao việc. Mỗi subagent chuyên về một domain cụ thể (web search, document analysis, code review...). Không kế thừa context từ coordinator.',
+        example: '"Subagents have isolated context" → Các agent con có context tách biệt.'
+      },
+      {
+        en: 'task decomposition',
+        vi: 'phân rã nhiệm vụ',
+        tag: 'Pattern',
+        desc: 'Quá trình chia một task phức tạp thành các subtasks nhỏ hơn, dễ quản lý hơn, để giao cho các agents hoặc steps riêng biệt.',
+        example: '"Task decomposition enables parallel processing" → Phân rã task cho phép xử lý song song.'
+      },
+      {
+        en: 'stop_reason',
+        vi: 'lý do model dừng generate',
+        tag: 'API',
+        desc: 'Field trong API response cho biết tại sao model ngừng tạo văn bản. Giá trị quan trọng nhất: <code>"tool_use"</code> (muốn gọi tool) và <code>"end_turn"</code> (đã xong).',
+        example: '"Check stop_reason to determine next action" → Kiểm tra stop_reason để quyết định bước tiếp theo.'
+      },
+      {
+        en: 'hook',
+        vi: 'điểm chặn / hàm can thiệp',
+        tag: 'Mechanism',
+        desc: 'Đoạn code chạy tự động tại một thời điểm cụ thể trong vòng đời của agent — trước hoặc sau khi tool được gọi. Dùng để enforce rules, normalize data, hoặc block policy violations.',
+        example: '"PostToolUse hook normalizes the response format" → Hook sau khi dùng tool chuẩn hóa định dạng response.'
+      },
+      {
+        en: 'prerequisite gate',
+        vi: 'điều kiện tiên quyết / cổng chặn',
+        tag: 'Pattern',
+        desc: 'Cơ chế block một tool từ việc được gọi cho đến khi một điều kiện khác được thỏa mãn trước đó. Ví dụ: không cho phép gọi <code>process_refund</code> trước khi <code>get_customer</code> xác nhận danh tính.',
+        example: '"A prerequisite gate blocks refund processing until identity is verified" → Gate chặn xử lý hoàn tiền cho đến khi danh tính được xác minh.'
+      },
+      {
+        en: 'fork_session',
+        vi: 'tách phiên làm việc',
+        tag: 'Session',
+        desc: 'Lệnh tạo một branch mới từ session hiện tại. Branch mới kế thừa context hiện tại nhưng hoạt động độc lập — thay đổi ở branch không ảnh hưởng baseline.',
+        example: '"Use fork_session to explore alternative approaches" → Dùng fork_session để thử các hướng tiếp cận khác nhau.'
+      },
+      {
+        en: 'spawn',
+        vi: 'khởi tạo / tạo ra (agent mới)',
+        tag: 'Action',
+        desc: 'Hành động tạo ra một agent mới hoặc một process mới. Coordinator "spawns" subagents khi cần thực hiện các subtasks.',
+        example: '"Spawn parallel subagents for faster research" → Tạo nhiều subagent song song để nghiên cứu nhanh hơn.'
+      },
+      {
+        en: 'lifecycle',
+        vi: 'vòng đời (của agent/request)',
+        tag: 'Concept',
+        desc: 'Toàn bộ quá trình từ lúc một agent được khởi tạo đến lúc kết thúc, bao gồm tất cả các bước và trạng thái ở giữa.',
+        example: '"Manage the agentic loop lifecycle" → Quản lý vòng đời của vòng lặp agent.'
+      },
+    ]
+  },
+  {
+    id: 'mcp',
+    label: 'MCP & Tool Design',
+    icon: 'ti-plug',
+    color: '#378ADD',
+    bg: '#E6F1FB',
+    terms: [
+      {
+        en: 'MCP (Model Context Protocol)',
+        vi: 'Giao thức Context cho Model',
+        tag: 'Core',
+        desc: 'Giao thức chuẩn để connect AI models với external tools và data sources. Giống như USB — một chuẩn chung để nhiều tools khác nhau có thể plug vào Claude.',
+        example: '"Integrate external services via MCP" → Tích hợp dịch vụ bên ngoài qua MCP.'
+      },
+      {
+        en: 'tool use / tool calling',
+        vi: 'gọi công cụ / sử dụng tool',
+        tag: 'Core',
+        desc: 'Khả năng của model gọi các hàm/API bên ngoài để lấy thông tin hoặc thực hiện hành động. Model không tự chạy code — nó tạo ra request gọi tool, code của bạn chạy tool đó.',
+        example: '"Claude uses tool_use to call external APIs" → Claude dùng tool_use để gọi API bên ngoài.'
+      },
+      {
+        en: 'tool definition / tool schema',
+        vi: 'định nghĩa tool / cấu trúc tool',
+        tag: 'Technical',
+        desc: 'Mô tả JSON cho một tool, bao gồm tên, description và input schema. Model đọc định nghĩa này để biết cách gọi tool và khi nào nên dùng nó.',
+        example: '"Write a clear tool definition for each function" → Viết định nghĩa tool rõ ràng cho từng hàm.'
+      },
+      {
+        en: 'tool selection / routing',
+        vi: 'lựa chọn tool / định tuyến',
+        tag: 'Behavior',
+        desc: 'Quá trình model quyết định dùng tool nào trong số nhiều tools có sẵn. Model dựa chủ yếu vào **description** của tool để quyết định, không phải tên hàm.',
+        example: '"Poor descriptions cause incorrect tool routing" → Description tệ dẫn đến chọn sai tool.'
+      },
+      {
+        en: 'tool boundary',
+        vi: 'ranh giới / giới hạn của tool',
+        tag: 'Design',
+        desc: 'Phạm vi rõ ràng về việc một tool làm gì và không làm gì. Ranh giới rõ ràng giúp model chọn đúng tool, tránh overlap.',
+        example: '"Define clear tool boundaries to prevent confusion" → Định nghĩa ranh giới tool rõ ràng để tránh nhầm lẫn.'
+      },
+      {
+        en: 'tool scoping',
+        vi: 'giới hạn phạm vi tools cho agent',
+        tag: 'Design',
+        desc: 'Việc chỉ expose một tập tools giới hạn cho mỗi agent, thay vì cho agent dùng tất cả tools có trong hệ thống. Best practice: 4–5 tools mỗi agent.',
+        example: '"Scope tools to each agent\'s role" → Giới hạn tools theo vai trò của từng agent.'
+      },
+      {
+        en: 'stdio transport',
+        vi: 'kết nối qua stdin/stdout (local)',
+        tag: 'Technical',
+        desc: 'Loại kết nối MCP chạy local trên máy, giao tiếp qua stdin/stdout. Dùng cho development local và tools cần access filesystem.',
+        example: '"Use stdio transport for local MCP servers" → Dùng stdio transport cho MCP server chạy local.'
+      },
+      {
+        en: 'SSE transport',
+        vi: 'kết nối qua HTTP/SSE (remote)',
+        tag: 'Technical',
+        desc: 'Loại kết nối MCP chạy remote qua HTTP với Server-Sent Events. Dùng cho production, shared tools giữa nhiều users/agents.',
+        example: '"Deploy as SSE transport for team-wide access" → Deploy dạng SSE cho cả team dùng chung.'
+      },
+      {
+        en: 'reasoning overload',
+        vi: 'quá tải khả năng suy luận',
+        tag: 'Problem',
+        desc: 'Tình trạng model bị confused vì có quá nhiều tools để chọn (ví dụ 18 tools), dẫn đến chọn sai tool thường xuyên hơn. Giải pháp: giảm số tools mỗi agent xuống 4–5.',
+        example: '"Too many tools cause reasoning overload" → Quá nhiều tools gây quá tải suy luận.'
+      },
+    ]
+  },
+  {
+    id: 'claudecode',
+    label: 'Claude Code & Config',
+    icon: 'ti-terminal',
+    color: '#EF9F27',
+    bg: '#fef3c7',
+    terms: [
+      {
+        en: 'CLAUDE.md',
+        vi: 'file cấu hình hướng dẫn cho Claude Code',
+        tag: 'Config',
+        desc: 'File markdown chứa instructions, conventions và rules cho Claude Code. Có thể đặt ở nhiều cấp: project-level (shared với team), user-level (cá nhân), system-level (enterprise).',
+        example: '"Configure coding conventions in CLAUDE.md" → Cấu hình quy tắc code trong CLAUDE.md.'
+      },
+      {
+        en: 'hierarchy',
+        vi: 'phân cấp / thứ bậc',
+        tag: 'Config',
+        desc: 'Thứ tự ưu tiên giữa các file cấu hình. CLAUDE.md hierarchy: system > project > user. Cấp cao hơn override cấp thấp hơn khi có conflict.',
+        example: '"The CLAUDE.md hierarchy determines which rules apply" → Phân cấp CLAUDE.md xác định rules nào được áp dụng.'
+      },
+      {
+        en: 'glob pattern',
+        vi: 'mẫu khớp đường dẫn file',
+        tag: 'Technical',
+        desc: 'Cú pháp để match nhiều files cùng lúc bằng wildcard. <code>**/*.ts</code> nghĩa là "tất cả file .ts trong mọi thư mục". Dùng trong frontmatter của .claude/rules/ để chỉ định file types.',
+        example: '"Use glob patterns to match TypeScript files" → Dùng glob pattern để match các file TypeScript.'
+      },
+      {
+        en: 'frontmatter',
+        vi: 'phần metadata ở đầu file (YAML)',
+        tag: 'Technical',
+        desc: 'Phần metadata YAML ở đầu file markdown, đặt giữa <code>---</code>. Trong Claude Code, frontmatter dùng để định nghĩa khi nào skill/rule được kích hoạt.',
+        example: '"Add glob patterns in the YAML frontmatter" → Thêm glob patterns vào phần frontmatter YAML.'
+      },
+      {
+        en: 'slash command',
+        vi: 'lệnh gạch chéo / custom command',
+        tag: 'Feature',
+        desc: 'Command tùy chỉnh bắt đầu bằng dấu <code>/</code> trong Claude Code. Team có thể tạo commands riêng để standardize workflows. Ví dụ: <code>/cf-orchestrate-convert</code>.',
+        example: '"Create a slash command for test generation" → Tạo slash command để generate tests.'
+      },
+      {
+        en: 'headless mode',
+        vi: 'chế độ không tương tác (tự động)',
+        tag: 'CI/CD',
+        desc: 'Chạy Claude Code trong môi trường tự động (CI/CD) không có giao diện người dùng, không hỏi lại người dùng. Dùng flag <code>--print</code> và <code>--no-permissions-prompt</code>.',
+        example: '"Run in headless mode for CI pipeline" → Chạy ở chế độ headless trong CI pipeline.'
+      },
+      {
+        en: 'non-interactive',
+        vi: 'không tương tác / tự động hoàn toàn',
+        tag: 'CI/CD',
+        desc: 'Claude Code chạy mà không cần input từ người dùng. Tất cả instructions được truyền qua flags và arguments, output được capture tự động.',
+        example: '"Non-interactive mode is required for automation" → Cần chế độ non-interactive cho automation.'
+      },
+      {
+        en: 'allowedTools',
+        vi: 'danh sách tools được phép dùng',
+        tag: 'Config',
+        desc: 'Flag/parameter để restrict Claude Code chỉ dùng một số tools nhất định. Quan trọng cho CI/CD để đảm bảo safety (ví dụ: chỉ Read, không Write trong review mode).',
+        example: '"Set allowedTools to Read,Grep for review tasks" → Set allowedTools là Read,Grep cho review tasks.'
+      },
+      {
+        en: 'planning mode',
+        vi: 'chế độ lập kế hoạch',
+        tag: 'Feature',
+        desc: 'Chế độ Claude Code suy nghĩ và lập kế hoạch trước khi thực thi. Hữu ích cho tasks phức tạp để đảm bảo approach đúng trước khi làm.',
+        example: '"Use planning mode for complex refactoring" → Dùng planning mode cho refactoring phức tạp.'
+      },
+    ]
+  },
+  {
+    id: 'prompt',
+    label: 'Prompt Engineering',
+    icon: 'ti-brain',
+    color: '#7F77DD',
+    bg: '#EEEDFE',
+    terms: [
+      {
+        en: 'few-shot prompting',
+        vi: 'prompting bằng ví dụ mẫu',
+        tag: 'Technique',
+        desc: 'Kỹ thuật đưa 2–4 ví dụ input/output vào prompt để hướng dẫn model về format và style mong muốn. Hiệu quả cho formatting, xử lý đơn vị đo lường không chuẩn.',
+        example: '"Few-shot prompting guides output format" → Few-shot prompting hướng dẫn format output.'
+      },
+      {
+        en: 'zero-shot',
+        vi: 'không dùng ví dụ mẫu',
+        tag: 'Technique',
+        desc: 'Yêu cầu model thực hiện task mà không cung cấp ví dụ. Chỉ dùng instructions. Ít reliable hơn few-shot cho tasks có format cụ thể.',
+        example: '"Zero-shot works for simple factual queries" → Zero-shot hiệu quả cho các câu hỏi thực tế đơn giản.'
+      },
+      {
+        en: 'structured output',
+        vi: 'đầu ra có cấu trúc (JSON, v.v.)',
+        tag: 'Output',
+        desc: 'Output của model ở định dạng cố định, có cấu trúc như JSON. Đáng tin cậy hơn plain text khi cần parse programmatically. Đảm bảo syntax, không đảm bảo semantics.',
+        example: '"Enforce structured output with JSON schemas" → Bắt buộc output có cấu trúc bằng JSON schemas.'
+      },
+      {
+        en: 'JSON schema',
+        vi: 'cấu trúc/quy tắc định nghĩa JSON',
+        tag: 'Technical',
+        desc: 'Định nghĩa cấu trúc mà một JSON object phải tuân theo — bao gồm fields bắt buộc, kiểu dữ liệu, giá trị cho phép. Dùng để enforce structured output từ model.',
+        example: '"Validate extracted data against the JSON schema" → Validate dữ liệu đã extract với JSON schema.'
+      },
+      {
+        en: 'Pydantic',
+        vi: 'thư viện Python để validate dữ liệu',
+        tag: 'Tool',
+        desc: 'Thư viện Python phổ biến để định nghĩa data models và validate data. Thường được dùng cùng với Claude API để enforce structured output trong Python code.',
+        example: '"Use Pydantic models to validate Claude\'s output" → Dùng Pydantic models để validate output của Claude.'
+      },
+      {
+        en: 'validation',
+        vi: 'kiểm tra tính hợp lệ',
+        tag: 'Process',
+        desc: 'Quá trình kiểm tra xem output của model có đúng yêu cầu không. Có hai loại: syntax validation (đúng format JSON không) và semantic validation (giá trị có ý nghĩa đúng không).',
+        example: '"Validate the output before passing to downstream systems" → Validate output trước khi truyền cho hệ thống tiếp theo.'
+      },
+      {
+        en: 'retry loop',
+        vi: 'vòng lặp thử lại khi thất bại',
+        tag: 'Pattern',
+        desc: 'Pattern gọi lại model khi kết quả không đạt yêu cầu, kèm theo thông tin lỗi để model sửa. Tạo ra defense in depth cho structured output reliability.',
+        example: '"Implement retry loops for failed extractions" → Implement retry loops cho các lần extract thất bại.'
+      },
+      {
+        en: 'prompt chaining',
+        vi: 'chuỗi prompts nối tiếp nhau',
+        tag: 'Pattern',
+        desc: 'Kỹ thuật chia một task phức tạp thành nhiều prompts nhỏ, output của prompt trước là input của prompt sau. Accuracy cao hơn một mega-prompt.',
+        example: '"Use prompt chaining for multi-step data extraction" → Dùng prompt chaining cho extract dữ liệu nhiều bước.'
+      },
+      {
+        en: 'hallucination',
+        vi: 'bịa đặt / thông tin sai của model',
+        tag: 'Problem',
+        desc: 'Hiện tượng model "tự bịa" thông tin không có trong context, trình bày như thật. Đặc biệt nguy hiểm với optional fields trong JSON schema — model điền giá trị không có thay vì null.',
+        example: '"Nullable fields prevent hallucination in schemas" → Fields nullable ngăn model bịa đặt trong schemas.'
+      },
+      {
+        en: 'system prompt',
+        vi: 'prompt hệ thống / hướng dẫn vai trò',
+        tag: 'Concept',
+        desc: 'Instructions gửi riêng biệt cho model (không phải trong messages[]) để định nghĩa vai trò, constraints và behavior. Có priority cao hơn user messages. Ảnh hưởng toàn bộ conversation.',
+        example: '"Define agent behavior in the system prompt" → Định nghĩa hành vi agent trong system prompt.'
+      },
+      {
+        en: 'probabilistic',
+        vi: 'mang tính xác suất / không chắc chắn 100%',
+        tag: 'Concept',
+        desc: 'LLMs là probabilistic — output của chúng không guaranteed, chỉ "thường đúng". Đây là lý do tại sao prompt instructions không thể thay thế code cho compliance-critical logic.',
+        example: '"Prompts are probabilistic, not deterministic" → Prompts mang tính xác suất, không chắc chắn tuyệt đối.'
+      },
+      {
+        en: 'deterministic',
+        vi: 'chắc chắn / luôn luôn đúng',
+        tag: 'Concept',
+        desc: 'Code/hooks là deterministic — với cùng input, luôn cho cùng output. Ngược với probabilistic. Khi cần guaranteed behavior → dùng code deterministic.',
+        example: '"Use deterministic code for compliance rules" → Dùng code deterministic cho các quy tắc tuân thủ.'
+      },
+      {
+        en: 'distractor',
+        vi: 'đáp án gây nhầm lẫn trong đề thi',
+        tag: 'Exam',
+        desc: 'Trong MCQ exam, distractor là các đáp án SAI được thiết kế trông rất hợp lý để "bẫy" thí sinh không hiểu sâu. CCA-F nổi tiếng có distractors rất tinh vi.',
+        example: '"Distractors in CCA-F look reasonable but miss the root cause" → Distractors trong CCA-F trông hợp lý nhưng bỏ qua root cause.'
+      },
+    ]
+  },
+  {
+    id: 'context',
+    label: 'Context & Reliability',
+    icon: 'ti-database',
+    color: '#D85A30',
+    bg: '#FAECE7',
+    terms: [
+      {
+        en: 'context window',
+        vi: 'cửa sổ ngữ cảnh / giới hạn token',
+        tag: 'Core',
+        desc: 'Tổng lượng text (tính bằng tokens) mà model có thể xử lý trong một lần — bao gồm system prompt, conversation history, tool definitions và tool results.',
+        example: '"Large context windows help with long documents" → Context window lớn hỗ trợ xử lý tài liệu dài.'
+      },
+      {
+        en: 'lost-in-the-middle',
+        vi: 'bỏ sót thông tin ở giữa context',
+        tag: 'Problem',
+        desc: 'Hiện tượng model xử lý tốt info ở đầu và cuối context nhưng bỏ sót info ở giữa. Là design constraint thật — cần đặt info quan trọng ở đầu hoặc cuối.',
+        example: '"Place critical information at the top to avoid lost-in-the-middle" → Đặt thông tin quan trọng ở đầu để tránh bị bỏ sót.'
+      },
+      {
+        en: 'attention dilution',
+        vi: 'phân tán sự chú ý / chú ý bị loãng',
+        tag: 'Problem',
+        desc: 'Khi context quá dài hoặc có quá nhiều files, model không tập trung đủ vào từng phần. Giải pháp là per-file analysis passes, không phải tăng context window.',
+        example: '"Attention dilution causes missed bugs in large reviews" → Phân tán chú ý khiến bỏ sót bugs khi review lớn.'
+      },
+      {
+        en: 'progressive summarization',
+        vi: 'tóm tắt dần dần theo thời gian',
+        tag: 'Pattern',
+        desc: 'Kỹ thuật nén lịch sử conversation bằng cách tóm tắt dần khi quá dài. Risk: các con số cụ thể, ngày tháng thường bị làm vague đi trong quá trình tóm tắt.',
+        example: '"Progressive summarization risks losing exact figures" → Tóm tắt dần có nguy cơ mất đi các con số chính xác.'
+      },
+      {
+        en: 'token accumulation',
+        vi: 'tích lũy tokens / ngày càng nhiều tokens',
+        tag: 'Problem',
+        desc: 'Mỗi tool call append thêm output vào context. Nếu tool trả về 40 fields nhưng chỉ cần 5, 35 fields còn lại làm lãng phí context và có thể gây attention dilution.',
+        example: '"Trim tool outputs to prevent unnecessary token accumulation" → Trim tool outputs để tránh tích lũy tokens không cần thiết.'
+      },
+      {
+        en: 'Batch API / Message Batches',
+        vi: 'API xử lý hàng loạt (async)',
+        tag: 'API',
+        desc: 'API cho phép gửi nhiều requests cùng lúc để xử lý offline, tiết kiệm 50% cost. Nhược điểm lớn: up-to-24h processing window, không có SLA. Chỉ dùng cho non-blocking jobs.',
+        example: '"Use Batch API for overnight report generation" → Dùng Batch API cho việc generate báo cáo qua đêm.'
+      },
+      {
+        en: 'SLA (Service Level Agreement)',
+        vi: 'cam kết thời gian phản hồi',
+        tag: 'Concept',
+        desc: 'Thỏa thuận về thời gian response đảm bảo. Real-time API có SLA (response trong vài giây). Batch API KHÔNG có SLA — có thể mất đến 24 giờ.',
+        example: '"Blocking workflows require an API with SLA guarantees" → Workflows blocking cần API có cam kết thời gian phản hồi.'
+      },
+      {
+        en: 'handoff',
+        vi: 'bàn giao / chuyển giao',
+        tag: 'Pattern',
+        desc: 'Quá trình một agent/step chuyển giao task và context sang agent/step tiếp theo. Handoff tốt phải include: customer ID, root cause, amount, recommended action.',
+        example: '"A complete handoff summary prevents context loss" → Tóm tắt bàn giao đầy đủ ngăn mất context.'
+      },
+      {
+        en: 'escalation',
+        vi: 'leo thang / chuyển lên cấp cao hơn',
+        tag: 'Pattern',
+        desc: 'Chuyển một request/issue lên "cấp cao hơn" — thường là từ AI agent sang con người (human-in-the-loop) khi vượt quá ngưỡng cho phép hoặc cần judgment đặc biệt.',
+        example: '"Escalate to human when refund exceeds $500" → Chuyển lên con người khi hoàn tiền vượt $500.'
+      },
+      {
+        en: 'human-in-the-loop',
+        vi: 'có sự can thiệp của con người',
+        tag: 'Pattern',
+        desc: 'Thiết kế hệ thống có điểm dừng để con người review/approve trước khi tiếp tục. Quan trọng cho high-stakes decisions như financial transactions.',
+        example: '"High-value refunds require human-in-the-loop approval" → Hoàn tiền giá trị cao cần sự phê duyệt của con người.'
+      },
+      {
+        en: 'confidence score / confidence calibration',
+        vi: 'điểm tự tin / hiệu chỉnh độ tự tin',
+        tag: 'Concept',
+        desc: 'Điểm số model tự đánh giá mức độ chắc chắn của câu trả lời. Vấn đề: LLMs kém calibrated — tự tin cao nhất khi sai nhất. Không dùng để route escalation decisions.',
+        example: '"Self-reported confidence scores are poorly calibrated" → Điểm tự tin tự báo cáo của model không đáng tin.'
+      },
+      {
+        en: 'graceful degradation',
+        vi: 'suy giảm nhẹ nhàng / xử lý lỗi không crash',
+        tag: 'Reliability',
+        desc: 'Thiết kế hệ thống tiếp tục hoạt động (ở mức giảm) khi một phần bị lỗi, thay vì crash hoàn toàn. Liên quan đến việc return structured error context thay vì empty results.',
+        example: '"The system shows graceful degradation when a subagent fails" → Hệ thống suy giảm nhẹ nhàng khi subagent bị lỗi.'
+      },
+      {
+        en: 'error context / structured error',
+        vi: 'thông tin lỗi có cấu trúc',
+        tag: 'Pattern',
+        desc: 'Trả về thông tin lỗi dưới dạng JSON/object có cấu trúc thay vì empty response khi subagent fail. Giúp coordinator có đủ info để quyết định retry, re-delegate, hay escalate.',
+        example: '"Return structured error context instead of empty results" → Trả về error context có cấu trúc thay vì kết quả rỗng.'
+      },
+    ]
+  },
+  {
+    id: 'exam',
+    label: 'Từ hay gặp trong câu hỏi MCQ',
+    icon: 'ti-clipboard-list',
+    color: '#888780',
+    bg: '#F1EFE8',
+    terms: [
+      {
+        en: 'most effectively addresses',
+        vi: '→ cách xử lý hiệu quả NHẤT',
+        tag: 'Question phrase',
+        desc: 'Câu hỏi dạng này hỏi về giải pháp tốt nhất, không phải giải pháp đúng. Thường có nhiều đáp án "hoạt động được" nhưng chỉ một cái address đúng root cause.',
+        example: '"Which change most effectively addresses the reliability issue?" → Thay đổi nào xử lý vấn đề độ tin cậy hiệu quả nhất?'
+      },
+      {
+        en: 'root cause',
+        vi: 'nguyên nhân gốc rễ',
+        tag: 'Concept',
+        desc: 'Nguyên nhân thực sự, sâu xa của một vấn đề — không phải triệu chứng bề mặt. CCA-F thường hỏi về việc fix root cause, không phải workaround. Ví dụ: root cause của agent bỏ qua tool là thiếu enforcement, không phải thiếu ví dụ.',
+        example: '"Address the root cause, not the symptom" → Xử lý nguyên nhân gốc rễ, không phải triệu chứng.'
+      },
+      {
+        en: 'tradeoff',
+        vi: 'đánh đổi / cân bằng giữa hai yếu tố',
+        tag: 'Concept',
+        desc: 'Khi chọn A thì phải chấp nhận mất B. CCA-F test khả năng hiểu tradeoffs: Batch API (cost vs latency), context size (coverage vs attention quality), tool count (flexibility vs selection reliability).',
+        example: '"What is the key tradeoff of using the Batch API?" → Tradeoff chính của Batch API là gì?'
+      },
+      {
+        en: 'production-grade',
+        vi: 'đạt chuẩn sản xuất / dùng được thực tế',
+        tag: 'Standard',
+        desc: 'Đạt tiêu chuẩn để deploy trong môi trường production thực tế — có error handling, reliable, scalable, maintainable. Ngược với prototype hay proof-of-concept.',
+        example: '"Design a production-grade agent system" → Thiết kế hệ thống agent đạt chuẩn production.'
+      },
+      {
+        en: 'deterministic guarantee',
+        vi: 'đảm bảo chắc chắn / không có ngoại lệ',
+        tag: 'Concept',
+        desc: 'Behavior được đảm bảo 100%, không có trường hợp ngoại lệ. Code/hooks cung cấp deterministic guarantee. Prompts thì không — chỉ "thường đúng".',
+        example: '"Hooks provide deterministic guarantees unlike prompts" → Hooks cung cấp đảm bảo chắc chắn, khác với prompts.'
+      },
+      {
+        en: 'downstream',
+        vi: 'hệ thống/bước phía sau / nhận output',
+        tag: 'System',
+        desc: 'Thành phần nhận output và xử lý tiếp theo trong pipeline. "Downstream systems" là các hệ thống hoặc bước xử lý sau bước hiện tại.',
+        example: '"Validate output before passing to downstream systems" → Validate output trước khi truyền cho hệ thống tiếp theo.'
+      },
+      {
+        en: 'upstream',
+        vi: 'hệ thống/bước phía trước / cung cấp input',
+        tag: 'System',
+        desc: 'Thành phần cung cấp input cho bước hiện tại. Ngược với downstream.',
+        example: '"An upstream validation step catches errors early" → Bước validation upstream bắt lỗi sớm.'
+      },
+      {
+        en: 'scenario',
+        vi: 'tình huống / kịch bản',
+        tag: 'Exam',
+        desc: 'CCA-F có 6 scenarios — mỗi scenario là một production context cụ thể. Tất cả câu hỏi trong exam đều đặt trong context của scenario. Cần đọc kỹ scenario để hiểu constraints.',
+        example: '"In the Customer Support scenario, which approach..." → Trong scenario Hỗ trợ Khách hàng, cách tiếp cận nào...'
+      },
+      {
+        en: 'architectural decision',
+        vi: 'quyết định kiến trúc / thiết kế hệ thống',
+        tag: 'Exam',
+        desc: 'Lựa chọn về cách thiết kế và tổ chức hệ thống ở mức cao. CCA-F test architectural judgment — khả năng chọn đúng pattern/approach cho từng situation.',
+        example: '"What is the best architectural decision for this scenario?" → Quyết định kiến trúc tốt nhất cho kịch bản này là gì?'
+      },
+      {
+        en: 'latency',
+        vi: 'độ trễ / thời gian chờ phản hồi',
+        tag: 'Performance',
+        desc: 'Thời gian từ lúc gửi request đến lúc nhận response. Real-time API có latency thấp (vài giây). Batch API có latency cao (lên đến 24 giờ). Blocking workflows cần low latency.',
+        example: '"Batch API is unsuitable when low latency is required" → Batch API không phù hợp khi cần latency thấp.'
+      },
+      {
+        en: 'throughput',
+        vi: 'lượng công việc xử lý được / thông lượng',
+        tag: 'Performance',
+        desc: 'Số lượng requests/tasks có thể xử lý trong một đơn vị thời gian. Batch API có throughput cao hơn cho bulk jobs. Real-time API optimize cho latency thấp.',
+        example: '"Batch API improves throughput for bulk extraction" → Batch API cải thiện throughput cho bulk extraction.'
+      },
+      {
+        en: 'reliability',
+        vi: 'độ tin cậy / ổn định',
+        tag: 'Quality',
+        desc: 'Khả năng hệ thống hoạt động đúng và nhất quán theo thời gian. Trong CCA-F context, reliability thường liên quan đến việc chọn programmatic enforcement thay vì prompts.',
+        example: '"Improve agent reliability with programmatic enforcement" → Cải thiện độ tin cậy của agent với programmatic enforcement.'
+      },
+    ]
+  },
+  {
+    id: 'questions',
+    label: 'Cụm từ đặt câu hỏi trong đề',
+    icon: 'ti-help-circle',
+    color: '#D4537E',
+    bg: '#FBEAF0',
+    terms: [
+      {
+        en: 'Which of the following BEST...',
+        vi: '→ Cái nào trong số này là TỐT NHẤT...',
+        tag: 'Câu hỏi chọn tốt nhất',
+        desc: 'Từ khoá <strong>BEST</strong> (viết hoa) — tất cả các đáp án đều có thể đúng một phần, nhưng chỉ một cái là tối ưu nhất. Phải so sánh cả 4 đáp án trước khi chọn, không dừng lại ở đáp án "đúng" đầu tiên.',
+        example: '"Which of the following BEST describes the role of the coordinator?" → Cái nào MÔ TẢ TỐT NHẤT vai trò của coordinator?'
+      },
+      {
+        en: 'Which approach MOST effectively...',
+        vi: '→ Cách tiếp cận nào HIỆU QUẢ NHẤT...',
+        tag: 'Câu hỏi hiệu quả nhất',
+        desc: 'Từ khoá <strong>MOST effectively</strong> — hỏi về giải pháp address đúng root cause, không phải giải pháp "cũng hoạt động được". Thường có 2–3 đáp án nghe hợp lý nhưng chỉ 1 cái fix đúng vấn đề.',
+        example: '"Which approach most effectively prevents the agent from skipping identity verification?" → Cách nào hiệu quả nhất để ngăn agent bỏ qua xác minh danh tính?'
+      },
+      {
+        en: 'What is the PRIMARY reason...',
+        vi: '→ Lý do CHÍNH / quan trọng nhất là gì...',
+        tag: 'Câu hỏi lý do chính',
+        desc: 'Từ khoá <strong>PRIMARY</strong> — hỏi nguyên nhân hoặc mục đích chính, không phải tất cả lý do. Cần xác định đâu là reason quan trọng nhất, bỏ qua các reason phụ.',
+        example: '"What is the primary reason to use programmatic prerequisites?" → Lý do chính để dùng programmatic prerequisites là gì?'
+      },
+      {
+        en: 'Which change would LEAST likely...',
+        vi: '→ Thay đổi nào ÍT KHẢ NĂNG NHẤT...',
+        tag: 'Câu hỏi phủ định',
+        desc: 'Từ khoá <strong>LEAST likely</strong> — đây là câu hỏi <strong>ngược</strong>! Phải tìm đáp án SAI hoặc kém hiệu quả nhất. Đọc kỹ — nhiều người chọn nhầm vì quen tìm đáp án đúng.',
+        example: '"Which change would LEAST likely improve tool selection accuracy?" → Thay đổi nào ÍT KHẢ NĂNG cải thiện độ chính xác chọn tool nhất?'
+      },
+      {
+        en: 'Which is NOT a recommended...',
+        vi: '→ Cái nào KHÔNG phải là khuyến nghị...',
+        tag: 'Câu hỏi phủ định',
+        desc: 'Từ khoá <strong>NOT</strong> — cũng là câu hỏi ngược. Phải tìm đáp án là anti-pattern hoặc không đúng. Hay bị đọc nhầm khi thi vì não quen tìm đáp án đúng.',
+        example: '"Which is NOT a recommended approach for handling subagent failures?" → Cái nào KHÔNG phải là cách xử lý subagent thất bại được khuyến nghị?'
+      },
+      {
+        en: 'In this scenario, what should the architect...',
+        vi: '→ Trong kịch bản này, architect nên...',
+        tag: 'Câu hỏi scenario',
+        desc: 'Câu hỏi scenario-based — bắt đầu bằng một tình huống production cụ thể rồi hỏi quyết định đúng. Phải đọc kỹ constraints trong scenario (latency requirement, scale, compliance rules) trước khi chọn đáp án.',
+        example: '"In this scenario, what should the architect do to ensure reliable order processing?" → Trong kịch bản này, architect nên làm gì để đảm bảo xử lý đơn hàng tin cậy?'
+      },
+      {
+        en: 'Given that... / Given the requirement...',
+        vi: '→ Cho rằng... / Với yêu cầu là...',
+        tag: 'Điều kiện đề bài',
+        desc: 'Cụm từ đưa ra constraint hoặc điều kiện của bài toán. Sau "given that" là thông tin bắt buộc phải tính đến khi chọn đáp án. Bỏ qua điều kiện này = sẽ chọn sai.',
+        example: '"Given that the workflow must complete within 2 seconds, which API should be used?" → Với yêu cầu workflow phải hoàn thành trong 2 giây, nên dùng API nào?'
+      },
+      {
+        en: 'The engineer notices that... / Production data shows...',
+        vi: '→ Kỹ sư nhận thấy rằng... / Dữ liệu production cho thấy...',
+        tag: 'Mở đầu scenario',
+        desc: 'Câu mở đầu scenario mô tả vấn đề đang xảy ra trong thực tế. Đây là dữ liệu thực về behavior của hệ thống — phải dùng thông tin này (ví dụ: "skips 12% of the time") để xác định root cause.',
+        example: '"Production data shows the agent skips get_customer 12% of the time" → Dữ liệu production cho thấy agent bỏ qua get_customer 12% thời gian.'
+      },
+      {
+        en: 'Which configuration CORRECTLY...',
+        vi: '→ Cấu hình nào ĐÚNG...',
+        tag: 'Câu hỏi đúng/sai',
+        desc: 'Từ khoá <strong>CORRECTLY</strong> — hỏi cấu hình nào đúng về mặt kỹ thuật. Thường có 4 đáp án với sự khác biệt nhỏ trong code/config — cần hiểu chi tiết kỹ thuật để phân biệt.',
+        example: '"Which configuration correctly sets up the CLAUDE.md hierarchy for a multi-language project?" → Cấu hình nào thiết lập đúng CLAUDE.md hierarchy cho project đa ngôn ngữ?'
+      },
+      {
+        en: 'What is the MOST likely cause of...',
+        vi: '→ Nguyên nhân KHẢ NĂNG NHẤT của... là gì',
+        tag: 'Câu hỏi chẩn đoán',
+        desc: 'Hỏi về nguyên nhân của một triệu chứng đang xảy ra. Phải phân tích symptom → chẩn đoán root cause. Thường liên quan đến debugging: tool selection sai, attention dilution, context issues.',
+        example: '"What is the most likely cause of the agent selecting the wrong tool?" → Nguyên nhân khả năng nhất khiến agent chọn sai tool là gì?'
+      },
+      {
+        en: 'Which of the following statements is TRUE...',
+        vi: '→ Phát biểu nào sau đây là ĐÚNG...',
+        tag: 'Câu hỏi kiến thức',
+        desc: 'Hỏi về kiến thức kỹ thuật chính xác. Thường test các hiểu biết cụ thể như: stop_reason values, CLAUDE.md hierarchy rules, Batch API SLA, số tools tối ưu...',
+        example: '"Which of the following statements about the Batch API is TRUE?" → Phát biểểu nào sau đây về Batch API là ĐÚNG?'
+      },
+      {
+        en: 'To achieve... the team should FIRST...',
+        vi: '→ Để đạt được... team nên làm ĐẦU TIÊN...',
+        tag: 'Câu hỏi thứ tự',
+        desc: 'Từ khoá <strong>FIRST</strong> — hỏi về bước đầu tiên hoặc ưu tiên cao nhất. Không phải hỏi tất cả các bước cần làm, mà chỉ hỏi cái nào phải làm trước.',
+        example: '"To improve extraction accuracy, the team should FIRST..." → Để cải thiện độ chính xác extraction, team nên làm đầu tiên là...'
+      },
+      {
+        en: 'All of the following are true EXCEPT...',
+        vi: '→ Tất cả các điều sau đây đều đúng NGOẠI TRỪ...',
+        tag: 'Câu hỏi phủ định',
+        desc: 'Dạng câu hỏi tìm đáp án SAI duy nhất trong 4 đáp án. 3 đáp án đúng, 1 sai. Hay bị mất điểm vì đọc nhầm. Nên đọc lại "EXCEPT" ở cuối câu trước khi chọn.',
+        example: '"All of the following are valid uses for hooks EXCEPT..." → Tất cả các cách dùng hooks sau đây đều hợp lệ NGOẠI TRỪ...'
+      },
+      {
+        en: 'What would BEST explain why...',
+        vi: '→ Điều gì GIẢI THÍCH TỐT NHẤT tại sao...',
+        tag: 'Câu hỏi giải thích',
+        desc: 'Hỏi về explanation tốt nhất cho một behavior quan sát được. Cần hiểu cơ chế hoạt động đủ sâu để giải thích tại sao symptom xảy ra, không phải chỉ biết cách fix.',
+        example: '"What would best explain why the agent occasionally returns incorrect customer data?" → Điều gì giải thích tốt nhất tại sao agent đôi khi trả về dữ liệu khách hàng sai?'
+      },
+      {
+        en: 'Which TWO of the following...',
+        vi: '→ HAI điều nào trong số những điều sau...',
+        tag: 'Câu hỏi chọn nhiều',
+        desc: 'Dạng câu hỏi chọn <strong>2 đáp án đúng</strong> thay vì 1. Phải đọc kỹ "TWO" — nhiều người quen chọn 1 rồi chuyển sang câu tiếp theo. Cả 2 đáp án phải đúng mới được điểm.',
+        example: '"Which TWO approaches would improve the reliability of the structured extraction pipeline?" → HAI cách nào sẽ cải thiện độ tin cậy của extraction pipeline?'
+      },
+      {
+        en: 'In order to... while ensuring...',
+        vi: '→ Để... trong khi đảm bảo...',
+        tag: 'Điều kiện kép',
+        desc: 'Câu hỏi có <strong>hai điều kiện</strong> cùng lúc — vừa phải đạt mục tiêu A, vừa không được vi phạm constraint B. Đáp án chỉ đúng khi thỏa mãn CẢ HAI điều kiện.',
+        example: '"In order to reduce costs while ensuring real-time response, which approach should be used?" → Để giảm chi phí trong khi đảm bảo response real-time, nên dùng cách nào?'
+      },
+    ]
+  },
+];
+
+const filterColors = {
+  agentic: '#1D9E75',
+  mcp: '#378ADD',
+  claudecode: '#EF9F27',
+  prompt: '#7F77DD',
+  context: '#D85A30',
+  exam: '#888780',
+  questions: '#D4537E',
+};
+
+function buildFilterRow() {
+  const row = document.getElementById('filterRow');
+  const allBtn = document.createElement('div');
+  allBtn.className = 'filter-btn active';
+  allBtn.textContent = 'Tất cả';
+  allBtn.style.background = '#1a1a18';
+  allBtn.style.color = '#fff';
+  allBtn.style.borderColor = 'transparent';
+  allBtn.onclick = () => filterCat(null, allBtn);
+  row.appendChild(allBtn);
+
+  CATS.forEach(cat => {
+    const btn = document.createElement('div');
+    btn.className = 'filter-btn';
+    btn.textContent = cat.label;
+    btn.dataset.catId = cat.id;
+    btn.onclick = () => filterCat(cat.id, btn);
+    row.appendChild(btn);
+  });
+}
+
+let currentCat = null;
+
+function filterCat(catId, clickedBtn) {
+  currentCat = catId;
+  document.querySelectorAll('.filter-btn').forEach(b => {
+    b.classList.remove('active');
+    b.style.background = '';
+    b.style.color = '';
+    b.style.borderColor = '';
+  });
+  clickedBtn.classList.add('active');
+  if (catId === null) {
+    clickedBtn.style.background = '#1a1a18';
+    clickedBtn.style.color = '#fff';
+    clickedBtn.style.borderColor = 'transparent';
+  } else {
+    clickedBtn.style.background = filterColors[catId] || '#888';
+    clickedBtn.style.color = '#fff';
+    clickedBtn.style.borderColor = 'transparent';
+  }
+  renderContent(document.getElementById('searchInput').value);
+}
+
+function buildContent() {
+  const content = document.getElementById('content');
+  CATS.forEach(cat => {
+    const sec = document.createElement('div');
+    sec.className = 'cat-section';
+    sec.dataset.catId = cat.id;
+
+    const header = document.createElement('div');
+    header.className = 'cat-header';
+    header.style.background = cat.bg;
+    header.innerHTML = `
+      <i class="ti ${cat.icon}" style="color:${cat.color}"></i>
+      <span class="cat-title" style="color:${cat.color}">${cat.label}</span>
+      <span class="cat-count" style="color:${cat.color}">${cat.terms.length} terms</span>
+      <i class="ti ti-chevron-down cat-chev open" style="color:${cat.color}"></i>
+    `;
+    header.onclick = () => {
+      const body = sec.querySelector('.cat-body');
+      const chev = sec.querySelector('.cat-chev');
+      const open = body.classList.toggle('open');
+      chev.classList.toggle('open', open);
+    };
+
+    const body = document.createElement('div');
+    body.className = 'cat-body open';
+    const grid = document.createElement('div');
+    grid.className = 'terms-grid';
+
+    cat.terms.forEach((term, ti) => {
+      const card = document.createElement('div');
+      card.className = 'term-card';
+      card.dataset.en = term.en.toLowerCase();
+      card.dataset.vi = term.vi.toLowerCase();
+      card.dataset.desc = (term.desc + ' ' + (term.example || '')).toLowerCase();
+
+      const tagHtml = term.tag
+        ? `<span class="term-tag" style="background:${cat.bg};color:${cat.color}">${term.tag}</span>`
+        : '';
+
+      card.innerHTML = `
+        <div class="term-header" onclick="togTerm('${cat.id}-${ti}')">
+          <div>
+            <div class="term-en">${term.en}</div>
+          </div>
+          <div class="term-vi">${term.vi}</div>
+          ${tagHtml}
+          <i class="ti ti-chevron-down term-chev" id="tc-${cat.id}-${ti}"></i>
+        </div>
+        <div class="term-body" id="tb-${cat.id}-${ti}">
+          <div class="term-desc">${term.desc}</div>
+          ${term.example ? `<div class="term-example"><strong>Ví dụ trong đề:</strong> ${term.example}</div>` : ''}
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+
+    body.appendChild(grid);
+    sec.appendChild(header);
+    sec.appendChild(body);
+    content.appendChild(sec);
+  });
+}
+
+function togTerm(id) {
+  const body = document.getElementById('tb-' + id);
+  const chev = document.getElementById('tc-' + id);
+  if (!body) return;
+  const open = body.classList.toggle('open');
+  if (chev) chev.classList.toggle('open', open);
+}
+
+let searchTimeout;
+function doSearch() {
+  clearTimeout(searchTimeout);
+  searchTimeout = setTimeout(() => renderContent(document.getElementById('searchInput').value), 80);
+}
+
+function renderContent(query) {
+  const q = query.trim().toLowerCase();
+  let total = 0;
+  let visible = 0;
+
+  document.querySelectorAll('.cat-section').forEach(sec => {
+    const catId = sec.dataset.catId;
+    const matchesCat = currentCat === null || currentCat === catId;
+
+    if (!matchesCat) {
+      sec.style.display = 'none';
+      return;
+    }
+    sec.style.display = '';
+
+    let catVisible = 0;
+    sec.querySelectorAll('.term-card').forEach(card => {
+      total++;
+      const matchesSearch = !q ||
+        card.dataset.en.includes(q) ||
+        card.dataset.vi.includes(q) ||
+        card.dataset.desc.includes(q);
+
+      if (matchesSearch) {
+        card.classList.remove('hidden');
+        catVisible++;
+        visible++;
+        // Highlight
+        if (q) highlightCard(card, q);
+        else clearHighlight(card);
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+
+    sec.style.display = catVisible > 0 ? '' : 'none';
+  });
+
+  const countEl = document.getElementById('searchCount');
+  const noRes = document.getElementById('noResults');
+  if (q) {
+    countEl.textContent = `${visible} kết quả phù hợp`;
+    noRes.style.display = visible === 0 ? '' : 'none';
+  } else {
+    countEl.textContent = '';
+    noRes.style.display = 'none';
+    document.querySelectorAll('.term-card').forEach(card => clearHighlight(card));
+  }
+}
+
+function highlightCard(card, q) {
+  const enEl = card.querySelector('.term-en');
+  const viEl = card.querySelector('.term-vi');
+  if (enEl) enEl.innerHTML = hl(enEl.textContent, q);
+  if (viEl) viEl.innerHTML = hl(viEl.textContent, q);
+}
+
+function clearHighlight(card) {
+  const enEl = card.querySelector('.term-en');
+  const viEl = card.querySelector('.term-vi');
+  if (enEl && enEl.dataset.original) enEl.innerHTML = enEl.dataset.original;
+  if (viEl && viEl.dataset.original) viEl.innerHTML = viEl.dataset.original;
+}
+
+function hl(text, q) {
+  if (!q) return text;
+  const re = new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+  return text.replace(re, '<mark>$1</mark>');
+}
+
+buildFilterRow();
+buildContent();
+</script>
+</body>
+</html>

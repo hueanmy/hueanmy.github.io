@@ -12,14 +12,12 @@ const cards = [
     badge: '8-week study plan',
     title: 'Study Roadmap',
     tagline:
-      'Lộ trình ôn 8 tuần — 5 domains, 6 exam scenarios, common traps và mental models. Học theo phase.',
+      'Lộ trình ôn 8 tuần — 5 domains, 6 exam scenarios, common traps và mental models.',
     bullets: [
       ['①', 'Agentic Architecture', '27%'],
       ['②', 'Tool Design & MCP', '18%'],
       ['③', 'Claude Code Config', '20%'],
-      ['④', 'Prompt Engineering', '20%'],
-      ['⑤', 'Context & Reliability', '15%'],
-      ['⑥', '6 Exam Scenarios', '—'],
+      ['④', 'Prompt + Context', '35%'],
     ],
     cta: 'View roadmap ↗',
     accent: 'green',
@@ -29,17 +27,30 @@ const cards = [
     badge: 'Per-domain reference',
     title: 'Knowledge Map',
     tagline:
-      'Deep-dive cấu trúc từng domain — knowledge items K1…Kn, code snippets, traps & refs. Sidebar nav, tra cứu nhanh.',
+      'Deep-dive từng domain — knowledge items K1…Kn, code snippets, traps & refs. Tra cứu nhanh.',
     bullets: [
       ['K', '35+ knowledge items'],
       ['◆', 'Code snippets per concept'],
       ['◆', 'Sidebar nav by domain'],
-      ['◆', 'Traps + mental models inline'],
-      ['◆', 'Refs to docs.anthropic.com'],
-      ['◆', 'TypeScript + Python examples'],
+      ['◆', 'Traps + models inline'],
     ],
     cta: 'View knowledge map ↗',
     accent: 'purple',
+  },
+  {
+    href: '/cca-f-vocabulary.html',
+    badge: 'EN ↔ VI glossary',
+    title: 'Vocabulary Guide',
+    tagline:
+      'Từ vựng tiếng Anh hay gặp trong đề thi — giải thích bằng tiếng Việt + ví dụ thực tế.',
+    bullets: [
+      ['A', '5 domain-aligned categories'],
+      ['?', 'MCQ question phrases'],
+      ['🔍', 'Search EN hoặc VI'],
+      ['#', 'Tag: Core / Trap / Pattern'],
+    ],
+    cta: 'View vocabulary ↗',
+    accent: 'cyan',
   },
 ];
 ---
@@ -170,8 +181,8 @@ const cards = [
 
   .card-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
   }
 
   .exam-card {
@@ -207,6 +218,15 @@ const cards = [
       0 2px 10px rgba(168, 85, 247, 0.08);
   }
 
+  .accent-cyan:hover {
+    border-color: rgba(0, 212, 212, 0.55);
+    transform: translateY(-2px);
+    box-shadow:
+      0 0 0 1px rgba(0, 212, 212, 0.15),
+      0 8px 30px rgba(244, 114, 182, 0.06),
+      0 2px 10px rgba(0, 212, 212, 0.08);
+  }
+
   .badge {
     display: inline-block;
     align-self: flex-start;
@@ -229,6 +249,11 @@ const cards = [
     border: 1px solid var(--rm-purple);
   }
 
+  .accent-cyan .badge {
+    color: var(--rm-cyan);
+    border: 1px solid var(--rm-cyan);
+  }
+
   .title {
     font-size: 1.08rem;
     font-weight: 700;
@@ -245,6 +270,13 @@ const cards = [
 
   .accent-purple .title {
     background: linear-gradient(135deg, var(--rm-purple) 0%, var(--rm-pink) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .accent-cyan .title {
+    background: linear-gradient(135deg, var(--rm-cyan) 0%, var(--rm-pink) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -293,6 +325,10 @@ const cards = [
     color: var(--rm-purple);
   }
 
+  .accent-cyan .bullet-mark {
+    color: var(--rm-cyan);
+  }
+
   .bullet-pct {
     font-family: var(--font-mono);
     font-size: 0.62rem;
@@ -315,6 +351,10 @@ const cards = [
     color: var(--rm-purple);
   }
 
+  .accent-cyan .cta {
+    color: var(--rm-cyan);
+  }
+
   .accent-green:hover .cta {
     color: var(--rm-cyan);
   }
@@ -323,9 +363,27 @@ const cards = [
     color: var(--rm-pink);
   }
 
+  .accent-cyan:hover .cta {
+    color: var(--rm-pink);
+  }
+
+  /* Tablet: 2-col with 3rd card spanning full width on row 2 */
   @media (max-width: 720px) {
     .card-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .card-grid > .exam-card:nth-child(3) {
+      grid-column: 1 / -1;
+    }
+  }
+
+  /* Mobile: stack */
+  @media (max-width: 480px) {
+    .card-grid {
       grid-template-columns: 1fr;
+    }
+    .card-grid > .exam-card:nth-child(3) {
+      grid-column: auto;
     }
   }
 
