@@ -5,8 +5,47 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Claude Code Roadmap for Developers</title>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<script>
+  // Mirror the theme picked on hueanmy.github.io. Same origin → same localStorage.
+  // Default is light (matches the main site default). Set BEFORE first paint
+  // so we never flash the wrong theme.
+  (function () {
+    try {
+      var stored = localStorage.getItem('theme');
+      var theme = stored === 'dark' || stored === 'light' ? stored : 'light';
+      document.documentElement.setAttribute('data-theme', theme);
+    } catch (e) {
+      document.documentElement.setAttribute('data-theme', 'light');
+    }
+  })();
+</script>
 <style>
+  /* Light theme — default. Dark overrides below.
+     Theme is selected by inline script in <head> based on localStorage,
+     same key as the main hueanmy.github.io site. */
   :root {
+    --bg: #fafafa;
+    --surface: #ffffff;
+    --border: rgba(0,0,0,0.09);
+    --cyan: #06b6d4;
+    --purple: #9333ea;
+    --pink: #ec4899;
+    --yellow: #ca8a04;
+    --green: #10b981;
+    --text: #1a1a1a;
+    --muted: #64748b;
+    --line: rgba(0,0,0,0.09);
+    --noise-opacity: 0.18;
+    --node-cyan-bg: linear-gradient(135deg, #cffafe, #a5f3fc);
+    --node-purple-bg: linear-gradient(135deg, #ede9fe, #ddd6fe);
+    --node-yellow-bg: linear-gradient(135deg, #fef9c3, #fef08a);
+    --node-green-bg: linear-gradient(135deg, #d1fae5, #a7f3d0);
+    --node-pink-bg: linear-gradient(135deg, #fce7f3, #fbcfe8);
+    --sub-node-hover-bg: #f1f5f9;
+    --toggle-bg: rgba(255, 255, 255, 0.85);
+  }
+
+  :root[data-theme='dark'] {
     --bg: #0a0a0f;
     --surface: #13131a;
     --border: #1e1e2e;
@@ -18,6 +57,14 @@
     --text: #e2e8f0;
     --muted: #64748b;
     --line: #1e1e2e;
+    --noise-opacity: 0.4;
+    --node-cyan-bg: linear-gradient(135deg, #003333, #004444);
+    --node-purple-bg: linear-gradient(135deg, #1a0033, #220044);
+    --node-yellow-bg: linear-gradient(135deg, #1a1200, #221800);
+    --node-green-bg: linear-gradient(135deg, #001a12, #002218);
+    --node-pink-bg: linear-gradient(135deg, #1a0011, #220018);
+    --sub-node-hover-bg: #1a1a2e;
+    --toggle-bg: rgba(0, 0, 0, 0.7);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -38,7 +85,7 @@
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
     pointer-events: none;
     z-index: 0;
-    opacity: 0.4;
+    opacity: var(--noise-opacity);
   }
 
   .container {
@@ -131,58 +178,58 @@
   }
 
   .main-node.cyan {
-    background: linear-gradient(135deg, #003333, #004444);
+    background: var(--node-cyan-bg);
     border: 2px solid var(--cyan);
     color: var(--cyan);
-    box-shadow: 0 0 20px rgba(0,212,212,0.2);
+    box-shadow: 0 0 20px rgba(6,182,212,0.2);
   }
 
   .main-node.cyan:hover {
-    box-shadow: 0 0 30px rgba(0,212,212,0.4);
+    box-shadow: 0 0 30px rgba(6,182,212,0.4);
   }
 
   .main-node.purple {
-    background: linear-gradient(135deg, #1a0033, #220044);
+    background: var(--node-purple-bg);
     border: 2px solid var(--purple);
     color: var(--purple);
-    box-shadow: 0 0 20px rgba(168,85,247,0.2);
+    box-shadow: 0 0 20px rgba(147,51,234,0.2);
   }
 
   .main-node.purple:hover {
-    box-shadow: 0 0 30px rgba(168,85,247,0.4);
+    box-shadow: 0 0 30px rgba(147,51,234,0.4);
   }
 
   .main-node.yellow {
-    background: linear-gradient(135deg, #1a1200, #221800);
+    background: var(--node-yellow-bg);
     border: 2px solid var(--yellow);
     color: var(--yellow);
-    box-shadow: 0 0 20px rgba(251,191,36,0.2);
+    box-shadow: 0 0 20px rgba(202,138,4,0.2);
   }
 
   .main-node.yellow:hover {
-    box-shadow: 0 0 30px rgba(251,191,36,0.4);
+    box-shadow: 0 0 30px rgba(202,138,4,0.4);
   }
 
   .main-node.green {
-    background: linear-gradient(135deg, #001a12, #002218);
+    background: var(--node-green-bg);
     border: 2px solid var(--green);
     color: var(--green);
-    box-shadow: 0 0 20px rgba(52,211,153,0.2);
+    box-shadow: 0 0 20px rgba(16,185,129,0.2);
   }
 
   .main-node.green:hover {
-    box-shadow: 0 0 30px rgba(52,211,153,0.4);
+    box-shadow: 0 0 30px rgba(16,185,129,0.4);
   }
 
   .main-node.pink {
-    background: linear-gradient(135deg, #1a0011, #220018);
+    background: var(--node-pink-bg);
     border: 2px solid var(--pink);
     color: var(--pink);
-    box-shadow: 0 0 20px rgba(244,114,182,0.2);
+    box-shadow: 0 0 20px rgba(236,72,153,0.2);
   }
 
   .main-node.pink:hover {
-    box-shadow: 0 0 30px rgba(244,114,182,0.4);
+    box-shadow: 0 0 30px rgba(236,72,153,0.4);
   }
 
   /* Connector line */
@@ -247,7 +294,7 @@
 
   .sub-node:hover {
     border-color: var(--muted);
-    background: #1a1a2e;
+    background: var(--sub-node-hover-bg);
     transform: translateY(-2px);
   }
 
@@ -394,7 +441,7 @@
     gap: 0;
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
-    background: rgba(0, 0, 0, 0.7);
+    background: var(--toggle-bg);
     border: 1px solid var(--border);
     border-radius: 8px;
     overflow: hidden;
