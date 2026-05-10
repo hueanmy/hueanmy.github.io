@@ -223,6 +223,44 @@
     font-size: 12px; background: var(--code-bg);
     padding: 1px 5px; border-radius: 4px; color: var(--text);
   }
+  .ki-link {
+    flex-shrink: 0;
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 24px; height: 24px;
+    border-radius: 6px;
+    color: var(--text3);
+    text-decoration: none;
+    font-size: 13px;
+    margin-top: 1px;
+    transition: all .12s;
+    border: 0.5px solid transparent;
+  }
+  .ki-link:hover {
+    color: var(--text);
+    background: var(--bg2);
+    border-color: var(--border);
+  }
+  .ki-link i { font-size: 14px; }
+
+  /* ── Section header GitHub link ── */
+  .sec-link {
+    display: inline-flex; align-items: center; gap: 4px;
+    flex-shrink: 0;
+    font-size: 11px;
+    color: var(--text3);
+    text-decoration: none;
+    padding: 3px 8px;
+    border-radius: 6px;
+    border: 0.5px solid var(--border);
+    background: var(--bg);
+    transition: all .12s;
+  }
+  .sec-link:hover {
+    color: var(--text);
+    background: var(--bg3);
+    border-color: var(--border2);
+  }
+  .sec-link i { font-size: 12px; }
 
   /* ── Trap / model list (Overview / Traps / Models panels) ── */
   .item-list {
@@ -357,21 +395,50 @@
     gap: 0.75rem;
     margin-bottom: 1rem;
   }
-  .scenario-card {
+  a.scenario-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
     border: 0.5px solid var(--border);
     border-radius: var(--radius-md);
     padding: 12px 14px;
     background: var(--bg2);
-    transition: background .12s;
+    transition: all .15s;
   }
-  .scenario-card:hover { background: var(--bg3); }
+  a.scenario-card:hover {
+    background: var(--bg3);
+    border-color: var(--p4);
+    transform: translateY(-1px);
+  }
   .scenario-num {
     font-size: 10px; font-weight: 700;
     font-family: 'SFMono-Regular', Consolas, monospace;
     color: var(--p4);
     margin-bottom: 4px;
+    display: flex; align-items: center; gap: 6px;
   }
+  .scenario-num .ext {
+    font-size: 10px; color: var(--text3);
+    margin-left: auto;
+    transition: color .15s;
+  }
+  a.scenario-card:hover .scenario-num .ext { color: var(--p4); }
   .scenario-title { font-size: 13px; font-weight: 600; color: var(--text); }
+
+  /* ── Trap / model domain badge ── */
+  .ki-domain-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    flex-shrink: 0;
+    font-size: 10px; font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 10px;
+    text-decoration: none;
+    margin-top: 3px;
+    transition: opacity .15s;
+    font-family: 'SFMono-Regular', Consolas, monospace;
+  }
+  .ki-domain-badge:hover { opacity: 0.75; }
+  .ki-domain-badge i { font-size: 11px; }
 
   /* ── Mobile ── */
   .menu-toggle {
@@ -582,6 +649,7 @@
             <div class="ki-text">
               <strong>Few-shot để enforce tool ordering</strong> — ordering là compliance concern, phải dùng <em>programmatic prerequisites</em> trong tool handler, không phải demonstrations trong prompt.
             </div>
+            <a class="ki-domain-badge" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/domain-1-agentic/examples/02-programmatic-prerequisites.py" target="_blank" style="background:var(--p1-bg);color:var(--p1-text)" title="See Domain 1 example">D1<i class="ti ti-external-link"></i></a>
           </div>
         </div>
         <div class="ki">
@@ -590,6 +658,7 @@
             <div class="ki-text">
               <strong>Self-reported confidence cho escalation routing</strong> — LLM confidence kém calibrated, model tự tin nhất khi sai nhất. Dùng external signal (rule check, agreement giữa 2 models).
             </div>
+            <a class="ki-domain-badge" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/domain-4-prompting/examples/03-escalation-routing.py" target="_blank" style="background:var(--p3-bg);color:var(--p3-text)" title="See Domain 4 example">D4<i class="ti ti-external-link"></i></a>
           </div>
         </div>
         <div class="ki">
@@ -598,6 +667,7 @@
             <div class="ki-text">
               <strong>Route mọi workflow sang Batch API để tiết kiệm</strong> — Batch không có SLA (up-to-24h), blocking workflow (chat, IDE, code agent) bắt buộc phải dùng real-time API.
             </div>
+            <a class="ki-domain-badge" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/domain-5-context/examples/03-batch-vs-realtime.py" target="_blank" style="background:var(--p3-bg);color:var(--p3-text)" title="See Domain 5 example">D5<i class="ti ti-external-link"></i></a>
           </div>
         </div>
         <div class="ki">
@@ -606,6 +676,7 @@
             <div class="ki-text">
               <strong>Tăng context window để fix attention dilution</strong> — context size ≠ attention quality. Phải split thành per-file passes, đặt key info ở đầu/cuối, dùng section headers.
             </div>
+            <a class="ki-domain-badge" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/domain-5-context/examples/01-lost-in-the-middle.py" target="_blank" style="background:var(--p3-bg);color:var(--p3-text)" title="See Domain 5 example">D5<i class="ti ti-external-link"></i></a>
           </div>
         </div>
         <div class="ki">
@@ -614,6 +685,7 @@
             <div class="ki-text">
               <strong>Return empty khi subagent fail</strong> — phải return <code>{ok: false, error, retryable, context}</code> structured, không được suppress lỗi im lặng.
             </div>
+            <a class="ki-domain-badge" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/domain-1-agentic/examples/04-tool-error-handling.py" target="_blank" style="background:var(--p1-bg);color:var(--p1-text)" title="See Domain 1 example">D1<i class="ti ti-external-link"></i></a>
           </div>
         </div>
         <div class="ki">
@@ -622,6 +694,7 @@
             <div class="ki-text">
               <strong>Cho agent dùng 18 tools</strong> — 4–5 tools/agent là optimal. Quá nhiều làm giảm selection reliability. Fix = split thành multi-agent với role-scoped tool sets.
             </div>
+            <a class="ki-domain-badge" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/domain-2-tools-mcp/examples/02-tool-budget.py" target="_blank" style="background:var(--p2-bg);color:var(--p2-text)" title="See Domain 2 example">D2<i class="ti ti-external-link"></i></a>
           </div>
         </div>
       </div>
@@ -645,6 +718,7 @@
             <div class="ki-text">
               <strong>Programmatic vs prompt-based enforcement</strong> — khi có financial/compliance consequence → phải dùng <em>code</em>, không dùng prompt. Prompt là probabilistic, code là deterministic.
             </div>
+            <a class="ki-domain-badge" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/domain-1-agentic/examples/02-programmatic-prerequisites.py" target="_blank" style="background:var(--p1-bg);color:var(--p1-text)" title="See Domain 1 example">D1<i class="ti ti-external-link"></i></a>
           </div>
         </div>
         <div class="ki">
@@ -653,6 +727,7 @@
             <div class="ki-text">
               <strong>Tool description là routing mechanism chính</strong> — không phải system prompt, không phải function name. Mô tả tệ → model đoán mò giữa các tools tương tự.
             </div>
+            <a class="ki-domain-badge" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/domain-2-tools-mcp/examples/01-tool-description-quality.py" target="_blank" style="background:var(--p2-bg);color:var(--p2-text)" title="See Domain 2 example">D2<i class="ti ti-external-link"></i></a>
           </div>
         </div>
         <div class="ki">
@@ -661,6 +736,7 @@
             <div class="ki-text">
               <strong>Subagent không kế thừa context</strong> — mọi thứ cần phải pass <em>explicitly</em> trong prompt. Không có shared memory, không có automatic history propagation.
             </div>
+            <a class="ki-domain-badge" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/domain-1-agentic/examples/03-multi-agent-handoff.py" target="_blank" style="background:var(--p1-bg);color:var(--p1-text)" title="See Domain 1 example">D1<i class="ti ti-external-link"></i></a>
           </div>
         </div>
         <div class="ki">
@@ -669,6 +745,7 @@
             <div class="ki-text">
               <strong>Lost-in-the-middle là design constraint thật</strong> — đặt key summaries ở đầu aggregated input, dùng section headers, trim verbose tool outputs <em>trước khi</em> accumulate.
             </div>
+            <a class="ki-domain-badge" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/domain-5-context/examples/01-lost-in-the-middle.py" target="_blank" style="background:var(--p3-bg);color:var(--p3-text)" title="See Domain 5 example">D5<i class="ti ti-external-link"></i></a>
           </div>
         </div>
         <div class="ki">
@@ -677,6 +754,7 @@
             <div class="ki-text">
               <strong>Batch API vs real-time là latency decision</strong> — không phải cost decision. Batch tiết kiệm 50% nhưng up-to-24h, không có SLA. Blocking workflow → real-time bắt buộc.
             </div>
+            <a class="ki-domain-badge" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/domain-5-context/examples/03-batch-vs-realtime.py" target="_blank" style="background:var(--p3-bg);color:var(--p3-text)" title="See Domain 5 example">D5<i class="ti ti-external-link"></i></a>
           </div>
         </div>
       </div>
@@ -698,17 +776,18 @@
           <i class="ti ti-hexagon sec-icon" style="color:var(--p1)"></i>
           <span class="sec-label">Domain 1 · Agentic Architecture & Orchestration</span>
           <span class="sec-tag" style="background:var(--p1-bg);color:var(--p1-text)">Nặng nhất</span>
+          <a class="sec-link" href="https://github.com/hueanmy/cca-f-roadmap/tree/main/domain-1-agentic" target="_blank" onclick="event.stopPropagation()" title="Open domain on GitHub"><i class="ti ti-brand-github"></i>examples</a>
           <i class="ti ti-chevron-down sec-chev open"></i>
         </div>
         <div class="sec-body open">
-          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p1)"></div><div class="ki-text">Agentic loop: tiếp tục khi <code>stop_reason = "tool_use"</code>, kết thúc khi <code>"end_turn"</code></div></div></div>
-          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p1)"></div><div class="ki-text">Multi-agent hub-and-spoke: coordinator quản lý routing & error handling, subagents có isolated context</div></div></div>
-          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p1)"></div><div class="ki-text">Subagent context passing: dùng <code>Task</code> tool, <code>allowedTools</code> phải include "Task", pass findings explicitly</div></div></div>
-          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p1)"></div><div class="ki-text">Spawn parallel subagents bằng multiple <code>Task</code> calls trong <em>một</em> coordinator response</div></div></div>
-          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p1)"></div><div class="ki-text">Programmatic prerequisites: block <code>process_refund</code> cho đến khi <code>get_customer</code> trả về verified ID</div></div></div>
-          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p1)"></div><div class="ki-text">Hooks: <code>PostToolUse</code> để normalize heterogeneous formats, interception để block policy violations (refund &gt; $500)</div></div></div>
-          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p1)"></div><div class="ki-text">Task decomposition: prompt chaining cho fixed sequential steps, dynamic decomposition cho open-ended exploration</div></div></div>
-          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p1)"></div><div class="ki-text">Session management: <code>--resume &lt;session-name&gt;</code>, <code>fork_session</code> cho independent branches từ shared baseline</div></div></div>
+          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p1)"></div><div class="ki-text">Agentic loop: tiếp tục khi <code>stop_reason = "tool_use"</code>, kết thúc khi <code>"end_turn"</code></div><a class="ki-link" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/domain-1-agentic/examples/01-agentic-loop.py" target="_blank" title="01-agentic-loop.py"><i class="ti ti-external-link"></i></a></div></div>
+          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p1)"></div><div class="ki-text">Multi-agent hub-and-spoke: coordinator quản lý routing & error handling, subagents có isolated context</div><a class="ki-link" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/domain-1-agentic/examples/03-multi-agent-handoff.py" target="_blank" title="03-multi-agent-handoff.py"><i class="ti ti-external-link"></i></a></div></div>
+          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p1)"></div><div class="ki-text">Subagent context passing: dùng <code>Task</code> tool, <code>allowedTools</code> phải include "Task", pass findings explicitly</div><a class="ki-link" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/domain-1-agentic/examples/03-multi-agent-handoff.py" target="_blank" title="03-multi-agent-handoff.py"><i class="ti ti-external-link"></i></a></div></div>
+          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p1)"></div><div class="ki-text">Spawn parallel subagents bằng multiple <code>Task</code> calls trong <em>một</em> coordinator response</div><a class="ki-link" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/domain-1-agentic/examples/03-multi-agent-handoff.py" target="_blank" title="03-multi-agent-handoff.py"><i class="ti ti-external-link"></i></a></div></div>
+          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p1)"></div><div class="ki-text">Programmatic prerequisites: block <code>process_refund</code> cho đến khi <code>get_customer</code> trả về verified ID</div><a class="ki-link" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/domain-1-agentic/examples/02-programmatic-prerequisites.py" target="_blank" title="02-programmatic-prerequisites.py"><i class="ti ti-external-link"></i></a></div></div>
+          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p1)"></div><div class="ki-text">Hooks: <code>PostToolUse</code> để normalize heterogeneous formats, interception để block policy violations (refund &gt; $500)</div><a class="ki-link" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/domain-1-agentic/examples/04-tool-error-handling.py" target="_blank" title="04-tool-error-handling.py"><i class="ti ti-external-link"></i></a></div></div>
+          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p1)"></div><div class="ki-text">Task decomposition: prompt chaining cho fixed sequential steps, dynamic decomposition cho open-ended exploration</div><a class="ki-link" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/domain-1-agentic/README.md" target="_blank" title="Domain 1 README"><i class="ti ti-external-link"></i></a></div></div>
+          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p1)"></div><div class="ki-text">Session management: <code>--resume &lt;session-name&gt;</code>, <code>fork_session</code> cho independent branches từ shared baseline</div><a class="ki-link" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/domain-1-agentic/README.md" target="_blank" title="Domain 1 README"><i class="ti ti-external-link"></i></a></div></div>
         </div>
       </div>
     </div>
@@ -729,15 +808,16 @@
           <i class="ti ti-plug sec-icon" style="color:var(--p2)"></i>
           <span class="sec-label">Domain 2 · Tool Design & MCP Integration</span>
           <span class="sec-tag" style="background:var(--p2-bg);color:var(--p2-text)">18%</span>
+          <a class="sec-link" href="https://github.com/hueanmy/cca-f-roadmap/tree/main/domain-2-tools-mcp" target="_blank" onclick="event.stopPropagation()" title="Open domain on GitHub"><i class="ti ti-brand-github"></i>examples</a>
           <i class="ti ti-chevron-down sec-chev open"></i>
         </div>
         <div class="sec-body open">
-          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p2)"></div><div class="ki-text">Tool description = routing mechanism chính của LLM (không phải function name hay system prompt)</div></div></div>
-          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p2)"></div><div class="ki-text">Include trong description: input formats, example queries, edge cases, explicit boundaries vs. similar tools</div></div></div>
-          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p2)"></div><div class="ki-text">Rename tools để tránh overlap: <code>analyze_code_structure</code> vs. <code>analyze_code_quality</code></div></div></div>
-          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p2)"></div><div class="ki-text">MCP server scoping: mỗi agent chỉ expose tools thuộc role của nó</div></div></div>
-          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p2)"></div><div class="ki-text">Tool boundaries ngăn reasoning overload — tối đa 4–5 tools/agent, không phải 18</div></div></div>
-          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p2)"></div><div class="ki-text">MCP server types: stdio (local), SSE/HTTP (remote); authentication và permission scoping</div></div></div>
+          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p2)"></div><div class="ki-text">Tool description = routing mechanism chính của LLM (không phải function name hay system prompt)</div><a class="ki-link" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/domain-2-tools-mcp/examples/01-tool-description-quality.py" target="_blank" title="01-tool-description-quality.py"><i class="ti ti-external-link"></i></a></div></div>
+          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p2)"></div><div class="ki-text">Include trong description: input formats, example queries, edge cases, explicit boundaries vs. similar tools</div><a class="ki-link" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/domain-2-tools-mcp/examples/01-tool-description-quality.py" target="_blank" title="01-tool-description-quality.py"><i class="ti ti-external-link"></i></a></div></div>
+          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p2)"></div><div class="ki-text">Rename tools để tránh overlap: <code>analyze_code_structure</code> vs. <code>analyze_code_quality</code></div><a class="ki-link" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/domain-2-tools-mcp/README.md" target="_blank" title="Domain 2 README"><i class="ti ti-external-link"></i></a></div></div>
+          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p2)"></div><div class="ki-text">MCP server scoping: mỗi agent chỉ expose tools thuộc role của nó</div><a class="ki-link" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/domain-2-tools-mcp/examples/03-mcp-server-stdio.py" target="_blank" title="03-mcp-server-stdio.py"><i class="ti ti-external-link"></i></a></div></div>
+          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p2)"></div><div class="ki-text">Tool boundaries ngăn reasoning overload — tối đa 4–5 tools/agent, không phải 18</div><a class="ki-link" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/domain-2-tools-mcp/examples/02-tool-budget.py" target="_blank" title="02-tool-budget.py"><i class="ti ti-external-link"></i></a></div></div>
+          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p2)"></div><div class="ki-text">MCP server types: stdio (local), SSE/HTTP (remote); authentication và permission scoping</div><a class="ki-link" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/domain-2-tools-mcp/examples/03-mcp-server-stdio.py" target="_blank" title="03-mcp-server-stdio.py"><i class="ti ti-external-link"></i></a></div></div>
         </div>
       </div>
 
@@ -746,15 +826,16 @@
           <i class="ti ti-code sec-icon" style="color:var(--p2)"></i>
           <span class="sec-label">Domain 3 · Claude Code Configuration & Workflows</span>
           <span class="sec-tag" style="background:var(--p2-bg);color:var(--p2-text)">20%</span>
+          <a class="sec-link" href="https://github.com/hueanmy/cca-f-roadmap/tree/main/domain-3-claude-code" target="_blank" onclick="event.stopPropagation()" title="Open domain on GitHub"><i class="ti ti-brand-github"></i>examples</a>
           <i class="ti ti-chevron-down sec-chev open"></i>
         </div>
         <div class="sec-body open">
-          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p2)"></div><div class="ki-text">CLAUDE.md hierarchy: project-level → user-level → system-level, hiểu rõ override rules</div></div></div>
-          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p2)"></div><div class="ki-text">Skills frontmatter: cấu trúc file, khi nào trigger, path conventions (<code>.claude/skills/</code>)</div></div></div>
-          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p2)"></div><div class="ki-text">Custom slash commands: <code>/cf-orchestrate-convert</code>, <code>/cf-orchestrate-new-test</code></div></div></div>
-          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p2)"></div><div class="ki-text">Directory convention: <code>.claude/agents/</code>, <code>.claude/skills/</code>, <code>.claude/rules/</code></div></div></div>
-          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p2)"></div><div class="ki-text">CI/CD integration: non-interactive mode flags, output format, <code>--allowedTools</code></div></div></div>
-          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p2)"></div><div class="ki-text">storageState-based auth trong automated test workflows</div></div></div>
+          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p2)"></div><div class="ki-text">CLAUDE.md hierarchy: project-level → user-level → system-level, hiểu rõ override rules</div><a class="ki-link" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/domain-3-claude-code/examples/CLAUDE.md.example" target="_blank" title="CLAUDE.md.example"><i class="ti ti-external-link"></i></a></div></div>
+          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p2)"></div><div class="ki-text">Skills frontmatter: cấu trúc file, khi nào trigger, path conventions (<code>.claude/skills/</code>)</div><a class="ki-link" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/domain-3-claude-code/examples/skill-example/SKILL.md" target="_blank" title="SKILL.md"><i class="ti ti-external-link"></i></a></div></div>
+          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p2)"></div><div class="ki-text">Custom slash commands: <code>/cf-orchestrate-convert</code>, <code>/cf-orchestrate-new-test</code></div><a class="ki-link" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/domain-3-claude-code/examples/cf-orchestrate-convert.md" target="_blank" title="cf-orchestrate-convert.md"><i class="ti ti-external-link"></i></a></div></div>
+          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p2)"></div><div class="ki-text">Directory convention: <code>.claude/agents/</code>, <code>.claude/skills/</code>, <code>.claude/rules/</code></div><a class="ki-link" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/domain-3-claude-code/README.md" target="_blank" title="Domain 3 README"><i class="ti ti-external-link"></i></a></div></div>
+          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p2)"></div><div class="ki-text">CI/CD integration: non-interactive mode flags, output format, <code>--allowedTools</code></div><a class="ki-link" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/domain-3-claude-code/examples/ci-pipeline.sh" target="_blank" title="ci-pipeline.sh"><i class="ti ti-external-link"></i></a></div></div>
+          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p2)"></div><div class="ki-text">storageState-based auth trong automated test workflows</div><a class="ki-link" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/domain-3-claude-code/examples/cf-orchestrate-convert.md" target="_blank" title="cf-orchestrate-convert.md"><i class="ti ti-external-link"></i></a></div></div>
         </div>
       </div>
     </div>
@@ -775,15 +856,16 @@
           <i class="ti ti-message-2 sec-icon" style="color:var(--p3)"></i>
           <span class="sec-label">Domain 4 · Prompt Engineering & Structured Output</span>
           <span class="sec-tag" style="background:var(--p3-bg);color:var(--p3-text)">20%</span>
+          <a class="sec-link" href="https://github.com/hueanmy/cca-f-roadmap/tree/main/domain-4-prompting" target="_blank" onclick="event.stopPropagation()" title="Open domain on GitHub"><i class="ti ti-brand-github"></i>examples</a>
           <i class="ti ti-chevron-down sec-chev open"></i>
         </div>
         <div class="sec-body open">
-          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p3)"></div><div class="ki-text">JSON schema enforcement: <code>response_format</code> + validation retry loops</div></div></div>
-          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p3)"></div><div class="ki-text">Few-shot cho tone/style — <strong>KHÔNG</strong> dùng để enforce ordering hay compliance</div></div></div>
-          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p3)"></div><div class="ki-text">Defense in depth: schema + few-shot + validation = reliable structured output</div></div></div>
-          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p3)"></div><div class="ki-text">Prompt chaining cho multi-step extraction, không nhồi hết vào một prompt</div></div></div>
-          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p3)"></div><div class="ki-text">Phân biệt probabilistic (prompt) vs. deterministic (programmatic) enforcement</div></div></div>
-          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p3)"></div><div class="ki-text">Escalation routing: dựa vào external signals, không dựa vào self-reported confidence</div></div></div>
+          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p3)"></div><div class="ki-text">JSON schema enforcement: <code>response_format</code> + validation retry loops</div><a class="ki-link" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/domain-4-prompting/examples/01-structured-output.py" target="_blank" title="01-structured-output.py"><i class="ti ti-external-link"></i></a></div></div>
+          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p3)"></div><div class="ki-text">Few-shot cho tone/style — <strong>KHÔNG</strong> dùng để enforce ordering hay compliance</div><a class="ki-link" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/domain-4-prompting/README.md" target="_blank" title="Domain 4 README"><i class="ti ti-external-link"></i></a></div></div>
+          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p3)"></div><div class="ki-text">Defense in depth: schema + few-shot + validation = reliable structured output</div><a class="ki-link" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/domain-4-prompting/examples/01-structured-output.py" target="_blank" title="01-structured-output.py"><i class="ti ti-external-link"></i></a></div></div>
+          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p3)"></div><div class="ki-text">Prompt chaining cho multi-step extraction, không nhồi hết vào một prompt</div><a class="ki-link" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/domain-4-prompting/examples/02-prompt-chaining.py" target="_blank" title="02-prompt-chaining.py"><i class="ti ti-external-link"></i></a></div></div>
+          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p3)"></div><div class="ki-text">Phân biệt probabilistic (prompt) vs. deterministic (programmatic) enforcement</div><a class="ki-link" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/domain-4-prompting/README.md" target="_blank" title="Domain 4 README"><i class="ti ti-external-link"></i></a></div></div>
+          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p3)"></div><div class="ki-text">Escalation routing: dựa vào external signals, không dựa vào self-reported confidence</div><a class="ki-link" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/domain-4-prompting/examples/03-escalation-routing.py" target="_blank" title="03-escalation-routing.py"><i class="ti ti-external-link"></i></a></div></div>
         </div>
       </div>
 
@@ -792,15 +874,16 @@
           <i class="ti ti-rotate sec-icon" style="color:var(--p3)"></i>
           <span class="sec-label">Domain 5 · Context Management & Reliability</span>
           <span class="sec-tag" style="background:var(--p3-bg);color:var(--p3-text)">15%</span>
+          <a class="sec-link" href="https://github.com/hueanmy/cca-f-roadmap/tree/main/domain-5-context" target="_blank" onclick="event.stopPropagation()" title="Open domain on GitHub"><i class="ti ti-brand-github"></i>examples</a>
           <i class="ti ti-chevron-down sec-chev open"></i>
         </div>
         <div class="sec-body open">
-          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p3)"></div><div class="ki-text">Lost-in-the-middle: key info phải ở đầu hoặc cuối input, không để ở giữa</div></div></div>
-          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p3)"></div><div class="ki-text">Trim verbose tool outputs <em>trước khi</em> chúng tích lũy trong context</div></div></div>
-          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p3)"></div><div class="ki-text">Handoff summary bắt buộc gồm: customer ID, root cause, refund amount, recommended action</div></div></div>
-          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p3)"></div><div class="ki-text">Confidence calibration: không tin self-reported score, dùng external validation</div></div></div>
-          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p3)"></div><div class="ki-text">Batch API: tiết kiệm 50% cost, up-to-24h SLA — chỉ dùng cho overnight/weekly jobs</div></div></div>
-          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p3)"></div><div class="ki-text">Long context strategy: per-file analysis passes, section headers, explicit summaries ở đầu</div></div></div>
+          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p3)"></div><div class="ki-text">Lost-in-the-middle: key info phải ở đầu hoặc cuối input, không để ở giữa</div><a class="ki-link" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/domain-5-context/examples/01-lost-in-the-middle.py" target="_blank" title="01-lost-in-the-middle.py"><i class="ti ti-external-link"></i></a></div></div>
+          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p3)"></div><div class="ki-text">Trim verbose tool outputs <em>trước khi</em> chúng tích lũy trong context</div><a class="ki-link" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/domain-5-context/examples/02-trim-tool-outputs.py" target="_blank" title="02-trim-tool-outputs.py"><i class="ti ti-external-link"></i></a></div></div>
+          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p3)"></div><div class="ki-text">Handoff summary bắt buộc gồm: customer ID, root cause, refund amount, recommended action</div><a class="ki-link" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/domain-5-context/README.md" target="_blank" title="Domain 5 README"><i class="ti ti-external-link"></i></a></div></div>
+          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p3)"></div><div class="ki-text">Confidence calibration: không tin self-reported score, dùng external validation</div><a class="ki-link" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/domain-4-prompting/examples/03-escalation-routing.py" target="_blank" title="03-escalation-routing.py (Domain 4)"><i class="ti ti-external-link"></i></a></div></div>
+          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p3)"></div><div class="ki-text">Batch API: tiết kiệm 50% cost, up-to-24h SLA — chỉ dùng cho overnight/weekly jobs</div><a class="ki-link" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/domain-5-context/examples/03-batch-vs-realtime.py" target="_blank" title="03-batch-vs-realtime.py"><i class="ti ti-external-link"></i></a></div></div>
+          <div class="ki"><div class="ki-row"><div class="ki-bullet" style="background:var(--p3)"></div><div class="ki-text">Long context strategy: per-file analysis passes, section headers, explicit summaries ở đầu</div><a class="ki-link" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/domain-5-context/examples/01-lost-in-the-middle.py" target="_blank" title="01-lost-in-the-middle.py"><i class="ti ti-external-link"></i></a></div></div>
         </div>
       </div>
     </div>
@@ -818,30 +901,30 @@
 
       <h3 style="font-size:13px;font-weight:600;color:var(--text2);margin-bottom:0.6rem;text-transform:uppercase;letter-spacing:0.05em">6 Exam Scenarios</h3>
       <div class="scenarios">
-        <div class="scenario-card">
-          <div class="scenario-num">SC 1</div>
+        <a class="scenario-card" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/scenarios/README.md#1-customer-support-resolution-agent" target="_blank">
+          <div class="scenario-num">SC 1<span class="ext">↗</span></div>
           <div class="scenario-title">Customer Support Resolution Agent</div>
-        </div>
-        <div class="scenario-card">
-          <div class="scenario-num">SC 2</div>
+        </a>
+        <a class="scenario-card" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/scenarios/README.md#2-code-generation-with-claude-code" target="_blank">
+          <div class="scenario-num">SC 2<span class="ext">↗</span></div>
           <div class="scenario-title">Code Generation with Claude Code</div>
-        </div>
-        <div class="scenario-card">
-          <div class="scenario-num">SC 3</div>
+        </a>
+        <a class="scenario-card" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/scenarios/README.md#3-multi-agent-research-system" target="_blank">
+          <div class="scenario-num">SC 3<span class="ext">↗</span></div>
           <div class="scenario-title">Multi-Agent Research System</div>
-        </div>
-        <div class="scenario-card">
-          <div class="scenario-num">SC 4</div>
+        </a>
+        <a class="scenario-card" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/scenarios/README.md#4-developer-productivity-with-claude" target="_blank">
+          <div class="scenario-num">SC 4<span class="ext">↗</span></div>
           <div class="scenario-title">Developer Productivity with Claude</div>
-        </div>
-        <div class="scenario-card">
-          <div class="scenario-num">SC 5</div>
+        </a>
+        <a class="scenario-card" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/scenarios/README.md#5-claude-code-for-cicd" target="_blank">
+          <div class="scenario-num">SC 5<span class="ext">↗</span></div>
           <div class="scenario-title">Claude Code for CI/CD</div>
-        </div>
-        <div class="scenario-card">
-          <div class="scenario-num">SC 6</div>
+        </a>
+        <a class="scenario-card" href="https://github.com/hueanmy/cca-f-roadmap/blob/main/scenarios/README.md#6-structured-data-extraction" target="_blank">
+          <div class="scenario-num">SC 6<span class="ext">↗</span></div>
           <div class="scenario-title">Structured Data Extraction</div>
-        </div>
+        </a>
       </div>
 
       <div style="font-size:12px;color:var(--text2);padding:12px 16px;background:var(--bg2);border-radius:var(--radius-md);border-left:3px solid var(--p4);line-height:1.6">
