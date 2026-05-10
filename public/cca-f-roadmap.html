@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CCA-F Study Roadmap</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg2: #f5f5f3;
+    --bg3: #efefec;
+    --text: #1a1a18;
+    --text2: #5a5a56;
+    --text3: #8a8a84;
+    --border: rgba(0,0,0,0.1);
+    --border2: rgba(0,0,0,0.18);
+    --warn-bg: #fffbeb;
+    --warn-border: rgba(180,120,0,0.25);
+    --warn-text: #7a4f00;
+    --warn-icon: #b07800;
+    --info-bg: #eff6ff;
+    --info-border: rgba(37,99,235,0.2);
+    --info-text: #1e40af;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1a;
+      --bg2: #252523;
+      --bg3: #2e2e2b;
+      --text: #e8e8e2;
+      --text2: #a8a8a0;
+      --text3: #6a6a62;
+      --border: rgba(255,255,255,0.1);
+      --border2: rgba(255,255,255,0.18);
+      --warn-bg: #2a2000;
+      --warn-border: rgba(200,150,0,0.25);
+      --warn-text: #f0c040;
+      --warn-icon: #d4a820;
+      --info-bg: #001a33;
+      --info-border: rgba(96,165,250,0.2);
+      --info-text: #93c5fd;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.6;
+    padding: 2rem 1rem;
+  }
+  .container { max-width: 760px; margin: 0 auto; }
+  .page-title { font-size: 22px; font-weight: 600; margin-bottom: 4px; }
+  .page-sub { font-size: 13px; color: var(--text2); margin-bottom: 1.25rem; }
+  .exam-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .meta-chip {
+    font-size: 11px; color: var(--text2); background: var(--bg2);
+    border: 0.5px solid var(--border); border-radius: 20px; padding: 3px 10px;
+  }
+  .meta-chip strong { color: var(--text); font-weight: 600; }
+
+  .accordion {
+    border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 10px;
+  }
+  .accordion.warn { border: 0.5px solid var(--warn-border); }
+  .accordion.info { border: 0.5px solid var(--info-border); }
+  .acc-header {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 14px; cursor: pointer; user-select: none;
+  }
+  .accordion.warn .acc-header { background: var(--warn-bg); }
+  .accordion.info .acc-header { background: var(--info-bg); }
+  .acc-header i.acc-icon { font-size: 16px; }
+  .accordion.warn .acc-icon { color: var(--warn-icon); }
+  .accordion.info .acc-icon { color: var(--info-text); }
+  .acc-title { font-size: 13px; font-weight: 600; flex: 1; }
+  .accordion.warn .acc-title { color: var(--warn-text); }
+  .accordion.info .acc-title { color: var(--info-text); }
+  .acc-chev { font-size: 14px; transition: transform .2s; }
+  .accordion.warn .acc-chev { color: var(--warn-text); }
+  .accordion.info .acc-chev { color: var(--info-text); }
+  .acc-chev.open { transform: rotate(180deg); }
+  .acc-body {
+    display: none; padding: 10px 14px 12px;
+    background: var(--bg); border-top: 0.5px solid var(--border);
+  }
+  .acc-body.open { display: block; }
+  .acc-item {
+    display: flex; gap: 8px; padding: 6px 0;
+    border-bottom: 0.5px solid var(--border); align-items: flex-start;
+  }
+  .acc-item:last-child { border-bottom: none; }
+  .acc-badge {
+    font-size: 10px; font-weight: 600; padding: 2px 7px;
+    border-radius: 4px; flex-shrink: 0; margin-top: 2px;
+  }
+  .badge-trap { background: #fee2e2; color: #991b1b; }
+  .badge-model { background: var(--info-bg); color: var(--info-text); }
+  @media (prefers-color-scheme: dark) {
+    .badge-trap { background: #3b0f0f; color: #fca5a5; }
+    .badge-model { background: #0c1a33; color: #93c5fd; }
+  }
+  .acc-text { font-size: 12px; color: var(--text2); line-height: 1.55; }
+  .acc-text strong { color: var(--text); font-weight: 600; }
+
+  .tree-section { margin-top: 1.5rem; }
+  .tree { list-style: none; padding: 0; }
+  .node { list-style: none; }
+  .node-row {
+    display: flex; align-items: center; gap: 7px;
+    padding: 7px 10px; border-radius: var(--radius-md);
+    cursor: pointer; transition: background .12s; position: relative;
+  }
+  .node-row:hover { background: var(--bg2); }
+  .node-icon { font-size: 15px; flex-shrink: 0; }
+  .node-label { font-size: 13px; font-weight: 600; flex: 1; color: var(--text); }
+  .node-tag {
+    font-size: 10px; font-weight: 600; padding: 2px 8px;
+    border-radius: 20px; flex-shrink: 0;
+  }
+  .node-chev { font-size: 13px; color: var(--text3); transition: transform .18s; flex-shrink: 0; }
+  .node-chev.open { transform: rotate(90deg); }
+  .node-children { display: none; }
+  .node-children.open { display: block; }
+  .connector {
+    margin-left: 22px;
+    border-left: 1.5px solid var(--border);
+    padding-left: 14px;
+    margin-bottom: 2px;
+  }
+  .leaf-row { display: flex; align-items: flex-start; gap: 8px; padding: 4px 10px 4px 0; }
+  .leaf-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; opacity: 0.6; }
+  .leaf-text { font-size: 12px; color: var(--text2); line-height: 1.55; }
+  .leaf-text code {
+    font-family: 'SFMono-Regular', Consolas, monospace; font-size: 11px;
+    background: var(--bg3); padding: 1px 5px; border-radius: 3px; color: var(--text);
+  }
+  .domain-label {
+    font-size: 11px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--text3);
+    padding: 8px 10px 4px; margin-top: 4px;
+  }
+  .footer { margin-top: 2.5rem; padding-top: 1rem; border-top: 0.5px solid var(--border); font-size: 11px; color: var(--text3); text-align: center; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="page-title">CCA-F Study Roadmap</div>
+  <div class="page-sub">Claude Certified Architect – Foundations · Kế hoạch ôn thi 8 tuần</div>
+
+  <div class="exam-meta">
+    <div class="meta-chip"><strong>60</strong> câu · <strong>120</strong> phút</div>
+    <div class="meta-chip">Pass: <strong>720</strong>/1000</div>
+    <div class="meta-chip">Phí: <strong>$99</strong></div>
+    <div class="meta-chip">4/6 scenarios random</div>
+    <div class="meta-chip">Scenario-based, không phải trivia</div>
+  </div>
+
+  <div class="accordion warn" id="a-traps">
+    <div class="acc-header" onclick="togAcc('a-traps')">
+      <i class="ti ti-alert-triangle acc-icon"></i>
+      <span class="acc-title">Common traps – những bẫy hay gặp trong đề thi</span>
+      <i class="ti ti-chevron-down acc-chev" id="a-traps-chev"></i>
+    </div>
+    <div class="acc-body" id="a-traps-body">
+      <div class="acc-item"><span class="acc-badge badge-trap">trap</span><span class="acc-text"><strong>Few-shot để enforce tool ordering</strong> — ordering là compliance concern, phải dùng programmatic prerequisites, không phải demonstrations</span></div>
+      <div class="acc-item"><span class="acc-badge badge-trap">trap</span><span class="acc-text"><strong>Self-reported confidence cho escalation routing</strong> — LLM confidence kém calibrated, model tự tin nhất khi sai nhất</span></div>
+      <div class="acc-item"><span class="acc-badge badge-trap">trap</span><span class="acc-text"><strong>Route mọi workflow sang Batch API để tiết kiệm</strong> — Batch không có SLA, blocking workflow bắt buộc phải dùng real-time API</span></div>
+      <div class="acc-item"><span class="acc-badge badge-trap">trap</span><span class="acc-text"><strong>Tăng context window để fix attention dilution</strong> — context size ≠ attention quality, phải split thành per-file passes</span></div>
+      <div class="acc-item"><span class="acc-badge badge-trap">trap</span><span class="acc-text"><strong>Return empty khi subagent fail</strong> — phải return structured error context, không được suppress lỗi im lặng</span></div>
+      <div class="acc-item"><span class="acc-badge badge-trap">trap</span><span class="acc-text"><strong>Cho agent dùng 18 tools</strong> — 4–5 tools/agent là optimal, quá nhiều làm giảm selection reliability</span></div>
+    </div>
+  </div>
+
+  <div class="accordion info" id="a-models">
+    <div class="acc-header" onclick="togAcc('a-models')">
+      <i class="ti ti-bulb acc-icon"></i>
+      <span class="acc-title">5 mental models quan trọng nhất cho kỳ thi</span>
+      <i class="ti ti-chevron-down acc-chev" id="a-models-chev"></i>
+    </div>
+    <div class="acc-body" id="a-models-body">
+      <div class="acc-item"><span class="acc-badge badge-model">M1</span><span class="acc-text"><strong>Programmatic enforcement vs. prompt-based guidance</strong> — khi có financial/compliance consequence → phải dùng code, không dùng prompt (prompt là probabilistic)</span></div>
+      <div class="acc-item"><span class="acc-badge badge-model">M2</span><span class="acc-text"><strong>Tool description là routing mechanism chính</strong> — không phải system prompt, không phải function name. Mô tả tệ → model đoán mò giữa các tools</span></div>
+      <div class="acc-item"><span class="acc-badge badge-model">M3</span><span class="acc-text"><strong>Subagent không kế thừa context</strong> — mọi thứ cần phải pass explicitly trong prompt, không có shared memory hay automatic history propagation</span></div>
+      <div class="acc-item"><span class="acc-badge badge-model">M4</span><span class="acc-text"><strong>Lost-in-the-middle là design constraint thật</strong> — đặt key summaries ở đầu aggregated input, dùng section headers, trim verbose tool outputs trước khi accumulate</span></div>
+      <div class="acc-item"><span class="acc-badge badge-model">M5</span><span class="acc-text"><strong>Batch API vs. real-time là latency decision</strong> — Batch tiết kiệm 50% cost nhưng up-to-24h window, không có SLA. Blocking workflow → real-time bắt buộc</span></div>
+    </div>
+  </div>
+
+  <div class="tree-section">
+    <ul class="tree" id="tree-root"></ul>
+  </div>
+
+  <div class="footer">CCA-F Roadmap · Dựa trên official exam guide của Anthropic · exampro.co/cca-f</div>
+</div>
+
+<script>
+const TREE = [
+  { id:'root', label:'CCA-F Study Roadmap (8 tuần)', icon:'ti-map', color:'#1D9E75', tag:null, tagBg:null, tagColor:null,
+    children:[
+      { id:'p1', label:'Giai đoạn 1 – Nền tảng Agentic', icon:'ti-topology-star', color:'#1D9E75', tag:'Tuần 1–2', tagBg:'#E1F5EE', tagColor:'#0F6E56',
+        children:[
+          { id:'d1', label:'Domain 1 · Agentic Architecture & Orchestration (27%)', icon:'ti-hexagon', color:'#1D9E75', tag:'Nặng nhất', tagBg:'#dcfce7', tagColor:'#166534',
+            leaves:[
+              'Agentic loop: tiếp tục khi <code>stop_reason = "tool_use"</code>, kết thúc khi <code>"end_turn"</code>',
+              'Multi-agent hub-and-spoke: coordinator quản lý routing & error handling, subagents có isolated context',
+              'Subagent context passing: dùng Task tool, <code>allowedTools</code> phải include "Task", pass findings explicitly',
+              'Spawn parallel subagents bằng multiple Task calls trong một coordinator response',
+              'Programmatic prerequisites: block <code>process_refund</code> cho đến khi <code>get_customer</code> trả về verified ID',
+              'Hooks: PostToolUse để normalize heterogeneous formats, interception để block policy violations (refund > $500)',
+              'Task decomposition: prompt chaining cho fixed sequential steps, dynamic decomposition cho open-ended exploration',
+              'Session management: <code>--resume &lt;session-name&gt;</code>, <code>fork_session</code> cho independent branches từ shared baseline',
+            ]
+          }
+        ]
+      },
+      { id:'p2', label:'Giai đoạn 2 – MCP, Tools & Claude Code', icon:'ti-tool', color:'#378ADD', tag:'Tuần 3–4', tagBg:'#E6F1FB', tagColor:'#185FA5',
+        children:[
+          { id:'d2', label:'Domain 2 · Tool Design & MCP Integration (18%)', icon:'ti-plug', color:'#378ADD', tag:null, tagBg:null, tagColor:null,
+            leaves:[
+              'Tool description = routing mechanism chính của LLM (không phải function name hay system prompt)',
+              'Include trong description: input formats, example queries, edge cases, explicit boundaries vs. similar tools',
+              'Rename tools để tránh overlap: <code>analyze_code_structure</code> vs. <code>analyze_code_quality</code>',
+              'MCP server scoping: mỗi agent chỉ expose tools thuộc role của nó',
+              'Tool boundaries ngăn reasoning overload – tối đa 4–5 tools/agent, không phải 18',
+              'MCP server types: stdio (local), SSE/HTTP (remote); authentication và permission scoping',
+            ]
+          },
+          { id:'d3', label:'Domain 3 · Claude Code Configuration & Workflows (20%)', icon:'ti-code', color:'#378ADD', tag:null, tagBg:null, tagColor:null,
+            leaves:[
+              'CLAUDE.md hierarchy: project-level → user-level → system-level, hiểu rõ override rules',
+              'Skills frontmatter: cấu trúc file, khi nào trigger, path conventions (<code>.claude/skills/</code>)',
+              'Custom slash commands: <code>/cf-orchestrate-convert</code>, <code>/cf-orchestrate-new-test</code>',
+              'Directory convention: <code>.claude/agents/</code>, <code>.claude/skills/</code>, <code>.claude/rules/</code>',
+              'CI/CD integration: non-interactive mode flags, output format, <code>--allowedTools</code>',
+              'storageState-based auth trong automated test workflows',
+            ]
+          }
+        ]
+      },
+      { id:'p3', label:'Giai đoạn 3 – Prompt Engineering & Context', icon:'ti-brain', color:'#7F77DD', tag:'Tuần 5–6', tagBg:'#EEEDFE', tagColor:'#534AB7',
+        children:[
+          { id:'d4', label:'Domain 4 · Prompt Engineering & Structured Output (20%)', icon:'ti-message-2', color:'#7F77DD', tag:null, tagBg:null, tagColor:null,
+            leaves:[
+              'JSON schema enforcement: <code>response_format</code> + validation retry loops',
+              'Few-shot cho tone/style – KHÔNG dùng để enforce ordering hay compliance',
+              'Defense in depth: schema + few-shot + validation = reliable structured output',
+              'Prompt chaining cho multi-step extraction, không nhồi hết vào một prompt',
+              'Phân biệt probabilistic (prompt) vs. deterministic (programmatic) enforcement',
+              'Escalation routing: dựa vào external signals, không dựa vào self-reported confidence',
+            ]
+          },
+          { id:'d5', label:'Domain 5 · Context Management & Reliability (15%)', icon:'ti-rotate', color:'#7F77DD', tag:null, tagBg:null, tagColor:null,
+            leaves:[
+              'Lost-in-the-middle: key info phải ở đầu hoặc cuối input, không để ở giữa',
+              'Trim verbose tool outputs trước khi chúng tích lũy trong context',
+              'Handoff summary bắt buộc gồm: customer ID, root cause, refund amount, recommended action',
+              'Confidence calibration: không tin self-reported score, dùng external validation',
+              'Batch API: tiết kiệm 50% cost, up-to-24h SLA – chỉ dùng cho overnight/weekly jobs',
+              'Long context strategy: per-file analysis passes, section headers, explicit summaries ở đầu',
+            ]
+          }
+        ]
+      },
+      { id:'p4', label:'Giai đoạn 4 – Practice & Exam Scenarios', icon:'ti-target', color:'#D85A30', tag:'Tuần 7–8', tagBg:'#FAECE7', tagColor:'#993C1D',
+        children:[
+          { id:'sc', label:'6 exam scenarios (học hết cả 6, thi random 4)', icon:'ti-clipboard-list', color:'#D85A30', tag:null, tagBg:null, tagColor:null,
+            leaves:[
+              'Customer Support Resolution Agent',
+              'Code Generation with Claude Code',
+              'Multi-Agent Research System',
+              'Developer Productivity with Claude',
+              'Claude Code for CI/CD',
+              'Structured Data Extraction',
+            ]
+          },
+          { id:'res', label:'Tài nguyên thực hành', icon:'ti-book', color:'#D85A30', tag:null, tagBg:null, tagColor:null,
+            leaves:[
+              '<strong>Official:</strong> exampro.co/cca-f – khóa chính thức + practice exam',
+              '<strong>Free:</strong> claudecertifications.com – study guide + 25 practice questions',
+              '<strong>Free:</strong> tutorialsdojo.com – CCA-F study guide chi tiết',
+              '<strong>Paid:</strong> Udemy – 360 practice questions by scenario (Balaji Ashok Kumar)',
+              '<strong>Bắt buộc:</strong> docs.anthropic.com – Agent SDK & MCP, đọc trực tiếp nguồn gốc',
+            ]
+          },
+          { id:'check', label:'Checklist trước ngày thi', icon:'ti-checkbox', color:'#D85A30', tag:null, tagBg:null, tagColor:null,
+            leaves:[
+              'Làm full mock exam 60 câu timed, nhắm điểm ≥ 750 trước khi đăng ký thi thật',
+              'Ôn lại Domain 1 cheatsheet: agentic loop, hub-and-spoke, hooks',
+              'Ôn Domain 3: CLAUDE.md hierarchy, slash commands, CI/CD flags',
+              'Đọc kỹ đáp án SAI trong mock – hiểu tại sao sai quan trọng hơn thuộc đáp án đúng',
+              'Nghỉ ngơi đêm trước – đề thi test engineering judgment, không test thuộc lòng',
+            ]
+          }
+        ]
+      }
+    ]
+  }
+];
+
+function togAcc(id) {
+  const body = document.getElementById(id + '-body');
+  const chev = document.getElementById(id + '-chev');
+  const open = body.classList.toggle('open');
+  chev.classList.toggle('open', open);
+}
+
+function buildLeaves(leaves, color) {
+  return leaves.map(l =>
+    `<div class="leaf-row"><div class="leaf-dot" style="background:${color}"></div><div class="leaf-text">${l}</div></div>`
+  ).join('');
+}
+
+function buildNode(node, depth) {
+  const hasChildren = node.children && node.children.length > 0;
+  const hasLeaves = node.leaves && node.leaves.length > 0;
+  const expandable = hasChildren || hasLeaves;
+  const indent = depth * 18;
+
+  const tag = node.tag
+    ? `<span class="node-tag" style="background:${node.tagBg||'#f0f0ee'};color:${node.tagColor||'#666'}">${node.tag}</span>`
+    : '';
+  const chev = expandable
+    ? `<i class="ti ti-chevron-right node-chev" id="chev-${node.id}"></i>`
+    : '';
+
+  let inner = '';
+  if (hasLeaves) {
+    inner = `<div class="connector" id="ch-${node.id}" style="display:none">${buildLeaves(node.leaves, node.color)}</div>`;
+  } else if (hasChildren) {
+    inner = `<div class="connector" id="ch-${node.id}" style="display:none"><ul class="tree">${node.children.map(c => buildNode(c, depth + 1)).join('')}</ul></div>`;
+  }
+
+  return `<li class="node">
+    <div class="node-row" onclick="toggleNode('${node.id}')" style="padding-left:${8 + indent}px">
+      <i class="ti ${node.icon} node-icon" style="color:${node.color}"></i>
+      <span class="node-label">${node.label}</span>
+      ${tag}${chev}
+    </div>
+    ${inner}
+  </li>`;
+}
+
+function toggleNode(id) {
+  const ch = document.getElementById('ch-' + id);
+  const chev = document.getElementById('chev-' + id);
+  if (!ch) return;
+  const open = ch.style.display === 'none' || ch.style.display === '';
+  ch.style.display = open ? 'block' : 'none';
+  if (chev) chev.classList.toggle('open', open);
+}
+
+const root = document.getElementById('tree-root');
+root.innerHTML = TREE.map(n => buildNode(n, 0)).join('');
+toggleNode('root');
+</script>
+</body>
+</html>

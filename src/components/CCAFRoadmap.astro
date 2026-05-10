@@ -1,0 +1,300 @@
+---
+const phases = [
+  { num: '01', label: 'Agentic', title: 'Architecture & Orchestration', weight: '27%', color: 'green' },
+  { num: '02', label: 'Tools/MCP', title: 'Tool Design & Integration', weight: '18%', color: 'cyan' },
+  { num: '03', label: 'Claude Code', title: 'Configuration & Workflows', weight: '20%', color: 'cyan' },
+  { num: '04', label: 'Prompting', title: 'Structured Output', weight: '20%', color: 'purple' },
+  { num: '05', label: 'Context', title: 'Management & Reliability', weight: '15%', color: 'purple' },
+  { num: '06', label: 'Practice', title: '6 Exam Scenarios', weight: '—', color: 'pink' },
+];
+
+const meta = [
+  { k: '60', v: 'câu' },
+  { k: '120', v: 'phút' },
+  { k: '720', v: '/1000 pass' },
+  { k: '$99', v: 'phí thi' },
+];
+---
+
+<section id="ccaf-roadmap" class="roadmap-section">
+  <div class="section-head">
+    <h2>CCA-F Exam Roadmap</h2>
+    <div class="head-actions">
+      <a class="open-full" href="https://github.com/hueanmy/cca-f-roadmap" target="_blank" rel="noopener">
+        Working examples on GitHub ↗
+      </a>
+      <a class="open-full" href="/cca-f-roadmap.html" target="_blank" rel="noopener">
+        Open full version ↗
+      </a>
+    </div>
+  </div>
+
+  <a class="roadmap-card" href="/cca-f-roadmap.html" target="_blank" rel="noopener">
+    <div class="card-head">
+      <span class="badge">Exam Prep · 8 weeks</span>
+      <h3 class="title">Claude Certified Architect — Foundations</h3>
+      <p class="tagline">
+        Lộ trình ôn thi CCA-F 8 tuần — 5 domains, 6 exam scenarios, common
+        traps và mental models. Scenario-based, không phải trivia.
+      </p>
+      <ul class="meta">
+        {meta.map((m) => (
+          <li><strong>{m.k}</strong> {m.v}</li>
+        ))}
+      </ul>
+    </div>
+
+    <ol class="phases">
+      {phases.map((p) => (
+        <li class={`phase phase-${p.color}`}>
+          <span class="phase-num">{p.num}</span>
+          <span class="phase-label">{p.label}</span>
+          <span class="phase-title">{p.title}</span>
+          <span class="phase-weight">{p.weight}</span>
+        </li>
+      ))}
+    </ol>
+
+    <div class="cta">View full roadmap ↗</div>
+  </a>
+</section>
+
+<style>
+  .roadmap-section {
+    --rm-cyan: #00d4d4;
+    --rm-purple: #a855f7;
+    --rm-pink: #f472b6;
+    --rm-yellow: #fbbf24;
+    --rm-green: #34d399;
+    margin-top: 2.75rem;
+  }
+
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .head-actions {
+    display: flex;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  @media (max-width: 520px) {
+    .head-actions {
+      gap: 0.75rem;
+      font-size: 0.72rem;
+    }
+  }
+
+  .section-head h2 {
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--fg-dim);
+    margin: 0;
+  }
+
+  .open-full {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--rm-green);
+    white-space: nowrap;
+    transition: color 150ms ease;
+  }
+
+  .open-full:hover {
+    color: var(--rm-pink);
+  }
+
+  .roadmap-card {
+    display: block;
+    background: linear-gradient(180deg, var(--bg-raised), var(--card-tint));
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    color: inherit;
+    transition:
+      border-color 200ms ease,
+      transform 200ms ease,
+      box-shadow 200ms ease;
+  }
+
+  .roadmap-card:hover {
+    border-color: rgba(244, 114, 182, 0.5);
+    transform: translateY(-2px);
+    box-shadow:
+      0 0 0 1px rgba(244, 114, 182, 0.15),
+      0 8px 30px rgba(52, 211, 153, 0.06),
+      0 2px 10px rgba(244, 114, 182, 0.08);
+  }
+
+  .card-head {
+    margin-bottom: 1rem;
+  }
+
+  .badge {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: var(--rm-green);
+    border: 1px solid var(--rm-green);
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-bottom: 0.6rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  .title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.15;
+    background: linear-gradient(
+      135deg,
+      var(--rm-green) 0%,
+      var(--rm-cyan) 35%,
+      var(--rm-purple) 70%,
+      var(--rm-pink) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.35rem;
+  }
+
+  .tagline {
+    color: var(--fg-dim);
+    font-size: 0.82rem;
+    line-height: 1.5;
+    margin-bottom: 0.75rem;
+  }
+
+  .meta {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .meta li {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    color: var(--fg-muted);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2px 9px;
+  }
+
+  .meta strong {
+    color: var(--fg);
+    font-weight: 600;
+  }
+
+  .phases {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0 0.85rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.3rem 0.5rem;
+  }
+
+  .phase {
+    display: grid;
+    grid-template-columns: auto auto 1fr auto;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.3rem 0.55rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.75rem;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .phase:hover {
+    background: var(--accent-soft);
+  }
+
+  .phase-num {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--fg-muted);
+  }
+
+  .phase-label {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 600;
+  }
+
+  .phase-title {
+    color: var(--fg);
+    font-size: 0.74rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .phase-weight {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    color: var(--fg-muted);
+  }
+
+  .phase-cyan { border-left: 2px solid var(--rm-cyan); }
+  .phase-cyan .phase-label { color: var(--rm-cyan); }
+  .phase-purple { border-left: 2px solid var(--rm-purple); }
+  .phase-purple .phase-label { color: var(--rm-purple); }
+  .phase-yellow { border-left: 2px solid var(--rm-yellow); }
+  .phase-yellow .phase-label { color: var(--rm-yellow); }
+  .phase-green { border-left: 2px solid var(--rm-green); }
+  .phase-green .phase-label { color: var(--rm-green); }
+  .phase-pink { border-left: 2px solid var(--rm-pink); }
+  .phase-pink .phase-label { color: var(--rm-pink); }
+
+  .cta {
+    text-align: right;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--rm-green);
+    transition: color 150ms ease;
+  }
+
+  .roadmap-card:hover .cta {
+    color: var(--rm-pink);
+  }
+
+  @media (max-width: 720px) {
+    .phases {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .phase {
+      grid-template-columns: auto 1fr auto;
+      row-gap: 0.15rem;
+    }
+    .phase-title {
+      grid-column: 1 / -1;
+      color: var(--fg-dim);
+      font-size: 0.75rem;
+      white-space: normal;
+    }
+    .phase-weight {
+      grid-row: 1;
+    }
+  }
+</style>
