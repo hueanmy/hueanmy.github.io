@@ -50,9 +50,66 @@
     color: var(--text);
     font-size: 14px;
     line-height: 1.6;
-    padding: 2rem 1rem;
   }
-  .container { max-width: 860px; margin: 0 auto; }
+
+  /* ── Layout ── */
+  .layout { display: flex; min-height: 100vh; }
+  .sidebar {
+    width: 240px;
+    flex-shrink: 0;
+    background: var(--bg2);
+    border-right: 0.5px solid var(--border);
+    padding: 1.5rem 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+  }
+  .main { flex: 1; padding: 2rem; max-width: 880px; }
+
+  /* ── Sidebar ── */
+  .sb-logo {
+    padding: 0 1rem 1rem;
+    border-bottom: 0.5px solid var(--border);
+    margin-bottom: 1rem;
+  }
+  .sb-logo-title { font-size: 14px; font-weight: 600; color: var(--text); }
+  .sb-logo-sub { font-size: 11px; color: var(--text3); margin-top: 2px; }
+  .sb-nav-label {
+    font-size: 10px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--text3);
+    padding: 0 1rem; margin: 0.85rem 0 4px;
+  }
+  .sb-item {
+    display: flex; align-items: center; gap: 8px;
+    padding: 7px 1rem; cursor: pointer;
+    font-size: 12px; color: var(--text2);
+    transition: all .12s; border-left: 2px solid transparent;
+    user-select: none;
+  }
+  .sb-item:hover { background: var(--bg3); color: var(--text); }
+  .sb-item.active {
+    color: var(--text);
+    border-left-color: var(--active-color, var(--text2));
+    font-weight: 500;
+    background: var(--bg3);
+  }
+  .sb-item i { font-size: 14px; flex-shrink: 0; }
+  .sb-tag {
+    margin-left: auto; font-size: 9px; font-weight: 600;
+    padding: 1px 6px; border-radius: 8px;
+    background: var(--bg);
+    color: var(--text3);
+    border: 0.5px solid var(--border);
+    font-family: 'SFMono-Regular', Consolas, monospace;
+  }
+  .sb-divider { border: none; border-top: 0.5px solid var(--border); margin: 0.85rem 0 0; }
+  .sb-misc { padding: 0.4rem 1rem; }
+  .sb-misc a {
+    display: block; font-size: 11px; color: var(--text3);
+    padding: 4px 0; text-decoration: none; transition: color .12s;
+  }
+  .sb-misc a:hover { color: var(--text); }
 
   /* Header */
   .page-title { font-size: 22px; font-weight: 600; margin-bottom: 4px; }
@@ -80,18 +137,36 @@
     outline: none; transition: border-color .15s;
   }
   .search-input:focus { border-color: #1D9E75; }
-  .search-count { font-size: 11px; color: var(--text3); margin-top: 5px; }
+  .search-count { font-size: 11px; color: var(--text3); margin-top: 5px; margin-bottom: 1.25rem; }
 
-  /* Category filter */
-  .filter-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1.5rem; }
-  .filter-btn {
-    padding: 5px 12px; border-radius: 20px;
-    border: 0.5px solid var(--border2); font-size: 12px; font-weight: 500;
-    cursor: pointer; background: var(--bg); color: var(--text2);
-    transition: all .12s;
+  /* Mobile menu toggle */
+  .menu-toggle {
+    display: none; position: fixed; top: 1rem; left: 1rem;
+    z-index: 100;
+    background: var(--bg2);
+    border: 0.5px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 10px;
+    cursor: pointer;
+    color: var(--text);
   }
-  .filter-btn:hover { background: var(--bg2); }
-  .filter-btn.active { color: #fff; border-color: transparent; }
+  @media (max-width: 720px) {
+    .layout { flex-direction: column; }
+    .sidebar {
+      position: fixed; top: 0; left: 0; height: 100vh;
+      z-index: 50; width: 260px;
+      transform: translateX(-100%);
+      transition: transform .25s;
+      box-shadow: 0 0 30px rgba(0,0,0,0.2);
+    }
+    .sidebar.open { transform: translateX(0); }
+    .main { padding: 4rem 1rem 2rem; max-width: 100%; }
+    .menu-toggle { display: block; }
+  }
+
+  /* Sidebar scrollbar */
+  .sidebar::-webkit-scrollbar { width: 4px; }
+  .sidebar::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
 
   /* Category sections */
   .cat-section { margin-bottom: 1.5rem; }
@@ -168,28 +243,50 @@
 </style>
 </head>
 <body>
-<div class="container">
 
-  <div class="page-title">CCA-F Vocabulary Guide</div>
-  <div class="page-sub">Từ vựng tiếng Anh hay gặp trong đề thi — giải thích bằng tiếng Việt</div>
+<button class="menu-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')" aria-label="Toggle menu">
+  <i class="ti ti-menu-2"></i>
+</button>
 
-  <div class="tip-banner">
-    <i class="ti ti-bulb"></i>
-    <span>Đề thi viết bằng tiếng Anh, scenario-based. File này có <strong>3 loại nội dung</strong>: từ vựng kỹ thuật theo domain, từ hay gặp trong câu MCQ, và <strong>cụm từ đặt câu hỏi</strong> — giúp đọc đề không bị nhầm dạng câu hỏi. Click vào từng term để xem giải thích và ví dụ cụ thể.</span>
+<div class="layout">
+  <!-- Sidebar -->
+  <nav class="sidebar">
+    <div class="sb-logo">
+      <div class="sb-logo-title">CCA-F Vocabulary</div>
+      <div class="sb-logo-sub">EN ↔ VI · 7 categories</div>
+    </div>
 
-  </div>
+    <div class="sb-nav-label">Lọc theo nhóm</div>
+    <div id="sbCategories"></div>
 
-  <div class="search-wrap">
-    <i class="ti ti-search"></i>
-    <input class="search-input" id="searchInput" type="text" placeholder="Tìm từ tiếng Anh hoặc tiếng Việt..." oninput="doSearch()">
-  </div>
-  <div class="search-count" id="searchCount"></div>
+    <hr class="sb-divider">
+    <div class="sb-misc">
+      <a href="https://hueanmy.github.io/cca-f-roadmap.html">Study Roadmap ↗</a>
+      <a href="https://hueanmy.github.io/cca-f-knowledge-map.html">Knowledge Map ↗</a>
+      <a href="https://github.com/hueanmy/cca-f-roadmap" target="_blank">Working examples ↗</a>
+      <a href="https://docs.anthropic.com" target="_blank">docs.anthropic.com ↗</a>
+    </div>
+  </nav>
 
-  <div class="filter-row" id="filterRow"></div>
+  <!-- Main content -->
+  <main class="main">
+    <div class="page-title">CCA-F Vocabulary Guide</div>
+    <div class="page-sub">Từ vựng tiếng Anh hay gặp trong đề thi — giải thích bằng tiếng Việt</div>
 
-  <div id="content"></div>
-  <div class="no-results" id="noResults" style="display:none">Không tìm thấy từ nào phù hợp.</div>
+    <div class="tip-banner">
+      <i class="ti ti-bulb"></i>
+      <span>Đề thi viết bằng tiếng Anh, scenario-based. File này có <strong>3 loại nội dung</strong>: từ vựng kỹ thuật theo domain, từ hay gặp trong câu MCQ, và <strong>cụm từ đặt câu hỏi</strong> — giúp đọc đề không bị nhầm dạng câu hỏi. Click vào từng term để xem giải thích và ví dụ cụ thể.</span>
+    </div>
 
+    <div class="search-wrap">
+      <i class="ti ti-search"></i>
+      <input class="search-input" id="searchInput" type="text" placeholder="Tìm từ tiếng Anh hoặc tiếng Việt..." oninput="doSearch()">
+    </div>
+    <div class="search-count" id="searchCount"></div>
+
+    <div id="content"></div>
+    <div class="no-results" id="noResults" style="display:none">Không tìm thấy từ nào phù hợp.</div>
+  </main>
 </div>
 
 <script>
@@ -847,57 +944,48 @@ const CATS = [
   },
 ];
 
-const filterColors = {
-  agentic: '#1D9E75',
-  mcp: '#378ADD',
-  claudecode: '#EF9F27',
-  prompt: '#7F77DD',
-  context: '#D85A30',
-  exam: '#888780',
-  questions: '#D4537E',
-};
+function buildSidebar() {
+  const root = document.getElementById('sbCategories');
 
-function buildFilterRow() {
-  const row = document.getElementById('filterRow');
-  const allBtn = document.createElement('div');
-  allBtn.className = 'filter-btn active';
-  allBtn.textContent = 'Tất cả';
-  allBtn.style.background = '#1a1a18';
-  allBtn.style.color = '#fff';
-  allBtn.style.borderColor = 'transparent';
-  allBtn.onclick = () => filterCat(null, allBtn);
-  row.appendChild(allBtn);
+  const allItem = document.createElement('div');
+  allItem.className = 'sb-item active';
+  allItem.style.setProperty('--active-color', 'var(--text2)');
+  allItem.innerHTML = `
+    <i class="ti ti-list"></i>
+    Tất cả
+    <span class="sb-tag" id="sb-count-all"></span>
+  `;
+  allItem.onclick = () => filterCat(null, allItem);
+  root.appendChild(allItem);
 
   CATS.forEach(cat => {
-    const btn = document.createElement('div');
-    btn.className = 'filter-btn';
-    btn.textContent = cat.label;
-    btn.dataset.catId = cat.id;
-    btn.onclick = () => filterCat(cat.id, btn);
-    row.appendChild(btn);
+    const item = document.createElement('div');
+    item.className = 'sb-item';
+    item.dataset.catId = cat.id;
+    item.style.setProperty('--active-color', cat.color);
+    item.innerHTML = `
+      <i class="ti ${cat.icon}" style="color:${cat.color}"></i>
+      <span>${cat.label}</span>
+      <span class="sb-tag">${cat.terms.length}</span>
+    `;
+    item.onclick = () => filterCat(cat.id, item);
+    root.appendChild(item);
   });
+
+  // Populate the "Tất cả" total count.
+  const total = CATS.reduce((sum, cat) => sum + cat.terms.length, 0);
+  const totalChip = document.getElementById('sb-count-all');
+  if (totalChip) totalChip.textContent = total;
 }
 
 let currentCat = null;
 
-function filterCat(catId, clickedBtn) {
+function filterCat(catId, clickedItem) {
   currentCat = catId;
-  document.querySelectorAll('.filter-btn').forEach(b => {
-    b.classList.remove('active');
-    b.style.background = '';
-    b.style.color = '';
-    b.style.borderColor = '';
-  });
-  clickedBtn.classList.add('active');
-  if (catId === null) {
-    clickedBtn.style.background = '#1a1a18';
-    clickedBtn.style.color = '#fff';
-    clickedBtn.style.borderColor = 'transparent';
-  } else {
-    clickedBtn.style.background = filterColors[catId] || '#888';
-    clickedBtn.style.color = '#fff';
-    clickedBtn.style.borderColor = 'transparent';
-  }
+  document.querySelectorAll('.sb-item').forEach(b => b.classList.remove('active'));
+  clickedItem.classList.add('active');
+  // Auto-close mobile drawer after pick.
+  document.querySelector('.sidebar')?.classList.remove('open');
   renderContent(document.getElementById('searchInput').value);
 }
 
@@ -1048,7 +1136,7 @@ function hl(text, q) {
   return text.replace(re, '<mark>$1</mark>');
 }
 
-buildFilterRow();
+buildSidebar();
 buildContent();
 </script>
 </body>
