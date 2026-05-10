@@ -23,13 +23,13 @@
   --accent-soft: rgba(94, 234, 212, 0.08);
   --gradient-accent: linear-gradient(135deg, #5eead4 0%, #a78bfa 55%, #f472b6 100%);
 
-  /* ambient orbs (body bg) */
-  --orb-1: rgba(167, 139, 250, 0.22);
-  --orb-2: rgba(94, 234, 212, 0.14);
-  --orb-3: rgba(244, 114, 182, 0.08);
+  /* ambient orbs (body bg) — disabled to keep dark surface clean */
+  --orb-1: transparent;
+  --orb-2: transparent;
+  --orb-3: transparent;
 
-  /* dot grid overlay */
-  --grid-dot: rgba(255, 255, 255, 0.035);
+  /* dot grid overlay — disabled to reduce visual noise */
+  --grid-dot: transparent;
 
   /* avatar glow */
   --avatar-glow-1: rgba(94, 234, 212, 0.18);
@@ -271,4 +271,59 @@ section > h2 {
 ::selection {
   background: var(--accent);
   color: var(--bg);
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   Dark-mode visual cleanup. Light mode keeps its own minimal rules.
+   Goal: keep the brand gradient as a single moment (H1 'Meii' + avatar
+   ring) and collapse the smaller competing gradients (inline strong text
+   in the tagline, card titles, glow on the active section-nav bar) to
+   solid accent colors. Drops the noisy duplicates without touching
+   layout.
+   ───────────────────────────────────────────────────────────────────── */
+
+:root[data-theme='dark'] .tagline strong {
+  background: none;
+  background-clip: initial;
+  -webkit-background-clip: initial;
+  color: var(--fg);
+  -webkit-text-fill-color: var(--fg);
+}
+
+/* Claude Dev Roadmap card — collapse rainbow title to single accent */
+:root[data-theme='dark'] .roadmap-section .title {
+  background: none;
+  background-clip: initial;
+  -webkit-background-clip: initial;
+  color: var(--accent);
+  -webkit-text-fill-color: var(--accent);
+}
+
+/* CCA-F Exam cards — keep each card's identity color but drop the
+   second gradient stop so each title is one solid color, not two. */
+:root[data-theme='dark'] .exam-section .accent-green .title {
+  background: none;
+  background-clip: initial;
+  -webkit-background-clip: initial;
+  color: #34d399;
+  -webkit-text-fill-color: #34d399;
+}
+:root[data-theme='dark'] .exam-section .accent-purple .title {
+  background: none;
+  background-clip: initial;
+  -webkit-background-clip: initial;
+  color: #a855f7;
+  -webkit-text-fill-color: #a855f7;
+}
+:root[data-theme='dark'] .exam-section .accent-cyan .title {
+  background: none;
+  background-clip: initial;
+  -webkit-background-clip: initial;
+  color: #00d4d4;
+  -webkit-text-fill-color: #00d4d4;
+}
+
+/* SectionNav active bar — keep the colored bar but drop the outer glow */
+:root[data-theme='dark'] .section-nav .section-link.active .bar {
+  box-shadow: none;
 }
