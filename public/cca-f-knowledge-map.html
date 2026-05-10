@@ -100,12 +100,54 @@
   }
   .sb-item:hover { background: var(--bg3); color: var(--text); }
   .sb-item.active { color: var(--text); border-left-color: var(--active-color, #1D9E75); font-weight: 500; background: var(--bg3); }
-  .sb-item i { font-size: 14px; flex-shrink: 0; }
+  .sb-item > i { font-size: 14px; flex-shrink: 0; }
+  .sb-name { flex: 1; }
   .sb-pct {
-    margin-left: auto; font-size: 10px; font-weight: 600;
+    font-size: 10px; font-weight: 600;
     padding: 1px 6px; border-radius: 8px;
     background: var(--bg3); color: var(--text3);
   }
+  .sb-chev {
+    background: transparent;
+    border: 0;
+    margin: -2px -4px -2px 2px;
+    padding: 4px;
+    color: var(--text3);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 4px;
+    transition: color .12s, background .12s, transform .2s;
+  }
+  .sb-chev i { font-size: 12px; transition: transform .2s; display: inline-block; }
+  .sb-chev:hover { color: var(--text); background: var(--bg2); }
+  .sb-domain.expanded > .sb-item .sb-chev i { transform: rotate(180deg); }
+
+  /* Sub-section list — collapsed by default */
+  .sb-sub-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 240ms ease, opacity 200ms ease;
+  }
+  .sb-domain.expanded > .sb-sub-list {
+    max-height: 320px;
+    opacity: 1;
+  }
+  .sb-sub {
+    padding: 5px 1rem 5px 2.5rem;
+    font-size: 11.5px;
+    color: var(--text3);
+    cursor: pointer;
+    transition: color .12s, background .12s;
+    line-height: 1.4;
+  }
+  .sb-sub:hover { color: var(--text); background: var(--bg3); }
+  .sb-sub.active { color: var(--text); font-weight: 500; }
+
   .sb-divider { border: none; border-top: 0.5px solid var(--border); margin: 0.75rem 0; }
   .sb-misc { padding: 0 1rem; }
   .sb-misc a {
@@ -239,30 +281,86 @@
     </div>
 
     <div class="sb-nav-label">5 Domains</div>
-    <div class="sb-item active" style="--active-color:#1D9E75" onclick="switchDomain(0)">
-      <i class="ti ti-topology-star" style="color:#1D9E75"></i>
-      Agentic Architecture
-      <span class="sb-pct">27%</span>
+
+    <div class="sb-domain" data-domain="0">
+      <div class="sb-item active" style="--active-color:#1D9E75" onclick="switchDomain(0)">
+        <i class="ti ti-topology-star" style="color:#1D9E75"></i>
+        <span class="sb-name">Agentic Architecture</span>
+        <span class="sb-pct">27%</span>
+        <button class="sb-chev" onclick="toggleSubList(event, 0)" aria-label="Toggle sub-sections">
+          <i class="ti ti-chevron-down"></i>
+        </button>
+      </div>
+      <ul class="sb-sub-list">
+        <li class="sb-sub" onclick="navigateToSection(0, 's1-1')">1.1 Agentic Loop</li>
+        <li class="sb-sub" onclick="navigateToSection(0, 's1-2')">1.2 Multi-Agent Hub-and-Spoke</li>
+        <li class="sb-sub" onclick="navigateToSection(0, 's1-3')">1.3 Hooks &amp; Programmatic Enforcement</li>
+        <li class="sb-sub" onclick="navigateToSection(0, 's1-4')">1.4 Task Decomposition &amp; Sessions</li>
+      </ul>
     </div>
-    <div class="sb-item" style="--active-color:#378ADD" onclick="switchDomain(1)">
-      <i class="ti ti-plug" style="color:#378ADD"></i>
-      Tool Design & MCP
-      <span class="sb-pct">18%</span>
+
+    <div class="sb-domain" data-domain="1">
+      <div class="sb-item" style="--active-color:#378ADD" onclick="switchDomain(1)">
+        <i class="ti ti-plug" style="color:#378ADD"></i>
+        <span class="sb-name">Tool Design &amp; MCP</span>
+        <span class="sb-pct">18%</span>
+        <button class="sb-chev" onclick="toggleSubList(event, 1)" aria-label="Toggle sub-sections">
+          <i class="ti ti-chevron-down"></i>
+        </button>
+      </div>
+      <ul class="sb-sub-list">
+        <li class="sb-sub" onclick="navigateToSection(1, 's2-1')">2.1 Tool Description Design</li>
+        <li class="sb-sub" onclick="navigateToSection(1, 's2-2')">2.2 MCP Server Architecture</li>
+        <li class="sb-sub" onclick="navigateToSection(1, 's2-3')">2.3 JSON Schema cho Output</li>
+      </ul>
     </div>
-    <div class="sb-item" style="--active-color:#EF9F27" onclick="switchDomain(2)">
-      <i class="ti ti-terminal" style="color:#EF9F27"></i>
-      Claude Code Config
-      <span class="sb-pct">20%</span>
+
+    <div class="sb-domain" data-domain="2">
+      <div class="sb-item" style="--active-color:#EF9F27" onclick="switchDomain(2)">
+        <i class="ti ti-terminal" style="color:#EF9F27"></i>
+        <span class="sb-name">Claude Code Config</span>
+        <span class="sb-pct">20%</span>
+        <button class="sb-chev" onclick="toggleSubList(event, 2)" aria-label="Toggle sub-sections">
+          <i class="ti ti-chevron-down"></i>
+        </button>
+      </div>
+      <ul class="sb-sub-list">
+        <li class="sb-sub" onclick="navigateToSection(2, 's3-1')">3.1 CLAUDE.md Hierarchy</li>
+        <li class="sb-sub" onclick="navigateToSection(2, 's3-2')">3.2 Skills &amp; Slash Commands</li>
+        <li class="sb-sub" onclick="navigateToSection(2, 's3-3')">3.3 CI/CD Integration</li>
+      </ul>
     </div>
-    <div class="sb-item" style="--active-color:#7F77DD" onclick="switchDomain(3)">
-      <i class="ti ti-brain" style="color:#7F77DD"></i>
-      Prompt Engineering
-      <span class="sb-pct">20%</span>
+
+    <div class="sb-domain" data-domain="3">
+      <div class="sb-item" style="--active-color:#7F77DD" onclick="switchDomain(3)">
+        <i class="ti ti-brain" style="color:#7F77DD"></i>
+        <span class="sb-name">Prompt Engineering</span>
+        <span class="sb-pct">20%</span>
+        <button class="sb-chev" onclick="toggleSubList(event, 3)" aria-label="Toggle sub-sections">
+          <i class="ti ti-chevron-down"></i>
+        </button>
+      </div>
+      <ul class="sb-sub-list">
+        <li class="sb-sub" onclick="navigateToSection(3, 's4-1')">4.1 Few-shot Prompting</li>
+        <li class="sb-sub" onclick="navigateToSection(3, 's4-2')">4.2 Validation &amp; Retry Loops</li>
+        <li class="sb-sub" onclick="navigateToSection(3, 's4-3')">4.3 Escalation &amp; Confidence</li>
+      </ul>
     </div>
-    <div class="sb-item" style="--active-color:#D85A30" onclick="switchDomain(4)">
-      <i class="ti ti-database" style="color:#D85A30"></i>
-      Context & Reliability
-      <span class="sb-pct">15%</span>
+
+    <div class="sb-domain" data-domain="4">
+      <div class="sb-item" style="--active-color:#D85A30" onclick="switchDomain(4)">
+        <i class="ti ti-database" style="color:#D85A30"></i>
+        <span class="sb-name">Context &amp; Reliability</span>
+        <span class="sb-pct">15%</span>
+        <button class="sb-chev" onclick="toggleSubList(event, 4)" aria-label="Toggle sub-sections">
+          <i class="ti ti-chevron-down"></i>
+        </button>
+      </div>
+      <ul class="sb-sub-list">
+        <li class="sb-sub" onclick="navigateToSection(4, 's5-1')">5.1 Lost-in-the-Middle</li>
+        <li class="sb-sub" onclick="navigateToSection(4, 's5-2')">5.2 Batch API vs Real-time</li>
+        <li class="sb-sub" onclick="navigateToSection(4, 's5-3')">5.3 Handoff Patterns</li>
+      </ul>
     </div>
 
     <hr class="sb-divider">
@@ -1122,10 +1220,44 @@ const domainColors = ['#1D9E75','#378ADD','#EF9F27','#7F77DD','#D85A30'];
 
 function switchDomain(idx) {
   document.querySelectorAll('.domain-panel').forEach((p, i) => p.classList.toggle('active', i === idx));
-  document.querySelectorAll('.sb-item').forEach((item, i) => {
-    item.classList.toggle('active', i === idx);
+  document.querySelectorAll('.sb-domain').forEach((dom) => {
+    const i = Number(dom.dataset.domain);
+    dom.querySelector('.sb-item').classList.toggle('active', i === idx);
   });
   window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function toggleSubList(event, idx) {
+  // Don't bubble — clicking the chevron must NOT also trigger switchDomain.
+  if (event) {
+    event.stopPropagation();
+    event.preventDefault();
+  }
+  const dom = document.querySelector(`.sb-domain[data-domain="${idx}"]`);
+  if (dom) dom.classList.toggle('expanded');
+}
+
+function navigateToSection(idx, secId) {
+  switchDomain(idx);
+  // Highlight the clicked sub-item.
+  document.querySelectorAll('.sb-sub').forEach((s) => s.classList.remove('active'));
+  const dom = document.querySelector(`.sb-domain[data-domain="${idx}"]`);
+  if (dom) {
+    const target = dom.querySelector(`.sb-sub[onclick*="'${secId}'"]`);
+    if (target) target.classList.add('active');
+  }
+  // Open the section's body if it isn't already, then scroll to it.
+  const sec = document.getElementById(secId);
+  if (sec) {
+    const body = sec.querySelector('.sec-body');
+    const chev = sec.querySelector('.sec-chev');
+    if (body && !body.classList.contains('open')) {
+      body.classList.add('open');
+      chev?.classList.add('open');
+    }
+    // Defer scroll until the panel is rendered.
+    setTimeout(() => sec.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
+  }
 }
 
 function togSec(id) {
