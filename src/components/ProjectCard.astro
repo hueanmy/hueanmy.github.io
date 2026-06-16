@@ -11,32 +11,76 @@ interface Props {
 const { title, description, repoUrl, demoUrl, tech = [], featured } = Astro.props;
 ---
 
-<article class={`card${featured ? ' featured' : ''}`}>
-  <h3>{title}</h3>
-  <p>{description}</p>
-  {
-    tech.length > 0 && (
-      <div class="tech">
-        {tech.map((t) => (
-          <span class="tag">{t}</span>
-        ))}
+<article class={`card proj-card${featured ? ' featured' : ''}`}>
+  <div class="proj-body">
+    <h3 class="proj-title">{title}</h3>
+    <p class="proj-desc">{description}</p>
+    {tech.length > 0 && (
+      <div class="proj-tech">
+        {tech.map(t => <span class="tag">{t}</span>)}
       </div>
-    )
-  }
-  <div class="meta">
-    {demoUrl && <a href={demoUrl}>Live demo &rarr;</a>}
-    {repoUrl && <a href={repoUrl}>Source</a>}
+    )}
   </div>
+  {(demoUrl || repoUrl) && (
+    <div class="proj-footer">
+      {demoUrl && <a class="proj-link proj-link--primary" href={demoUrl} target="_blank" rel="noopener">&rarr; Live demo</a>}
+      {repoUrl && <a class="proj-link" href={repoUrl} target="_blank" rel="noopener">Source</a>}
+    </div>
+  )}
 </article>
 
 <style>
-  .tech {
+  .proj-card {
+    display: flex;
+    flex-direction: column;
+  }
+  .proj-body {
+    padding: 1.25rem 1.25rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
+  }
+  .proj-title {
+    font-family: var(--font-serif);
+    font-size: 1.0625rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--fg);
+    line-height: 1.3;
+  }
+  .proj-desc {
+    font-family: var(--font-serif);
+    font-size: 0.875rem;
+    color: rgba(17,16,16,0.7);
+    line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .proj-tech {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.35rem;
-    margin-top: 0.75rem;
+    gap: 0.3rem;
+    margin-top: auto;
+    padding-top: 0.25rem;
   }
-  .card.featured {
-    border-color: rgba(94, 234, 212, 0.35);
+  .proj-footer {
+    border-top: 1px solid var(--border);
+    padding: 0.75rem 1.25rem;
+    display: flex;
+    gap: 1.25rem;
+    align-items: center;
   }
+  .proj-link {
+    font-family: var(--font-mono);
+    font-size: 0.688rem;
+    letter-spacing: 0.04em;
+    color: rgba(17,16,16,0.5);
+    transition: color 120ms;
+  }
+  .proj-link:hover { color: var(--fg); }
+  .proj-link--primary { color: var(--accent); }
+  .proj-link--primary:hover { color: var(--accent-hover); }
 </style>

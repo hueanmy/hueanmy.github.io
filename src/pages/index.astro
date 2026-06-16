@@ -30,7 +30,6 @@ const writingCategories = [
   <div class="tab-panel" data-panel="writing">
     <p class="section-title">Writing</p>
 
-    <!-- Search + category nav -->
     <div class="writing-toolbar">
       <input
         id="writing-search"
@@ -83,7 +82,7 @@ const writingCategories = [
   <!-- ③ Projects -->
   <div class="tab-panel" data-panel="projects" hidden>
     <p class="section-title">Projects</p>
-    <nav class="cat-nav">
+    <nav class="cat-nav proj-cat-nav">
       <button class="cat-btn active" data-cat="aidlc">
         <span class="cat-dot"></span>AIDLC Suite <span class="cat-count">4</span>
       </button>
@@ -95,11 +94,6 @@ const writingCategories = [
       {shorts.length > 0 && (
         <button class="cat-btn" data-cat="video">
           <span class="cat-dot"></span>AI Video <span class="cat-count">{shorts.length}</span>
-        </button>
-      )}
-      {projects.length > 0 && (
-        <button class="cat-btn" data-cat="oss">
-          <span class="cat-dot"></span>Open Source <span class="cat-count">{projects.length}</span>
         </button>
       )}
     </nav>
@@ -114,11 +108,6 @@ const writingCategories = [
     {shorts.length > 0 && (
       <section class="cat-panel" data-cat-panel="video" hidden>
         <div class="card-grid">{shorts.map(s => <ProjectCard {...s.data} />)}</div>
-      </section>
-    )}
-    {projects.length > 0 && (
-      <section class="cat-panel" data-cat-panel="oss" hidden>
-        <div class="card-grid">{projects.map(p => <ProjectCard {...p.data} />)}</div>
       </section>
     )}
   </div>
@@ -172,7 +161,6 @@ const writingCategories = [
     padding: 2rem 0;
   }
 
-  /* Category nav (shared + projects) */
   .cat-nav {
     display: flex;
     flex-wrap: wrap;
@@ -181,6 +169,7 @@ const writingCategories = [
     border-bottom: 1px solid var(--border);
   }
   .writing-cat-nav { margin-bottom: 0; }
+  .proj-cat-nav { margin-bottom: 1.75rem; }
 
   .cat-btn {
     display: inline-flex;
@@ -212,19 +201,13 @@ const writingCategories = [
     flex-shrink: 0;
   }
   .cat-btn.active .cat-dot { opacity: 1; }
-
   .cat-count { font-size: 0.62rem; opacity: 0.6; }
 
-  /* Projects section margin */
-  [data-panel="projects"] .cat-nav { margin-bottom: 1.75rem; }
-
   .cat-panel { animation: fade-in 130ms ease both; }
-
   .writing-item { display: contents; }
 </style>
 
 <script>
-  /* ── Projects category nav ── */
   function initProjectsCatNav() {
     const panel = document.querySelector('[data-panel="projects"]');
     if (!panel) return;
@@ -244,7 +227,6 @@ const writingCategories = [
     });
   }
 
-  /* ── Writing search + category filter ── */
   function initWriting() {
     const searchEl = document.getElementById('writing-search') as HTMLInputElement | null;
     const grid     = document.getElementById('writing-grid');
