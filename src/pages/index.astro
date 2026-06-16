@@ -8,6 +8,7 @@ import ExtensionCard from '../components/ExtensionCard.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import CourseCard from '../components/CourseCard.astro';
 import Support from '../components/Support.astro';
+import AIDLCSuite from '../components/AIDLCSuite.astro';
 
 const extensions = (await getCollection('extensions')).sort((a, b) => a.data.order - b.data.order);
 const projects   = (await getCollection('projects')).sort((a, b) => Number(b.data.featured) - Number(a.data.featured) || a.data.order - b.data.order);
@@ -37,10 +38,8 @@ const shorts     = (await getCollection('shorts')).sort((a, b) => Number(b.data.
   <!-- ② Free Resources -->
   <div class="tab-panel" data-panel="resources" hidden>
     <p class="section-title">Free Resources</p>
-
     <section><ClaudeRoadmap /></section>
     <section><CCAFRoadmap /></section>
-
     <section>
       <a class="external-banner" href="https://anthropic.skilljar.com/" target="_blank" rel="noopener">
         <div class="banner-body">
@@ -51,7 +50,6 @@ const shorts     = (await getCollection('shorts')).sort((a, b) => Number(b.data.
         <span class="banner-cta">anthropic.skilljar.com ↗</span>
       </a>
     </section>
-
     {courses.length > 0 && (
       <section>
         <h2>Claude Knowledge Base</h2>
@@ -66,43 +64,49 @@ const shorts     = (await getCollection('shorts')).sort((a, b) => Number(b.data.
   <div class="tab-panel" data-panel="projects" hidden>
     <p class="section-title">Projects</p>
 
-    {extensions.length > 0 && (
-      <section>
-        <h2>SDLC Pipeline</h2>
-        <div class="card-grid">{extensions.map(e => <ExtensionCard {...e.data} />)}</div>
-      </section>
-    )}
+    <!-- Category sub-tabs -->
+    <nav class="cat-nav">
+      <button class="cat-btn active" data-cat="aidlc">
+        <span class="cat-dot"></span>AIDLC Suite <span class="cat-count">4</span>
+      </button>
+      {tokenTools.length > 0 && (
+        <button class="cat-btn" data-cat="tokens">
+          <span class="cat-dot"></span>Token Optimization <span class="cat-count">{tokenTools.length}</span>
+        </button>
+      )}
+      {shorts.length > 0 && (
+        <button class="cat-btn" data-cat="video">
+          <span class="cat-dot"></span>AI Video <span class="cat-count">{shorts.length}</span>
+        </button>
+      )}
+      {projects.length > 0 && (
+        <button class="cat-btn" data-cat="oss">
+          <span class="cat-dot"></span>Open Source <span class="cat-count">{projects.length}</span>
+        </button>
+      )}
+    </nav>
+
+    <section class="cat-panel" data-cat-panel="aidlc">
+      <AIDLCSuite />
+    </section>
+
     {tokenTools.length > 0 && (
-      <section>
-        <h2>Token Optimization</h2>
+      <section class="cat-panel" data-cat-panel="tokens" hidden>
         <div class="card-grid">{tokenTools.map(t => <ProjectCard {...t.data} />)}</div>
       </section>
     )}
+
     {shorts.length > 0 && (
-      <section>
-        <h2>AI Video Generators</h2>
+      <section class="cat-panel" data-cat-panel="video" hidden>
         <div class="card-grid">{shorts.map(s => <ProjectCard {...s.data} />)}</div>
       </section>
     )}
+
     {projects.length > 0 && (
-      <section>
-        <h2>Open Source</h2>
+      <section class="cat-panel" data-cat-panel="oss" hidden>
         <div class="card-grid">{projects.map(p => <ProjectCard {...p.data} />)}</div>
       </section>
     )}
-    <section>
-      <h2>WFH Setup</h2>
-      <div class="card-grid">
-        <a class="card" href="/setup" style="text-decoration:none;color:inherit">
-          <div class="card-thumb-placeholder"></div>
-          <div class="card-body">
-            <h2 class="card-title">My Desk Setup</h2>
-            <p class="card-desc">Hardware, peripherals, and the small things that make my day better.</p>
-            <div style="margin-top:auto;padding-top:0.5rem"><span class="tag">coming soon</span></div>
-          </div>
-        </a>
-      </div>
-    </section>
   </div>
 
   <!-- ④ About Me -->
@@ -123,3 +127,78 @@ const shorts     = (await getCollection('shorts')).sort((a, b) => Number(b.data.
     <Support />
   </div>
 </Layout>
+
+<style>
+  /* Category nav */
+  .cat-nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0;
+    margin-bottom: 1.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cat-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--fg-muted);
+    padding: 0.55rem 1rem 0.55rem 0;
+    margin-right: 1.5rem;
+    cursor: pointer;
+    transition: color 120ms, border-color 120ms;
+    white-space: nowrap;
+  }
+  .cat-btn:hover { color: var(--fg); }
+  .cat-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  .cat-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.5;
+    flex-shrink: 0;
+  }
+  .cat-btn.active .cat-dot { opacity: 1; }
+
+  .cat-count {
+    font-size: 0.62rem;
+    opacity: 0.6;
+  }
+
+  .cat-panel { animation: fade-in 130ms ease both; }
+</style>
+
+<script>
+  function initCatNav() {
+    const projectsPanel = document.querySelector('[data-panel="projects"]');
+    if (!projectsPanel) return;
+    const btns   = projectsPanel.querySelectorAll('.cat-btn');
+    const panels = projectsPanel.querySelectorAll('.cat-panel');
+    btns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const cat = (btn as HTMLElement).dataset.cat;
+        btns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        panels.forEach(p => {
+          (p as HTMLElement).dataset.catPanel === cat
+            ? p.removeAttribute('hidden')
+            : p.setAttribute('hidden', '');
+        });
+      });
+    });
+  }
+  document.addEventListener('DOMContentLoaded', initCatNav);
+</script>

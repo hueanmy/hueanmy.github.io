@@ -1,0 +1,146 @@
+---
+// AIDLC Suite — editorial card style
+---
+
+<div class="aidlc-grid">
+
+  <!-- VS Code Extension -->
+  <div class="ac-card">
+    <div class="ac-body">
+      <h3 class="ac-title">AIDLC for VS Code</h3>
+      <span class="ac-kind">VS Code Extension</span>
+      <p class="ac-desc">Builder UI cho AI pipelines. Edit <code>workspace.yaml</code> visually, theo dõi run trong sidebar, và mở AIDLC Monitor cho token usage + live agent observability.</p>
+    </div>
+    <div class="ac-footer">
+      <a class="ac-link ac-link--primary" href="https://marketplace.visualstudio.com/items?itemName=hueanmy.aidlc" target="_blank" rel="noopener">&rarr;&nbsp;VS Code Marketplace</a>
+      <a class="ac-link" href="https://open-vsx.org/extension/hueanmy/aidlc" target="_blank" rel="noopener">Open VSX</a>
+    </div>
+  </div>
+
+  <!-- CLI -->
+  <div class="ac-card">
+    <div class="ac-body">
+      <h3 class="ac-title">AIDLC CLI</h3>
+      <span class="ac-kind">Terminal &middot; npm</span>
+      <p class="ac-desc">Standalone engine — không cần VS Code. Scaffold workspaces, apply presets, drive runs end-to-end via Claude, và watch live từ shell.</p>
+    </div>
+    <div class="ac-footer">
+      <a class="ac-link ac-link--primary" href="https://www.npmjs.com/package/aidlc" target="_blank" rel="noopener">&rarr;&nbsp;npm install -g aidlc</a>
+      <a class="ac-link" href="https://github.com/aidlc-io/aidlc" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </div>
+
+  <!-- AIDLC Term -->
+  <div class="ac-card">
+    <div class="ac-body">
+      <h3 class="ac-title">AIDLC Term</h3>
+      <span class="ac-kind">macOS &middot; Windows Beta &middot; Rust + wgpu</span>
+      <p class="ac-desc">GPU-accelerated terminal cho agent work: file explorer theo shell, agent manager cho mọi Claude Code session, và live token-usage dashboard.</p>
+    </div>
+    <div class="ac-footer">
+      <a class="ac-link ac-link--primary" href="https://github.com/aidlc-io/aidlc-io.github.io/releases/download/term-v0.3.2/AIDLC-Term-0.3.2.dmg">&rarr;&nbsp;Download macOS</a>
+      <a class="ac-link" href="https://github.com/aidlc-io/aidlc-io.github.io/releases/download/term-v0.3.2/AIDLC-Term-0.3.2-windows.zip">Windows (beta)</a>
+    </div>
+  </div>
+
+  <!-- AIDLC TestAgent -->
+  <div class="ac-card">
+    <div class="ac-body">
+      <h3 class="ac-title">AIDLC TestAgent</h3>
+      <span class="ac-kind">CLI &middot; npm &middot; TypeScript</span>
+      <p class="ac-desc">Open-source AI test agent cho web, desktop, API &amp; mobile. Point vào target, approve plan, nhận về test suite chạy được. Không telemetry, không cần API key.</p>
+    </div>
+    <div class="ac-footer">
+      <a class="ac-link ac-link--primary" href="https://www.npmjs.com/package/aidlc-testagent" target="_blank" rel="noopener">&rarr;&nbsp;npm install -g aidlc-testagent</a>
+      <a class="ac-link" href="https://github.com/aidlc-io/aidlc-testagent" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </div>
+
+</div>
+
+<style>
+  .aidlc-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  @media (max-width: 640px) { .aidlc-grid { grid-template-columns: 1fr; } }
+
+  .ac-card {
+    background: #f7e6dc;
+    border: 1px solid #dcd5cc;
+    border-radius: 10px;
+    padding: 1.5rem 1.5rem 1.2rem;
+    display: flex;
+    flex-direction: column;
+    transition: background 150ms ease, border-color 150ms ease;
+  }
+  .ac-card:hover {
+    background: #f0d4c1;
+    border-color: #e6a995;
+  }
+
+  .ac-body { flex: 1; margin-bottom: 1.1rem; }
+
+  .ac-title {
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--fg);
+    margin: 0 0 0.3rem;
+    line-height: 1.2;
+  }
+
+  .ac-kind {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(17,16,16,0.45);
+    margin-bottom: 0.9rem;
+  }
+
+  .ac-desc {
+    font-family: var(--font-serif);
+    font-size: 0.9rem;
+    color: rgba(17,16,16,0.75);
+    line-height: 1.65;
+    margin: 0;
+  }
+  .ac-desc code {
+    font-family: var(--font-mono);
+    font-size: 0.82em;
+    background: rgba(192,87,42,0.1);
+    border-radius: 3px;
+    padding: 0.05em 0.3em;
+    color: var(--accent);
+  }
+
+  .ac-footer {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding-top: 1rem;
+    border-top: 1px solid #dcd5cc;
+  }
+
+  .ac-link {
+    font-family: var(--font-mono);
+    font-size: 0.688rem;
+    font-weight: 500;
+    color: rgba(17,16,16,0.5);
+    text-decoration: none;
+    transition: color 120ms;
+    white-space: nowrap;
+  }
+  .ac-link:hover { color: var(--fg); }
+  .ac-link--primary { color: var(--accent); }
+  .ac-link--primary:hover {
+    color: var(--accent-hover);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+</style>
