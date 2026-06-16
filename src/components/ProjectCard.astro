@@ -6,14 +6,16 @@ interface Props {
   demoUrl?: string;
   tech?: string[];
   featured?: boolean;
+  tagline?: string;
 }
 
-const { title, description, repoUrl, demoUrl, tech = [], featured } = Astro.props;
+const { title, description, repoUrl, demoUrl, tech = [], featured, tagline } = Astro.props;
 ---
 
 <article class={`card proj-card${featured ? ' featured' : ''}`}>
   <div class="proj-body">
     <h3 class="proj-title">{title}</h3>
+    {tagline && <p class="proj-tagline">{tagline}</p>}
     <p class="proj-desc">{description}</p>
     {tech.length > 0 && (
       <div class="proj-tech">
@@ -35,10 +37,10 @@ const { title, description, repoUrl, demoUrl, tech = [], featured } = Astro.prop
     flex-direction: column;
   }
   .proj-body {
-    padding: 1.25rem 1.25rem 1rem;
+    padding: 1rem 1rem 0.75rem;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.4rem;
     flex: 1;
   }
   .proj-title {
@@ -49,11 +51,19 @@ const { title, description, repoUrl, demoUrl, tech = [], featured } = Astro.prop
     color: var(--fg);
     line-height: 1.3;
   }
+  .proj-tagline {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0;
+  }
   .proj-desc {
-    font-family: var(--font-serif);
-    font-size: 0.875rem;
+    font-size: 0.82rem;
     color: rgba(17,16,16,0.7);
-    line-height: 1.6;
+    line-height: 1.55;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
@@ -68,7 +78,7 @@ const { title, description, repoUrl, demoUrl, tech = [], featured } = Astro.prop
   }
   .proj-footer {
     border-top: 1px solid var(--border);
-    padding: 0.75rem 1.25rem;
+    padding: 0.65rem 1rem;
     display: flex;
     gap: 1.25rem;
     align-items: center;
@@ -79,6 +89,7 @@ const { title, description, repoUrl, demoUrl, tech = [], featured } = Astro.prop
     letter-spacing: 0.04em;
     color: rgba(17,16,16,0.5);
     transition: color 120ms;
+    white-space: nowrap;
   }
   .proj-link:hover { color: var(--fg); }
   .proj-link--primary { color: var(--accent); }

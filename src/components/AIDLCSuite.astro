@@ -1,15 +1,19 @@
 ---
-// AIDLC Suite — editorial card style
+// AIDLC Suite cards — unified card style
 ---
 
 <div class="aidlc-grid">
 
   <!-- VS Code Extension -->
-  <div class="ac-card">
+  <div class="card ac-card">
     <div class="ac-body">
       <h3 class="ac-title">AIDLC for VS Code</h3>
-      <span class="ac-kind">VS Code Extension</span>
+      <p class="ac-tagline">VS CODE EXTENSION</p>
       <p class="ac-desc">Builder UI cho AI pipelines. Edit <code>workspace.yaml</code> visually, theo dõi run trong sidebar, và mở AIDLC Monitor cho token usage + live agent observability.</p>
+      <div class="ac-tech">
+        <span class="tag">TypeScript</span>
+        <span class="tag">VS Code</span>
+      </div>
     </div>
     <div class="ac-footer">
       <a class="ac-link ac-link--primary" href="https://marketplace.visualstudio.com/items?itemName=hueanmy.aidlc" target="_blank" rel="noopener">&rarr;&nbsp;VS Code Marketplace</a>
@@ -18,11 +22,15 @@
   </div>
 
   <!-- CLI -->
-  <div class="ac-card">
+  <div class="card ac-card">
     <div class="ac-body">
       <h3 class="ac-title">AIDLC CLI</h3>
-      <span class="ac-kind">Terminal &middot; npm</span>
+      <p class="ac-tagline">CLI &middot; NPM</p>
       <p class="ac-desc">Standalone engine — không cần VS Code. Scaffold workspaces, apply presets, drive runs end-to-end via Claude, và watch live từ shell.</p>
+      <div class="ac-tech">
+        <span class="tag">TypeScript</span>
+        <span class="tag">Node.js</span>
+      </div>
     </div>
     <div class="ac-footer">
       <a class="ac-link ac-link--primary" href="https://www.npmjs.com/package/aidlc" target="_blank" rel="noopener">&rarr;&nbsp;npm install -g aidlc</a>
@@ -31,11 +39,15 @@
   </div>
 
   <!-- AIDLC Term -->
-  <div class="ac-card">
+  <div class="card ac-card">
     <div class="ac-body">
       <h3 class="ac-title">AIDLC Term</h3>
-      <span class="ac-kind">macOS &middot; Windows Beta &middot; Rust + wgpu</span>
+      <p class="ac-tagline">DESKTOP &middot; MACOS &middot; WINDOWS</p>
       <p class="ac-desc">GPU-accelerated terminal cho agent work: file explorer theo shell, agent manager cho mọi Claude Code session, và live token-usage dashboard.</p>
+      <div class="ac-tech">
+        <span class="tag">Rust</span>
+        <span class="tag">wgpu</span>
+      </div>
     </div>
     <div class="ac-footer">
       <a class="ac-link ac-link--primary" href="https://github.com/aidlc-io/aidlc-io.github.io/releases/download/term-v0.3.2/AIDLC-Term-0.3.2.dmg">&rarr;&nbsp;Download macOS</a>
@@ -44,11 +56,15 @@
   </div>
 
   <!-- AIDLC TestAgent -->
-  <div class="ac-card">
+  <div class="card ac-card">
     <div class="ac-body">
       <h3 class="ac-title">AIDLC TestAgent</h3>
-      <span class="ac-kind">CLI &middot; npm &middot; TypeScript</span>
-      <p class="ac-desc">Open-source AI test agent cho web, desktop, API &amp; mobile. Point vào target, approve plan, nhận về test suite chạy được. Không telemetry, không cần API key.</p>
+      <p class="ac-tagline">CLI &middot; NPM &middot; OPEN SOURCE</p>
+      <p class="ac-desc">AI test agent cho web, desktop, API &amp; mobile. Point vào target, approve plan, nhận về test suite chạy được. Không telemetry, không cần API key.</p>
+      <div class="ac-tech">
+        <span class="tag">TypeScript</span>
+        <span class="tag">Playwright</span>
+      </div>
     </div>
     <div class="ac-footer">
       <a class="ac-link ac-link--primary" href="https://www.npmjs.com/package/aidlc-testagent" target="_blank" rel="noopener">&rarr;&nbsp;npm install -g aidlc-testagent</a>
@@ -62,69 +78,78 @@
   .aidlc-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
+    gap: 1.25rem;
   }
   @media (max-width: 640px) { .aidlc-grid { grid-template-columns: 1fr; } }
 
   .ac-card {
-    background: #f7e6dc;
-    border: 1px solid #dcd5cc;
-    border-radius: 10px;
-    padding: 1.5rem 1.5rem 1.2rem;
     display: flex;
     flex-direction: column;
-    transition: background 150ms ease, border-color 150ms ease;
-  }
-  .ac-card:hover {
-    background: #f0d4c1;
-    border-color: #e6a995;
+    border-radius: var(--radius);
+    overflow: hidden;
   }
 
-  .ac-body { flex: 1; margin-bottom: 1.1rem; }
+  .ac-body {
+    flex: 1;
+    padding: 1rem 1rem 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
 
   .ac-title {
     font-family: var(--font-serif);
-    font-size: 1.25rem;
+    font-size: 1.0625rem;
     font-weight: 500;
     letter-spacing: -0.01em;
     color: var(--fg);
-    margin: 0 0 0.3rem;
-    line-height: 1.2;
+    line-height: 1.3;
+    margin: 0;
   }
 
-  .ac-kind {
-    display: block;
+  .ac-tagline {
     font-family: var(--font-mono);
     font-size: 0.625rem;
     font-weight: 500;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: rgba(17,16,16,0.45);
-    margin-bottom: 0.9rem;
+    color: var(--accent);
+    margin: 0;
   }
 
   .ac-desc {
-    font-family: var(--font-serif);
-    font-size: 0.9rem;
-    color: rgba(17,16,16,0.75);
-    line-height: 1.65;
+    font-size: 0.82rem;
+    color: rgba(17,16,16,0.7);
+    line-height: 1.55;
     margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
   .ac-desc code {
     font-family: var(--font-mono);
     font-size: 0.82em;
-    background: rgba(192,87,42,0.1);
+    background: var(--accent-soft);
     border-radius: 3px;
     padding: 0.05em 0.3em;
     color: var(--accent);
+  }
+
+  .ac-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    margin-top: auto;
+    padding-top: 0.25rem;
   }
 
   .ac-footer {
     display: flex;
     align-items: center;
     gap: 1.25rem;
-    padding-top: 1rem;
-    border-top: 1px solid #dcd5cc;
+    padding: 0.65rem 1rem;
+    border-top: 1px solid var(--border);
   }
 
   .ac-link {
@@ -138,9 +163,5 @@
   }
   .ac-link:hover { color: var(--fg); }
   .ac-link--primary { color: var(--accent); }
-  .ac-link--primary:hover {
-    color: var(--accent-hover);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
+  .ac-link--primary:hover { color: var(--accent-hover); text-decoration: underline; text-underline-offset: 3px; }
 </style>
