@@ -38,11 +38,9 @@ const tabs = [
     <title>{title}</title>
   </head>
   <body>
+    <div class="site-header-wrap">
     <header class="site-header">
-      <div class="site-header-left">
-        <a href="/" class="site-logo">Meii</a>
-        <span class="site-tags">AI · CLAUDE · DEV TOOLS · OPEN SOURCE</span>
-      </div>
+      <a href="/" class="site-logo">Meii</a>
       <nav class="site-nav" role="tablist">
         {tabs.map((tab, i) => (
           <button
@@ -56,6 +54,7 @@ const tabs = [
         ))}
       </nav>
     </header>
+    </div>
 
     <main class="site-main">
       <slot />
