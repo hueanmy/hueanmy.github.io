@@ -67,23 +67,26 @@
   @media (max-width: 640px) { .aidlc-grid { grid-template-columns: 1fr; } }
 
   .ac-card {
-    background: color-mix(in srgb, var(--accent) 5%, var(--bg-card));
-    border: 1px solid var(--border);
+    background: #f7e6dc;
+    border: 1px solid #dcd5cc;
     border-radius: 10px;
     padding: 1.5rem 1.5rem 1.2rem;
     display: flex;
     flex-direction: column;
-    gap: 0;
-    transition: box-shadow 150ms ease;
+    transition: background 150ms ease, border-color 150ms ease;
   }
-  .ac-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+  .ac-card:hover {
+    background: #f0d4c1;
+    border-color: #e6a995;
+  }
 
   .ac-body { flex: 1; margin-bottom: 1.1rem; }
 
   .ac-title {
     font-family: var(--font-serif);
     font-size: 1.25rem;
-    font-weight: 400;
+    font-weight: 500;
+    letter-spacing: -0.01em;
     color: var(--fg);
     margin: 0 0 0.3rem;
     line-height: 1.2;
@@ -92,26 +95,28 @@
   .ac-kind {
     display: block;
     font-family: var(--font-mono);
-    font-size: 0.6rem;
+    font-size: 0.625rem;
     font-weight: 500;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--fg-muted);
+    color: rgba(17,16,16,0.45);
     margin-bottom: 0.9rem;
   }
 
   .ac-desc {
-    font-size: 0.88rem;
-    color: var(--fg-dim);
+    font-family: var(--font-serif);
+    font-size: 0.9rem;
+    color: rgba(17,16,16,0.75);
     line-height: 1.65;
     margin: 0;
   }
   .ac-desc code {
     font-family: var(--font-mono);
     font-size: 0.82em;
-    background: rgba(0,0,0,0.05);
+    background: rgba(192,87,42,0.1);
     border-radius: 3px;
     padding: 0.05em 0.3em;
+    color: var(--accent);
   }
 
   .ac-footer {
@@ -119,19 +124,23 @@
     align-items: center;
     gap: 1.25rem;
     padding-top: 1rem;
-    border-top: 1px solid var(--border);
+    border-top: 1px solid #dcd5cc;
   }
 
   .ac-link {
     font-family: var(--font-mono);
-    font-size: 0.7rem;
+    font-size: 0.688rem;
     font-weight: 500;
-    color: var(--fg-muted);
+    color: rgba(17,16,16,0.5);
     text-decoration: none;
     transition: color 120ms;
     white-space: nowrap;
   }
   .ac-link:hover { color: var(--fg); }
   .ac-link--primary { color: var(--accent); }
-  .ac-link--primary:hover { color: var(--accent-hover); }
+  .ac-link--primary:hover {
+    color: var(--accent-hover);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
 </style>
