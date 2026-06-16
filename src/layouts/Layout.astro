@@ -39,7 +39,10 @@ const tabs = [
   </head>
   <body>
     <header class="site-header">
-      <a href="/" class="site-logo">Meii</a>
+      <div class="site-header-left">
+        <a href="/" class="site-logo">Meii</a>
+        <span class="site-tags">AI · CLAUDE · DEV TOOLS · OPEN SOURCE</span>
+      </div>
       <nav class="site-nav" role="tablist">
         {tabs.map((tab, i) => (
           <button
