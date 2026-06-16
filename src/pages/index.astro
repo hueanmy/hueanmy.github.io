@@ -65,33 +65,43 @@ const shorts     = (await getCollection('shorts')).sort((a, b) => Number(b.data.
     <p class="section-title">Projects</p>
 
     <!-- Category sub-tabs -->
-    <div class="cat-nav">
-      <button class="cat-btn active" data-cat="aidlc">AIDLC Suite</button>
-      {tokenTools.length > 0 && <button class="cat-btn" data-cat="tokens">Token Optimization</button>}
-      {shorts.length > 0 && <button class="cat-btn" data-cat="video">AI Video</button>}
-      {projects.length > 0 && <button class="cat-btn" data-cat="oss">Open Source</button>}
-    </div>
+    <nav class="cat-nav">
+      <button class="cat-btn active" data-cat="aidlc">
+        <span class="cat-dot"></span>AIDLC Suite <span class="cat-count">4</span>
+      </button>
+      {tokenTools.length > 0 && (
+        <button class="cat-btn" data-cat="tokens">
+          <span class="cat-dot"></span>Token Optimization <span class="cat-count">{tokenTools.length}</span>
+        </button>
+      )}
+      {shorts.length > 0 && (
+        <button class="cat-btn" data-cat="video">
+          <span class="cat-dot"></span>AI Video <span class="cat-count">{shorts.length}</span>
+        </button>
+      )}
+      {projects.length > 0 && (
+        <button class="cat-btn" data-cat="oss">
+          <span class="cat-dot"></span>Open Source <span class="cat-count">{projects.length}</span>
+        </button>
+      )}
+    </nav>
 
-    <!-- AIDLC Suite — default -->
     <section class="cat-panel" data-cat-panel="aidlc">
       <AIDLCSuite />
     </section>
 
-    <!-- Token Optimization -->
     {tokenTools.length > 0 && (
       <section class="cat-panel" data-cat-panel="tokens" hidden>
         <div class="card-grid">{tokenTools.map(t => <ProjectCard {...t.data} />)}</div>
       </section>
     )}
 
-    <!-- AI Video Generators -->
     {shorts.length > 0 && (
       <section class="cat-panel" data-cat-panel="video" hidden>
         <div class="card-grid">{shorts.map(s => <ProjectCard {...s.data} />)}</div>
       </section>
     )}
 
-    <!-- Open Source -->
     {projects.length > 0 && (
       <section class="cat-panel" data-cat-panel="oss" hidden>
         <div class="card-grid">{projects.map(p => <ProjectCard {...p.data} />)}</div>
@@ -119,29 +129,54 @@ const shorts     = (await getCollection('shorts')).sort((a, b) => Number(b.data.
 </Layout>
 
 <style>
+  /* Category nav */
   .cat-nav {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.4rem;
+    align-items: center;
+    gap: 0;
     margin-bottom: 1.75rem;
-    padding-bottom: 1.25rem;
     border-bottom: 1px solid var(--border);
   }
+
   .cat-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
     background: none;
-    border: 1px solid var(--border);
-    font-family: var(--font-sans);
-    font-size: 0.78rem;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
     font-weight: 500;
+    letter-spacing: 0.04em;
     color: var(--fg-muted);
-    padding: 0.3rem 0.85rem;
-    border-radius: 999px;
+    padding: 0.55rem 1rem 0.55rem 0;
+    margin-right: 1.5rem;
     cursor: pointer;
-    transition: color 120ms, background 120ms, border-color 120ms;
+    transition: color 120ms, border-color 120ms;
     white-space: nowrap;
   }
-  .cat-btn:hover  { color: var(--fg); border-color: var(--fg-dim); }
-  .cat-btn.active { background: var(--fg); color: var(--bg); border-color: var(--fg); font-weight: 600; }
+  .cat-btn:hover { color: var(--fg); }
+  .cat-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  .cat-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.5;
+    flex-shrink: 0;
+  }
+  .cat-btn.active .cat-dot { opacity: 1; }
+
+  .cat-count {
+    font-size: 0.62rem;
+    opacity: 0.6;
+  }
 
   .cat-panel { animation: fade-in 130ms ease both; }
 </style>

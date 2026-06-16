@@ -1,95 +1,58 @@
 ---
-// AIDLC Suite — product cards adapted to site beige theme
+// AIDLC Suite — editorial card style
 ---
 
 <div class="aidlc-grid">
 
   <!-- VS Code Extension -->
   <div class="ac-card">
-    <div class="ac-head">
-      <h3>AIDLC for VS Code</h3>
+    <div class="ac-body">
+      <h3 class="ac-title">AIDLC for VS Code</h3>
       <span class="ac-kind">VS Code Extension</span>
+      <p class="ac-desc">Builder UI cho AI pipelines. Edit <code>workspace.yaml</code> visually, theo dõi run trong sidebar, và mở AIDLC Monitor cho token usage + live agent observability.</p>
     </div>
-    <p class="ac-desc">The Builder UI for your AI pipelines. Edit <code>workspace.yaml</code> visually, follow active runs in the sidebar, and open the AIDLC Monitor for token usage and live agent observability.</p>
-    <ul class="ac-features">
-      <li>Visual Builder for <code>.aidlc/workspace.yaml</code></li>
-      <li>Sidebar with live run states &amp; commands</li>
-      <li>AIDLC Monitor — tokens, sessions, agents</li>
-      <li>Session-insights dashboard from Claude transcripts</li>
-    </ul>
-    <div class="ac-actions">
-      <a class="ac-btn ac-btn-primary" href="https://marketplace.visualstudio.com/items?itemName=hueanmy.aidlc" target="_blank" rel="noopener">
-        Install from VS Code Marketplace
-      </a>
-      <a class="ac-btn ac-btn-ghost" href="https://open-vsx.org/extension/hueanmy/aidlc" target="_blank" rel="noopener">Install from Open VSX</a>
+    <div class="ac-footer">
+      <a class="ac-link ac-link--primary" href="https://marketplace.visualstudio.com/items?itemName=hueanmy.aidlc" target="_blank" rel="noopener">&rarr;&nbsp;VS Code Marketplace</a>
+      <a class="ac-link" href="https://open-vsx.org/extension/hueanmy/aidlc" target="_blank" rel="noopener">Open VSX</a>
     </div>
   </div>
 
   <!-- CLI -->
   <div class="ac-card">
-    <div class="ac-head">
-      <h3>AIDLC CLI</h3>
-      <span class="ac-kind">Terminal · npm</span>
+    <div class="ac-body">
+      <h3 class="ac-title">AIDLC CLI</h3>
+      <span class="ac-kind">Terminal &middot; npm</span>
+      <p class="ac-desc">Standalone engine — không cần VS Code. Scaffold workspaces, apply presets, drive runs end-to-end via Claude, và watch live từ shell.</p>
     </div>
-    <p class="ac-desc">The standalone engine — no VS Code required. Scaffold workspaces, apply pipeline presets, drive runs end-to-end via Claude, and watch everything live from your shell.</p>
-    <ul class="ac-features">
-      <li><code>aidlc init</code> + presets: sdlc, code-review, release-notes</li>
-      <li><code>aidlc run exec --auto-approve</code> — unattended runs</li>
-      <li><code>aidlc watch</code> / <code>tail</code> — live run table &amp; stream</li>
-      <li><code>aidlc dashboard</code> — browser UI on localhost</li>
-    </ul>
-    <div class="ac-actions">
-      <a class="ac-btn ac-btn-primary" href="https://github.com/aidlc-io/aidlc/tree/main/packages/cli" target="_blank" rel="noopener">
-        npm install -g aidlc
-      </a>
-      <a class="ac-btn ac-btn-ghost" href="https://www.npmjs.com/package/aidlc" target="_blank" rel="noopener">View on npm</a>
-      <a class="ac-btn ac-btn-ghost" href="https://github.com/aidlc-io/aidlc" target="_blank" rel="noopener">Source on GitHub</a>
+    <div class="ac-footer">
+      <a class="ac-link ac-link--primary" href="https://www.npmjs.com/package/aidlc" target="_blank" rel="noopener">&rarr;&nbsp;npm install -g aidlc</a>
+      <a class="ac-link" href="https://github.com/aidlc-io/aidlc" target="_blank" rel="noopener">GitHub</a>
     </div>
   </div>
 
   <!-- AIDLC Term -->
   <div class="ac-card">
-    <div class="ac-head">
-      <h3>AIDLC Term</h3>
-      <span class="ac-kind">macOS · Windows (beta) · Rust + wgpu</span>
+    <div class="ac-body">
+      <h3 class="ac-title">AIDLC Term</h3>
+      <span class="ac-kind">macOS &middot; Windows Beta &middot; Rust + wgpu</span>
+      <p class="ac-desc">GPU-accelerated terminal cho agent work: file explorer theo shell, agent manager cho mọi Claude Code session, và live token-usage dashboard.</p>
     </div>
-    <p class="ac-desc">A GPU-accelerated terminal built for agent work: file explorer that follows your shell, agent manager for every Claude Code session, and a live token-usage dashboard.</p>
-    <ul class="ac-features">
-      <li>GPU rendering (wgpu) — tabs, splits, IME-perfect input</li>
-      <li>Agent Manager — status, live tails, focus / interrupt</li>
-      <li>Usage Dashboard — burn rate &amp; limit prediction</li>
-      <li>File tree follows the shell's cwd</li>
-      <li>Native shortcuts — ⌘ on macOS, Ctrl+Shift on Windows</li>
-    </ul>
-    <div class="ac-actions">
-      <a class="ac-btn ac-btn-primary" href="https://github.com/aidlc-io/aidlc-io.github.io/releases/download/term-v0.3.2/AIDLC-Term-0.3.2.dmg">
-        Download for macOS <span class="ac-sub">v0.3.2 · 5.5 MB</span>
-      </a>
-      <a class="ac-btn ac-btn-ghost" href="https://github.com/aidlc-io/aidlc-io.github.io/releases/download/term-v0.3.2/AIDLC-Term-0.3.2-windows.zip">
-        Download for Windows <span class="ac-sub">v0.3.2 · 5.3 MB</span>
-      </a>
-      <p class="ac-note">macOS: not notarized — first launch via System Settings → Privacy &amp; Security → Open Anyway. Windows is in beta.</p>
+    <div class="ac-footer">
+      <a class="ac-link ac-link--primary" href="https://github.com/aidlc-io/aidlc-io.github.io/releases/download/term-v0.3.2/AIDLC-Term-0.3.2.dmg">&rarr;&nbsp;Download macOS</a>
+      <a class="ac-link" href="https://github.com/aidlc-io/aidlc-io.github.io/releases/download/term-v0.3.2/AIDLC-Term-0.3.2-windows.zip">Windows (beta)</a>
     </div>
   </div>
 
   <!-- AIDLC TestAgent -->
   <div class="ac-card">
-    <div class="ac-head">
-      <h3>AIDLC TestAgent</h3>
-      <span class="ac-kind">CLI · npm · TypeScript</span>
+    <div class="ac-body">
+      <h3 class="ac-title">AIDLC TestAgent</h3>
+      <span class="ac-kind">CLI &middot; npm &middot; TypeScript</span>
+      <p class="ac-desc">Open-source AI test agent cho web, desktop, API &amp; mobile. Point vào target, approve plan, nhận về test suite chạy được. Không telemetry, không cần API key.</p>
     </div>
-    <p class="ac-desc">Open-source AI test agent for web, desktop, API &amp; mobile. Point it at a target, approve the plan, get a passing test suite. No telemetry, no model API keys required.</p>
-    <ul class="ac-features">
-      <li>Supports web, desktop, API &amp; mobile targets</li>
-      <li>Approve the generated test plan before execution</li>
-      <li>No telemetry, no external model API keys</li>
-      <li>Outputs a runnable test suite you own</li>
-    </ul>
-    <div class="ac-actions">
-      <a class="ac-btn ac-btn-primary" href="https://www.npmjs.com/package/aidlc-testagent" target="_blank" rel="noopener">
-        npm install -g aidlc-testagent
-      </a>
-      <a class="ac-btn ac-btn-ghost" href="https://github.com/aidlc-io/aidlc-testagent" target="_blank" rel="noopener">Source on GitHub</a>
+    <div class="ac-footer">
+      <a class="ac-link ac-link--primary" href="https://www.npmjs.com/package/aidlc-testagent" target="_blank" rel="noopener">&rarr;&nbsp;npm install -g aidlc-testagent</a>
+      <a class="ac-link" href="https://github.com/aidlc-io/aidlc-testagent" target="_blank" rel="noopener">GitHub</a>
     </div>
   </div>
 
@@ -98,121 +61,77 @@
 <style>
   .aidlc-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.25rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
   }
-  @media (max-width: 900px) { .aidlc-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 560px) { .aidlc-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 640px) { .aidlc-grid { grid-template-columns: 1fr; } }
 
   .ac-card {
-    background: var(--bg-card);
+    background: color-mix(in srgb, var(--accent) 5%, var(--bg-card));
     border: 1px solid var(--border);
     border-radius: 10px;
-    padding: 1.25rem 1.25rem 1.1rem;
+    padding: 1.5rem 1.5rem 1.2rem;
     display: flex;
     flex-direction: column;
-    transition: box-shadow 150ms ease, transform 150ms ease;
+    gap: 0;
+    transition: box-shadow 150ms ease;
   }
-  .ac-card:hover {
-    box-shadow: 0 4px 20px rgba(0,0,0,0.07);
-    transform: translateY(-2px);
+  .ac-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+
+  .ac-body { flex: 1; margin-bottom: 1.1rem; }
+
+  .ac-title {
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: var(--fg);
+    margin: 0 0 0.3rem;
+    line-height: 1.2;
   }
 
-  .ac-head {
-    margin-bottom: 0.75rem;
-  }
-  .ac-head h3 {
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: var(--fg);
-    margin: 0 0 0.2rem;
-    line-height: 1.3;
-  }
   .ac-kind {
+    display: block;
     font-family: var(--font-mono);
     font-size: 0.6rem;
-    color: var(--fg-muted);
-    letter-spacing: 0.06em;
+    font-weight: 500;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
+    color: var(--fg-muted);
+    margin-bottom: 0.9rem;
   }
 
   .ac-desc {
-    font-size: 0.78rem;
+    font-size: 0.88rem;
     color: var(--fg-dim);
-    line-height: 1.6;
-    margin-bottom: 0.75rem;
+    line-height: 1.65;
+    margin: 0;
   }
   .ac-desc code {
     font-family: var(--font-mono);
     font-size: 0.82em;
-    background: var(--bg-subtle);
+    background: rgba(0,0,0,0.05);
     border-radius: 3px;
     padding: 0.05em 0.3em;
-    color: var(--fg-dim);
   }
 
-  .ac-features {
-    list-style: none;
-    margin: 0 0 1rem;
-    padding: 0;
-    flex: 1;
-  }
-  .ac-features li {
-    font-size: 0.74rem;
-    color: var(--fg-dim);
-    padding: 0.22rem 0 0.22rem 1.1rem;
-    position: relative;
-    line-height: 1.5;
-  }
-  .ac-features li::before {
-    content: '';
-    position: absolute;
-    left: 0.1rem;
-    top: 0.6rem;
-    width: 5px; height: 5px;
-    border-radius: 1.5px;
-    background: var(--accent);
-    opacity: 0.55;
-  }
-  .ac-features code {
-    font-family: var(--font-mono);
-    font-size: 0.85em;
-    background: var(--bg-subtle);
-    border-radius: 3px;
-    padding: 0.05em 0.3em;
-    color: var(--fg-dim);
-  }
-
-  .ac-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 0.45rem;
-    margin-top: auto;
-  }
-  .ac-btn {
+  .ac-footer {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 0.4rem;
-    border-radius: 6px;
-    padding: 0.5rem 0.9rem;
-    font-family: var(--font-sans);
-    font-size: 0.74rem;
-    font-weight: 600;
-    text-decoration: none;
-    transition: background 120ms, border-color 120ms;
-    border: none;
-    cursor: pointer;
+    gap: 1.25rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
   }
-  .ac-btn-primary { background: var(--accent); color: #fff; }
-  .ac-btn-primary:hover { background: var(--accent-hover); }
-  .ac-btn-ghost {
-    background: var(--bg-subtle);
-    color: var(--fg-dim);
-    border: 1px solid var(--border);
-  }
-  .ac-btn-ghost:hover { border-color: var(--fg-muted); color: var(--fg); }
 
-  .ac-sub { font-weight: 400; opacity: 0.75; font-size: 0.66rem; }
-  .ac-note { font-size: 0.63rem; color: var(--fg-muted); line-height: 1.5; margin: 0; text-align: center; }
+  .ac-link {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--fg-muted);
+    text-decoration: none;
+    transition: color 120ms;
+    white-space: nowrap;
+  }
+  .ac-link:hover { color: var(--fg); }
+  .ac-link--primary { color: var(--accent); }
+  .ac-link--primary:hover { color: var(--accent-hover); }
 </style>
