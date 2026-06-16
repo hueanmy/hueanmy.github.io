@@ -38,10 +38,8 @@ const shorts     = (await getCollection('shorts')).sort((a, b) => Number(b.data.
   <!-- ② Free Resources -->
   <div class="tab-panel" data-panel="resources" hidden>
     <p class="section-title">Free Resources</p>
-
     <section><ClaudeRoadmap /></section>
     <section><CCAFRoadmap /></section>
-
     <section>
       <a class="external-banner" href="https://anthropic.skilljar.com/" target="_blank" rel="noopener">
         <div class="banner-body">
@@ -52,7 +50,6 @@ const shorts     = (await getCollection('shorts')).sort((a, b) => Number(b.data.
         <span class="banner-cta">anthropic.skilljar.com ↗</span>
       </a>
     </section>
-
     {courses.length > 0 && (
       <section>
         <h2>Claude Knowledge Base</h2>
@@ -67,36 +64,51 @@ const shorts     = (await getCollection('shorts')).sort((a, b) => Number(b.data.
   <div class="tab-panel" data-panel="projects" hidden>
     <p class="section-title">Projects</p>
 
+    <!-- Category sub-tabs -->
+    <div class="cat-nav">
+      <button class="cat-btn active" data-cat="aidlc">AIDLC Suite</button>
+      {extensions.length > 0 && <button class="cat-btn" data-cat="sdlc">SDLC Pipeline</button>}
+      {tokenTools.length > 0 && <button class="cat-btn" data-cat="tokens">Token Optimization</button>}
+      {shorts.length > 0 && <button class="cat-btn" data-cat="video">AI Video</button>}
+      {projects.length > 0 && <button class="cat-btn" data-cat="oss">Open Source</button>}
+      <button class="cat-btn" data-cat="setup">WFH Setup</button>
+    </div>
+
+    <!-- AIDLC Suite — first / default -->
+    <section class="cat-panel" data-cat-panel="aidlc">
+      <AIDLCSuite />
+    </section>
+
+    <!-- SDLC Pipeline -->
     {extensions.length > 0 && (
-      <section>
-        <h2>SDLC Pipeline</h2>
+      <section class="cat-panel" data-cat-panel="sdlc" hidden>
         <div class="card-grid">{extensions.map(e => <ExtensionCard {...e.data} />)}</div>
       </section>
     )}
+
+    <!-- Token Optimization -->
     {tokenTools.length > 0 && (
-      <section>
-        <h2>Token Optimization</h2>
+      <section class="cat-panel" data-cat-panel="tokens" hidden>
         <div class="card-grid">{tokenTools.map(t => <ProjectCard {...t.data} />)}</div>
       </section>
     )}
+
+    <!-- AI Video Generators -->
     {shorts.length > 0 && (
-      <section>
-        <h2>AI Video Generators</h2>
+      <section class="cat-panel" data-cat-panel="video" hidden>
         <div class="card-grid">{shorts.map(s => <ProjectCard {...s.data} />)}</div>
       </section>
     )}
-    <section>
-      <h2>AIDLC Suite</h2>
-      <AIDLCSuite />
-    </section>
+
+    <!-- Open Source -->
     {projects.length > 0 && (
-      <section>
-        <h2>Open Source</h2>
+      <section class="cat-panel" data-cat-panel="oss" hidden>
         <div class="card-grid">{projects.map(p => <ProjectCard {...p.data} />)}</div>
       </section>
     )}
-    <section>
-      <h2>WFH Setup</h2>
+
+    <!-- WFH Setup -->
+    <section class="cat-panel" data-cat-panel="setup" hidden>
       <div class="card-grid">
         <a class="card" href="/setup" style="text-decoration:none;color:inherit">
           <div class="card-thumb-placeholder"></div>
@@ -128,3 +140,59 @@ const shorts     = (await getCollection('shorts')).sort((a, b) => Number(b.data.
     <Support />
   </div>
 </Layout>
+
+<style>
+  /* Category sub-nav inside Projects */
+  .cat-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 1.75rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .cat-btn {
+    background: none;
+    border: 1px solid var(--border);
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--fg-muted);
+    padding: 0.3rem 0.85rem;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: color 120ms, background 120ms, border-color 120ms;
+    white-space: nowrap;
+  }
+  .cat-btn:hover   { color: var(--fg); border-color: var(--fg-dim); }
+  .cat-btn.active  { background: var(--fg); color: var(--bg); border-color: var(--fg); font-weight: 600; }
+
+  .cat-panel { animation: fade-in 130ms ease both; }
+</style>
+
+<script>
+  function initCatNav() {
+    const projectsPanel = document.querySelector('[data-panel="projects"]');
+    if (!projectsPanel) return;
+
+    const btns   = projectsPanel.querySelectorAll('.cat-btn');
+    const panels = projectsPanel.querySelectorAll('.cat-panel');
+
+    btns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const cat = btn.dataset.cat;
+        btns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        panels.forEach(p => {
+          if (p.dataset.catPanel === cat) {
+            p.removeAttribute('hidden');
+          } else {
+            p.setAttribute('hidden', '');
+          }
+        });
+      });
+    });
+  }
+  // Run on page load and after tab switches
+  document.addEventListener('DOMContentLoaded', initCatNav);
+</script>
