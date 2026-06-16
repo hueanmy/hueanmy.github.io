@@ -2,9 +2,9 @@
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
+import TabNav from '../components/TabNav.astro';
 import ClaudeRoadmap from '../components/ClaudeRoadmap.astro';
 import CCAFRoadmap from '../components/CCAFRoadmap.astro';
-import SectionNav from '../components/SectionNav.astro';
 import ExtensionCard from '../components/ExtensionCard.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import CourseCard from '../components/CourseCard.astro';
@@ -36,19 +36,14 @@ const shorts = (await getCollection('shorts')).sort(
 ---
 
 <Layout title="Meii">
-  <SectionNav />
   <main>
     <Hero />
+    <TabNav />
 
-    <div id="learn" class="section-group">
-      <div class="group-head">
-        <span class="group-num">①</span>
-        <h2 class="group-title">Learn</h2>
-        <span class="group-rule"></span>
-      </div>
+    <!-- ① Tài liệu Free -->
+    <div class="tab-panel" data-panel="resources" role="tabpanel" id="panel-resources" aria-labelledby="tab-resources">
 
       <ClaudeRoadmap />
-
       <CCAFRoadmap />
 
       <section id="anthropic-courses">
@@ -84,17 +79,13 @@ const shorts = (await getCollection('shorts')).sort(
       }
     </div>
 
-    <div id="build" class="section-group">
-      <div class="group-head">
-        <span class="group-num">②</span>
-        <h2 class="group-title">Open Source</h2>
-        <span class="group-rule"></span>
-      </div>
+    <!-- ② Projects -->
+    <div class="tab-panel" data-panel="projects" role="tabpanel" id="panel-projects" aria-labelledby="tab-projects" hidden>
 
       {
         extensions.length > 0 && (
           <section id="extensions">
-            <h2>SDLC pipeline</h2>
+            <h2>SDLC Pipeline</h2>
             <div class="grid">
               {extensions.map((e) => (
                 <ExtensionCard {...e.data} />
@@ -120,7 +111,7 @@ const shorts = (await getCollection('shorts')).sort(
       {
         shorts.length > 0 && (
           <section id="ai-shorts">
-            <h2>AI video generators</h2>
+            <h2>AI Video Generators</h2>
             <div class="grid">
               {shorts.map((s) => (
                 <ProjectCard {...s.data} />
@@ -133,7 +124,7 @@ const shorts = (await getCollection('shorts')).sort(
       {
         projects.length > 0 && (
           <section id="projects">
-            <h2>Projects</h2>
+            <h2>Open Source</h2>
             <div class="grid">
               {projects.map((p) => (
                 <ProjectCard {...p.data} />
@@ -142,16 +133,9 @@ const shorts = (await getCollection('shorts')).sort(
           </section>
         )
       }
-    </div>
 
-    <div id="shop" class="section-group">
-      <div class="group-head">
-        <span class="group-num">③</span>
-        <h2 class="group-title">WFH Setup</h2>
-        <span class="group-rule"></span>
-      </div>
-
-      <section id="shop-items">
+      <section id="wfh-setup">
+        <h2>WFH Setup</h2>
         <div class="grid">
           <a class="card shop-card" href="/setup">
             <h3>My Desk Setup</h3>
@@ -164,12 +148,31 @@ const shorts = (await getCollection('shorts')).sort(
       </section>
     </div>
 
-    <div id="support" class="section-group">
-      <div class="group-head">
-        <span class="group-num">④</span>
-        <h2 class="group-title">Support</h2>
-        <span class="group-rule"></span>
-      </div>
+    <!-- ③ Writing -->
+    <div class="tab-panel" data-panel="writing" role="tabpanel" id="panel-writing" aria-labelledby="tab-writing" hidden>
+      <section class="empty-state">
+        <div class="empty-icon">✍️</div>
+        <h3>Coming soon</h3>
+        <p>Notes, tutorials, và những thứ tôi học được trên hành trình khám phá AI.</p>
+      </section>
+    </div>
+
+    <!-- ④ About Me -->
+    <div class="tab-panel" data-panel="about" role="tabpanel" id="panel-about" aria-labelledby="tab-about" hidden>
+      <section class="about-section">
+        <h2>About Me</h2>
+        <div class="about-body">
+          <p>
+            Xin chào! Tôi là <strong>Meii</strong> — developer với background về
+            mobile, desktop và web. Hiện tại tôi đang học AI và ứng dụng
+            <strong>Claude</strong> vào developer tooling, AIDLC workflow và QA automation.
+          </p>
+          <p>
+            Tôi tin rằng các công cụ tốt giúp developer làm việc hiệu quả hơn — nên tôi
+            dành nhiều thời gian build open source và chia sẻ kiến thức.
+          </p>
+        </div>
+      </section>
 
       <Support />
     </div>
@@ -177,52 +180,21 @@ const shorts = (await getCollection('shorts')).sort(
 </Layout>
 
 <style is:global>
-  .section-group {
-    margin-bottom: 4.5rem;
+  .tab-panel {
+    animation: panel-in 180ms ease both;
   }
 
-  .section-group > section {
-    margin-bottom: 2.75rem;
+  @keyframes panel-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
 
-  .section-group > section:last-child {
+  .tab-panel > section {
+    margin-bottom: 3rem;
+  }
+
+  .tab-panel > section:last-child {
     margin-bottom: 0;
-  }
-
-  .group-head {
-    display: flex;
-    align-items: center;
-    gap: 0.85rem;
-    margin-bottom: 2rem;
-  }
-
-  .group-num {
-    font-family: var(--font-mono);
-    font-size: 1.05rem;
-    color: var(--accent);
-    line-height: 1;
-  }
-
-  .group-title {
-    font-size: 1.35rem;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-    color: var(--fg);
-    text-transform: none;
-    background: var(--gradient-accent);
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
-    -webkit-text-fill-color: transparent;
-    border-bottom: 0;
-    padding-bottom: 0;
-    margin-bottom: 0;
-  }
-
-  .group-rule {
-    flex: 1;
-    height: 1px;
-    background: var(--border);
   }
 
   .shop-card {
@@ -230,14 +202,63 @@ const shorts = (await getCollection('shorts')).sort(
     text-decoration: none;
     color: inherit;
   }
+  .shop-card:hover { color: inherit; }
 
-  .shop-card:hover {
-    color: inherit;
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5rem 2rem;
+    text-align: center;
+    gap: 0.75rem;
   }
 
-  /* SUPPORT group: the inner Support section already has its own h2.
-     Keep it, but the group head ("Support") sits above. */
-  #support > section { margin-bottom: 0; }
+  .empty-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .empty-state h3 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--fg);
+  }
+
+  .empty-state p {
+    font-size: 0.95rem;
+    color: var(--fg-dim);
+    max-width: 26rem;
+    line-height: 1.6;
+  }
+
+  .about-section h2 {
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--fg-dim);
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .about-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+
+  .about-body p {
+    font-size: 1rem;
+    color: var(--fg-dim);
+    line-height: 1.7;
+  }
+
+  .about-body strong {
+    color: var(--fg);
+    font-weight: 600;
+  }
 
   #anthropic-courses {
     margin-top: -0.75rem;
