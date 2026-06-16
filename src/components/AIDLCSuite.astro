@@ -1,14 +1,14 @@
 ---
-// AIDLC Suite — product cards matching aidlc-io.github.io layout
+// AIDLC Suite — product cards adapted to site beige theme
 ---
 
 <div class="aidlc-grid">
 
   <!-- VS Code Extension -->
-  <div class="ac-card ac-cyan">
+  <div class="ac-card">
     <div class="ac-head">
-      <div class="ac-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 7 9 12l5 5"/><rect x="2" y="3" width="20" height="18" rx="3"/></svg>
+      <div class="ac-icon ac-icon--blue">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 7 9 12l5 5"/><rect x="2" y="3" width="20" height="18" rx="3"/></svg>
       </div>
       <div>
         <h3>AIDLC for VS Code</h3>
@@ -23,8 +23,8 @@
       <li>Session-insights dashboard from Claude transcripts</li>
     </ul>
     <div class="ac-actions">
-      <a class="ac-btn ac-btn-main" href="https://marketplace.visualstudio.com/items?itemName=hueanmy.aidlc" target="_blank" rel="noopener">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      <a class="ac-btn ac-btn-primary" href="https://marketplace.visualstudio.com/items?itemName=hueanmy.aidlc" target="_blank" rel="noopener">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         Install from VS Code Marketplace
       </a>
       <a class="ac-btn ac-btn-ghost" href="https://open-vsx.org/extension/hueanmy/aidlc" target="_blank" rel="noopener">Install from Open VSX</a>
@@ -32,10 +32,10 @@
   </div>
 
   <!-- CLI -->
-  <div class="ac-card ac-green">
+  <div class="ac-card">
     <div class="ac-head">
-      <div class="ac-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+      <div class="ac-icon ac-icon--green">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
       </div>
       <div>
         <h3>AIDLC CLI</h3>
@@ -50,8 +50,8 @@
       <li><code>aidlc dashboard</code> — browser UI on localhost</li>
     </ul>
     <div class="ac-actions">
-      <a class="ac-btn ac-btn-main" href="https://github.com/aidlc-io/aidlc/tree/main/packages/cli" target="_blank" rel="noopener">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+      <a class="ac-btn ac-btn-primary" href="https://github.com/aidlc-io/aidlc/tree/main/packages/cli" target="_blank" rel="noopener">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
         npm install -g aidlc
       </a>
       <a class="ac-btn ac-btn-ghost" href="https://github.com/aidlc-io/aidlc" target="_blank" rel="noopener">Source on GitHub</a>
@@ -59,32 +59,31 @@
   </div>
 
   <!-- AIDLC Term -->
-  <div class="ac-card ac-purple">
+  <div class="ac-card">
     <div class="ac-head">
       <div class="ac-icon ac-icon-img">
-        <img src="https://aidlc-io.github.io/assets/aidlc-term.png" alt="AIDLC Term" width="44" height="44" />
+        <img src="https://aidlc-io.github.io/assets/aidlc-term.png" alt="AIDLC Term" width="40" height="40" />
       </div>
       <div>
         <h3>AIDLC Term</h3>
         <span class="ac-kind">macOS · Windows (beta) · Rust + wgpu</span>
       </div>
     </div>
-    <p class="ac-desc">A GPU-accelerated terminal built for agent work: a file explorer that follows your shell, a manager for every Claude Code session on your machine, and a live token-usage dashboard — now on Windows, too.</p>
+    <p class="ac-desc">A GPU-accelerated terminal built for agent work: file explorer that follows your shell, agent manager for every Claude Code session, and a live token-usage dashboard.</p>
     <ul class="ac-features">
       <li>GPU rendering (wgpu) — tabs, splits, IME-perfect input</li>
       <li>Agent Manager — status, live tails, focus / interrupt</li>
       <li>Usage Dashboard — burn rate &amp; limit prediction</li>
       <li>File tree follows the shell's cwd</li>
-      <li>Git tab appears inside repos</li>
-      <li>Native shortcuts per OS — ⌘ on macOS, Ctrl+Shift on Windows</li>
+      <li>Native shortcuts — ⌘ on macOS, Ctrl+Shift on Windows</li>
     </ul>
     <div class="ac-actions">
-      <a class="ac-btn ac-btn-main" href="https://github.com/aidlc-io/aidlc-io.github.io/releases/download/term-v0.3.2/AIDLC-Term-0.3.2.dmg">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+      <a class="ac-btn ac-btn-primary" href="https://github.com/aidlc-io/aidlc-io.github.io/releases/download/term-v0.3.2/AIDLC-Term-0.3.2.dmg">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
         Download for macOS <span class="ac-sub">v0.3.2 · 5.5 MB</span>
       </a>
       <a class="ac-btn ac-btn-ghost" href="https://github.com/aidlc-io/aidlc-io.github.io/releases/download/term-v0.3.2/AIDLC-Term-0.3.2-windows.zip">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.5 10 4.5v7H3zM11 4.3 21 3v8.5H11zM3 12.5h7v7l-7-1zM11 12.5h10V21l-10-1.3z"/></svg>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.5 10 4.5v7H3zM11 4.3 21 3v8.5H11zM3 12.5h7v7l-7-1zM11 12.5h10V21l-10-1.3z"/></svg>
         Download for Windows <span class="ac-sub">v0.3.2 · 5.3 MB</span>
       </a>
       <p class="ac-note">macOS: not notarized — first launch via System Settings → Privacy &amp; Security → Open Anyway. Windows is in beta.</p>
@@ -92,10 +91,10 @@
   </div>
 
   <!-- AIDLC TestAgent -->
-  <div class="ac-card ac-cyan">
+  <div class="ac-card">
     <div class="ac-head">
-      <div class="ac-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      <div class="ac-icon ac-icon--orange">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
       </div>
       <div>
         <h3>AIDLC TestAgent</h3>
@@ -110,8 +109,8 @@
       <li>Outputs a runnable test suite you own</li>
     </ul>
     <div class="ac-actions">
-      <a class="ac-btn ac-btn-main" href="https://github.com/aidlc-io/aidlc-testagent" target="_blank" rel="noopener">
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+      <a class="ac-btn ac-btn-primary" href="https://github.com/aidlc-io/aidlc-testagent" target="_blank" rel="noopener">
+        <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
         View on GitHub
       </a>
     </div>
@@ -128,179 +127,146 @@
   @media (max-width: 900px) { .aidlc-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 560px) { .aidlc-grid { grid-template-columns: 1fr; } }
 
-  /* Card base */
   .ac-card {
-    background: #0f1623;
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 14px;
-    padding: 1.4rem 1.4rem 1.2rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem 1.25rem 1.1rem;
     display: flex;
     flex-direction: column;
-    gap: 0;
-    transition: border-color 0.2s, transform 0.2s;
+    transition: box-shadow 150ms ease, transform 150ms ease;
   }
   .ac-card:hover {
-    transform: translateY(-3px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+    transform: translateY(-2px);
   }
-  .ac-cyan:hover  { border-color: rgba(94,231,223,0.4); }
-  .ac-green:hover { border-color: rgba(80,220,120,0.4); }
-  .ac-purple:hover{ border-color: rgba(180,144,245,0.4); }
 
-  /* Card head */
+  /* Icon */
+  .ac-icon {
+    width: 40px; height: 40px;
+    border-radius: 9px;
+    display: grid; place-items: center;
+    flex-shrink: 0;
+  }
+  .ac-icon--blue   { background: rgba(59,130,246,0.1);  color: #3b82f6; }
+  .ac-icon--green  { background: rgba(34,197,94,0.12);  color: #16a34a; }
+  .ac-icon--orange { background: var(--accent-soft);     color: var(--accent); }
+  .ac-icon-img {
+    overflow: hidden;
+    background: var(--bg-subtle);
+  }
+  .ac-icon-img img { width: 100%; height: 100%; object-fit: cover; border-radius: 9px; display: block; }
+
   .ac-head {
     display: flex;
     align-items: center;
-    gap: 0.85rem;
-    margin-bottom: 0.85rem;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
   }
-  .ac-icon {
-    width: 44px; height: 44px;
-    border-radius: 10px;
-    display: grid; place-items: center;
-    flex-shrink: 0;
-    background: rgba(94,231,223,0.1);
-    border: 1px solid rgba(94,231,223,0.25);
-    color: #5ee7df;
-  }
-  .ac-green .ac-icon {
-    background: rgba(80,220,120,0.1);
-    border-color: rgba(80,220,120,0.25);
-    color: #50dc78;
-  }
-  .ac-purple .ac-icon {
-    background: rgba(180,144,245,0.1);
-    border-color: rgba(180,144,245,0.25);
-    color: #b490f5;
-  }
-  .ac-icon-img {
-    background: none !important;
-    border: none !important;
-    padding: 0;
-    overflow: hidden;
-  }
-  .ac-icon-img img {
-    width: 100%; height: 100%;
-    border-radius: 10px;
-    display: block;
-    object-fit: cover;
-  }
-
   .ac-head h3 {
-    font-size: 1rem;
+    font-size: 0.92rem;
     font-weight: 600;
-    color: #e8e4dc;
-    margin: 0 0 0.15rem;
+    color: var(--fg);
+    margin: 0 0 0.1rem;
     line-height: 1.3;
   }
   .ac-kind {
     font-family: var(--font-mono);
-    font-size: 0.6rem;
-    color: #6b7280;
+    font-size: 0.58rem;
+    color: var(--fg-muted);
     letter-spacing: 0.06em;
     text-transform: uppercase;
   }
 
-  /* Description */
   .ac-desc {
-    font-size: 0.8rem;
-    color: #9ca3af;
+    font-size: 0.78rem;
+    color: var(--fg-dim);
     line-height: 1.6;
-    margin-bottom: 0.85rem;
+    margin-bottom: 0.75rem;
   }
   .ac-desc code {
     font-family: var(--font-mono);
-    font-size: 0.75em;
-    background: rgba(255,255,255,0.07);
+    font-size: 0.82em;
+    background: var(--bg-subtle);
     border-radius: 3px;
     padding: 0.05em 0.3em;
-    color: #c4bfb8;
+    color: var(--fg-dim);
   }
 
-  /* Feature list */
   .ac-features {
     list-style: none;
-    margin: 0 0 1.1rem;
+    margin: 0 0 1rem;
     padding: 0;
     flex: 1;
   }
   .ac-features li {
-    font-size: 0.75rem;
-    color: #9ca3af;
-    padding: 0.28rem 0 0.28rem 1.35rem;
+    font-size: 0.74rem;
+    color: var(--fg-dim);
+    padding: 0.22rem 0 0.22rem 1.1rem;
     position: relative;
     line-height: 1.5;
   }
   .ac-features li::before {
     content: '';
     position: absolute;
-    left: 0.2rem;
-    top: 0.68rem;
+    left: 0.1rem;
+    top: 0.6rem;
     width: 5px; height: 5px;
-    border-radius: 2px;
-    background: #5ee7df;
-    opacity: 0.7;
+    border-radius: 1.5px;
+    background: var(--accent);
+    opacity: 0.55;
   }
-  .ac-green .ac-features li::before { background: #50dc78; }
-  .ac-purple .ac-features li::before { background: #b490f5; }
-
   .ac-features code {
     font-family: var(--font-mono);
-    font-size: 0.88em;
-    background: rgba(255,255,255,0.07);
+    font-size: 0.85em;
+    background: var(--bg-subtle);
     border-radius: 3px;
     padding: 0.05em 0.3em;
-    color: #c4bfb8;
+    color: var(--fg-dim);
   }
 
-  /* Action buttons */
   .ac-actions {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.45rem;
     margin-top: auto;
   }
   .ac-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.45rem;
-    border-radius: 8px;
-    padding: 0.55rem 1rem;
+    gap: 0.4rem;
+    border-radius: 6px;
+    padding: 0.5rem 0.9rem;
     font-family: var(--font-sans);
-    font-size: 0.75rem;
+    font-size: 0.74rem;
     font-weight: 600;
     text-decoration: none;
-    transition: filter 0.15s, box-shadow 0.15s, background 0.15s;
-    cursor: pointer;
+    transition: background 120ms, border-color 120ms, box-shadow 120ms;
     border: none;
+    cursor: pointer;
   }
-  .ac-btn-main {
-    background: linear-gradient(90deg, #5ee7df, #8ad5f5);
-    color: #0d1117;
+  .ac-btn-primary {
+    background: var(--accent);
+    color: #fff;
   }
-  .ac-green .ac-btn-main  { background: linear-gradient(90deg, #50dc78, #7de8a0); color: #0d1117; }
-  .ac-purple .ac-btn-main { background: linear-gradient(90deg, #b490f5, #c9aef8); color: #0d1117; }
-  .ac-btn-main:hover { filter: brightness(1.08); }
+  .ac-btn-primary:hover { background: var(--accent-hover); }
 
   .ac-btn-ghost {
-    background: rgba(255,255,255,0.05);
-    color: #c4bfb8;
-    border: 1px solid rgba(255,255,255,0.12);
+    background: var(--bg-subtle);
+    color: var(--fg-dim);
+    border: 1px solid var(--border);
   }
-  .ac-btn-ghost:hover {
-    background: rgba(255,255,255,0.09);
-    border-color: rgba(255,255,255,0.22);
-  }
+  .ac-btn-ghost:hover { border-color: var(--fg-muted); color: var(--fg); }
 
   .ac-sub {
     font-weight: 400;
-    opacity: 0.7;
-    font-size: 0.68rem;
+    opacity: 0.75;
+    font-size: 0.66rem;
   }
-
   .ac-note {
-    font-size: 0.65rem;
-    color: #6b7280;
+    font-size: 0.63rem;
+    color: var(--fg-muted);
     line-height: 1.5;
     margin: 0;
     text-align: center;

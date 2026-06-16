@@ -67,24 +67,15 @@ const shorts     = (await getCollection('shorts')).sort((a, b) => Number(b.data.
     <!-- Category sub-tabs -->
     <div class="cat-nav">
       <button class="cat-btn active" data-cat="aidlc">AIDLC Suite</button>
-      {extensions.length > 0 && <button class="cat-btn" data-cat="sdlc">SDLC Pipeline</button>}
       {tokenTools.length > 0 && <button class="cat-btn" data-cat="tokens">Token Optimization</button>}
       {shorts.length > 0 && <button class="cat-btn" data-cat="video">AI Video</button>}
       {projects.length > 0 && <button class="cat-btn" data-cat="oss">Open Source</button>}
-      <button class="cat-btn" data-cat="setup">WFH Setup</button>
     </div>
 
-    <!-- AIDLC Suite — first / default -->
+    <!-- AIDLC Suite — default -->
     <section class="cat-panel" data-cat-panel="aidlc">
       <AIDLCSuite />
     </section>
-
-    <!-- SDLC Pipeline -->
-    {extensions.length > 0 && (
-      <section class="cat-panel" data-cat-panel="sdlc" hidden>
-        <div class="card-grid">{extensions.map(e => <ExtensionCard {...e.data} />)}</div>
-      </section>
-    )}
 
     <!-- Token Optimization -->
     {tokenTools.length > 0 && (
@@ -106,20 +97,6 @@ const shorts     = (await getCollection('shorts')).sort((a, b) => Number(b.data.
         <div class="card-grid">{projects.map(p => <ProjectCard {...p.data} />)}</div>
       </section>
     )}
-
-    <!-- WFH Setup -->
-    <section class="cat-panel" data-cat-panel="setup" hidden>
-      <div class="card-grid">
-        <a class="card" href="/setup" style="text-decoration:none;color:inherit">
-          <div class="card-thumb-placeholder"></div>
-          <div class="card-body">
-            <h2 class="card-title">My Desk Setup</h2>
-            <p class="card-desc">Hardware, peripherals, and the small things that make my day better.</p>
-            <div style="margin-top:auto;padding-top:0.5rem"><span class="tag">coming soon</span></div>
-          </div>
-        </a>
-      </div>
-    </section>
   </div>
 
   <!-- ④ About Me -->
@@ -142,7 +119,6 @@ const shorts     = (await getCollection('shorts')).sort((a, b) => Number(b.data.
 </Layout>
 
 <style>
-  /* Category sub-nav inside Projects */
   .cat-nav {
     display: flex;
     flex-wrap: wrap;
@@ -164,8 +140,8 @@ const shorts     = (await getCollection('shorts')).sort((a, b) => Number(b.data.
     transition: color 120ms, background 120ms, border-color 120ms;
     white-space: nowrap;
   }
-  .cat-btn:hover   { color: var(--fg); border-color: var(--fg-dim); }
-  .cat-btn.active  { background: var(--fg); color: var(--bg); border-color: var(--fg); font-weight: 600; }
+  .cat-btn:hover  { color: var(--fg); border-color: var(--fg-dim); }
+  .cat-btn.active { background: var(--fg); color: var(--bg); border-color: var(--fg); font-weight: 600; }
 
   .cat-panel { animation: fade-in 130ms ease both; }
 </style>
@@ -174,25 +150,20 @@ const shorts     = (await getCollection('shorts')).sort((a, b) => Number(b.data.
   function initCatNav() {
     const projectsPanel = document.querySelector('[data-panel="projects"]');
     if (!projectsPanel) return;
-
     const btns   = projectsPanel.querySelectorAll('.cat-btn');
     const panels = projectsPanel.querySelectorAll('.cat-panel');
-
     btns.forEach(btn => {
       btn.addEventListener('click', () => {
-        const cat = btn.dataset.cat;
+        const cat = (btn as HTMLElement).dataset.cat;
         btns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         panels.forEach(p => {
-          if (p.dataset.catPanel === cat) {
-            p.removeAttribute('hidden');
-          } else {
-            p.setAttribute('hidden', '');
-          }
+          (p as HTMLElement).dataset.catPanel === cat
+            ? p.removeAttribute('hidden')
+            : p.setAttribute('hidden', '');
         });
       });
     });
   }
-  // Run on page load and after tab switches
   document.addEventListener('DOMContentLoaded', initCatNav);
 </script>
