@@ -1,7 +1,8 @@
 ---
 title: Prompt Eval 101
 tagline: PROMPT EVAL · 101
-description: Evaluate an AI prompt in 30 seconds — classify support tickets with Claude, then use an LLM judge to grade the reasoning.
+description: Đánh giá một AI prompt trong 30 giây — phân loại support ticket bằng Claude, sau đó dùng LLM judge để chấm điểm lập luận.
+description_en: Evaluate an AI prompt in 30 seconds — classify support tickets with Claude, then use an LLM judge to grade the reasoning.
 video: /courses/prompt-eval-demo/demo.mp4
 videoFull: /courses/prompt-eval-demo/full.mp4
 thumbnail: /courses/prompt-eval-demo/thumbnail.png
@@ -21,6 +22,28 @@ featured: true
 order: 3
 ---
 
+<div class="lang-vi">
+
+Demo end-to-end nhỏ gọn để hiểu cách evaluate một classifier prompt:
+
+1. **Phân loại** ticket hỗ trợ khách hàng thành 1 trong 5 danh mục bằng Claude.
+2. **Chấm điểm lập luận** bằng một Claude call thứ hai đóng vai judge (thang điểm 1–5).
+3. **Phát hiện lỗi** — ticket #8 bị phân loại sai cố ý để bạn thấy một row xấu trông như thế nào.
+
+Mock mode chạy offline với output đã tính sẵn, bạn có thể tương tác với UI trước khi cắm API key.
+
+### Chạy local
+
+```bash
+pip install -r requirements.txt
+streamlit run app.py                     # mock mode
+ANTHROPIC_API_KEY=sk-ant-… streamlit run app.py   # live mode
+```
+
+</div>
+
+<div class="lang-en">
+
 A tiny end-to-end demo showing how to evaluate a classifier prompt:
 
 1. **Classify** customer-support tickets into one of 5 categories using Claude.
@@ -36,3 +59,5 @@ pip install -r requirements.txt
 streamlit run app.py                     # mock mode
 ANTHROPIC_API_KEY=sk-ant-… streamlit run app.py   # live mode
 ```
+
+</div>

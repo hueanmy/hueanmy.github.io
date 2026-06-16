@@ -3,6 +3,7 @@ interface Props {
   id: string;
   title: string;
   description: string;
+  description_en?: string;
   tagline?: string;
   thumbnail?: string;
   duration?: string;
@@ -16,6 +17,7 @@ const {
   id,
   title,
   description,
+  description_en,
   tagline,
   thumbnail,
   duration,
@@ -26,7 +28,6 @@ const {
 } = Astro.props;
 
 const priceLabel = paid ? (price ?? 'Paid') : null;
-
 const href = `/courses/${id}/`;
 ---
 
@@ -43,7 +44,11 @@ const href = `/courses/${id}/`;
   {!thumbnail && priceLabel && <span class="price-badge inline">{priceLabel}</span>}
   <h3>{title}</h3>
   {tagline && <p class="tagline">{tagline}</p>}
-  <p>{description}</p>
+  {
+    description_en
+      ? (<p><span class="lang-en">{description_en}</span><span class="lang-vi">{description}</span></p>)
+      : (<p>{description}</p>)
+  }
   {
     tags.length > 0 && (
       <div class="tech">

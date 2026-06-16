@@ -21,6 +21,7 @@ const projects = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(),
+    description_en: z.string().optional(),
     repoUrl: z.string().url().optional(),
     demoUrl: z.string().url().optional(),
     tech: z.array(z.string()).default([]),
@@ -34,6 +35,7 @@ const courses = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(),
+    description_en: z.string().optional(),
     tagline: z.string().optional(),
     video: z.string().optional(),
     videoFull: z.string().optional(),
@@ -59,6 +61,7 @@ const tokenTools = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(),
+    description_en: z.string().optional(),
     repoUrl: z.string().url().optional(),
     demoUrl: z.string().url().optional(),
     tech: z.array(z.string()).default([]),
@@ -72,6 +75,7 @@ const shorts = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(),
+    description_en: z.string().optional(),
     repoUrl: z.string().url().optional(),
     demoUrl: z.string().url().optional(),
     tech: z.array(z.string()).default([]),
