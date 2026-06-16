@@ -1,50 +1,59 @@
 ---
 const meta = [
-  { k: '60', v: 'câu' },
-  { k: '120', v: 'phút' },
-  { k: '720', v: '/1000 pass' },
-  { k: '$99', v: 'phí thi' },
+  { k: '60', v: 'questions', vi: 'câu' },
+  { k: '120', v: 'minutes', vi: 'phút' },
+  { k: '720', v: '/1000 pass', vi: '/1000 pass' },
+  { k: '$99', v: 'exam fee', vi: 'phí thi' },
 ];
 
 const cards = [
   {
     href: '/cca-f-roadmap.html',
-    badge: '30h · 4-week plan',
+    badge_en: '30h · 4-week plan',
+    badge_vi: '30h · kế hoạch 4 tuần',
     title: 'Study Roadmap',
-    tagline: 'Lộ trình ôn 30h chia 4 tuần — 5 domains, 6 exam scenarios, common traps và mental models.',
-    bullets: [
+    tagline_en: '30h study plan over 4 weeks — 5 domains, 6 exam scenarios, common traps and mental models.',
+    tagline_vi: 'Lộ trình ôn 30h chia 4 tuần — 5 domains, 6 exam scenarios, common traps và mental models.',
+    bullets_en: [
       ['①', 'Foundation · Agentic', '8h'],
       ['②', 'Tools & Claude Code', '10h'],
       ['③', 'Prompt & Context', '8h'],
       ['④', 'Practice scenarios', '4h'],
     ],
-    cta: 'View roadmap →',
+    cta_en: 'View roadmap →',
+    cta_vi: 'Xem roadmap →',
   },
   {
     href: '/cca-f-knowledge-map.html',
-    badge: 'Per-domain reference',
+    badge_en: 'Per-domain reference',
+    badge_vi: 'Tham chiếu theo domain',
     title: 'Knowledge Map',
-    tagline: 'Deep-dive từng domain — knowledge items K1…Kn, code snippets, traps & refs. Tra cứu nhanh.',
-    bullets: [
+    tagline_en: 'Deep-dive per domain — knowledge items K1…Kn, code snippets, traps & refs. Quick lookup.',
+    tagline_vi: 'Deep-dive từng domain — knowledge items K1…Kn, code snippets, traps & refs. Tra cứu nhanh.',
+    bullets_en: [
       ['K', '35+ knowledge items'],
       ['◆', 'Code snippets per concept'],
       ['◆', 'Sidebar nav by domain'],
       ['◆', 'Traps + models inline'],
     ],
-    cta: 'View knowledge map →',
+    cta_en: 'View knowledge map →',
+    cta_vi: 'Xem knowledge map →',
   },
   {
     href: '/cca-f-vocabulary.html',
-    badge: 'EN ↔ VI glossary',
+    badge_en: 'EN ↔ VI glossary',
+    badge_vi: 'Từ điển EN ↔ VI',
     title: 'Vocabulary Guide',
-    tagline: 'Từ vựng tiếng Anh hay gặp trong đề thi — giải thích bằng tiếng Việt + ví dụ thực tế.',
-    bullets: [
+    tagline_en: 'English vocabulary common in exams — explained in Vietnamese with real examples.',
+    tagline_vi: 'Từ vựng tiếng Anh hay gặp trong đề thi — giải thích bằng tiếng Việt + ví dụ thực tế.',
+    bullets_en: [
       ['A', '5 domain-aligned categories'],
       ['?', 'MCQ question phrases'],
-      ['→', 'Search EN hoặc VI'],
+      ['→', 'Search EN or VI'],
       ['#', 'Tag: Core / Trap / Pattern'],
     ],
-    cta: 'View vocabulary →',
+    cta_en: 'View vocabulary →',
+    cta_vi: 'Xem từ vựng →',
   },
 ];
 ---
@@ -62,20 +71,33 @@ const cards = [
 
   <ul class="meta-pills">
     {meta.map((m) => (
-      <li><strong>{m.k}</strong> {m.v}</li>
+      <li>
+        <strong>{m.k}</strong>
+        <span class="lang-en">{m.v}</span>
+        <span class="lang-vi">{m.vi}</span>
+      </li>
     ))}
-    <li class="meta-soft">scenario-based, không phải trivia</li>
+    <li class="meta-soft">
+      <span class="lang-en">scenario-based, not trivia</span>
+      <span class="lang-vi">scenario-based, không phải trivia</span>
+    </li>
   </ul>
 
   <div class="exam-grid">
     {cards.map((c) => (
       <a class="exam-card" href={c.href} target="_blank" rel="noopener">
         <div class="exam-body">
-          <span class="exam-badge">{c.badge}</span>
+          <span class="exam-badge">
+            <span class="lang-en">{c.badge_en}</span>
+            <span class="lang-vi">{c.badge_vi}</span>
+          </span>
           <h3 class="exam-title">{c.title}</h3>
-          <p class="exam-tagline">{c.tagline}</p>
+          <p class="exam-tagline">
+            <span class="lang-en">{c.tagline_en}</span>
+            <span class="lang-vi">{c.tagline_vi}</span>
+          </p>
           <ul class="bullets">
-            {c.bullets.map((b) => (
+            {c.bullets_en.map((b) => (
               <li>
                 <span class="bullet-mark">{b[0]}</span>
                 <span class="bullet-text">{b[1]}</span>
@@ -84,7 +106,10 @@ const cards = [
             ))}
           </ul>
         </div>
-        <div class="exam-footer">{c.cta}</div>
+        <div class="exam-footer">
+          <span class="lang-en">{c.cta_en}</span>
+          <span class="lang-vi">{c.cta_vi}</span>
+        </div>
       </a>
     ))}
   </div>

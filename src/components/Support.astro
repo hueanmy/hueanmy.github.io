@@ -2,9 +2,13 @@
 ---
 
 <section class="support-inner">
-  <h2>Sponsor my work</h2>
+  <h2>
+    <span class="lang-en">Sponsor my work</span>
+    <span class="lang-vi">Ủng hộ tôi</span>
+  </h2>
   <p class="intro">
-    If something I built has helped you, a small contribution keeps things going.
+    <span class="lang-en">If something I built has helped you, a small contribution keeps things going.</span>
+    <span class="lang-vi">Nếu thứ tôi tạo ra giúp ích cho bạn, một đóng góp nhỏ sẽ giúp mọi thứ tiếp tục.</span>
   </p>
 
   <div class="channel-row">
@@ -13,9 +17,13 @@
         <h3>GitHub Sponsors</h3>
         <span class="audience">Intl</span>
       </div>
-      <p>One-time / monthly via Open Source Collective.</p>
+      <p>
+        <span class="lang-en">One-time / monthly via Open Source Collective.</span>
+        <span class="lang-vi">Một lần hoặc hàng tháng qua Open Source Collective.</span>
+      </p>
       <a class="cta" href="https://github.com/sponsors/hueanmy">
-        Sponsor &rarr;
+        <span class="lang-en">Sponsor &rarr;</span>
+        <span class="lang-vi">Ủng hộ &rarr;</span>
       </a>
     </article>
 
@@ -24,9 +32,12 @@
         <h3>MoMo</h3>
         <span class="audience">VN</span>
       </div>
-      <p>Quét QR bằng app MoMo, không phí.</p>
+      <p>
+        <span class="lang-en">Scan QR with MoMo app, no fee.</span>
+        <span class="lang-vi">Quét QR bằng app MoMo, không phí.</span>
+      </p>
       <details class="qr-reveal">
-        <summary>QR</summary>
+        <summary>QR &darr;</summary>
         <img src="/momo-qr.jpg" alt="MoMo QR code" class="qr" />
       </details>
     </article>
@@ -36,15 +47,21 @@
         <h3>VietQR</h3>
         <span class="audience">VN</span>
       </div>
-      <p>Chuyển khoản qua app ngân hàng hỗ trợ VietQR.</p>
+      <p>
+        <span class="lang-en">Bank transfer via any VietQR-supported app.</span>
+        <span class="lang-vi">Chuyển khoản qua app ngân hàng hỗ trợ VietQR.</span>
+      </p>
       <details class="qr-reveal">
-        <summary>QR</summary>
+        <summary>QR &darr;</summary>
         <img src="/vietqr.jpg" alt="VietQR code" class="qr" />
       </details>
     </article>
   </div>
 
-  <p class="thanks">Thank you &mdash; it really means a lot.</p>
+  <p class="thanks">
+    <span class="lang-en">Thank you &mdash; it really means a lot.</span>
+    <span class="lang-vi">Cảm ơn bạn rất nhiều.</span>
+  </p>
 </section>
 
 <style>
@@ -71,9 +88,7 @@
     flex-direction: column;
   }
 
-  .channel:hover {
-    border-color: var(--accent);
-  }
+  .channel:hover { border-color: var(--accent); }
 
   .channel-head {
     display: flex;
@@ -83,11 +98,7 @@
     margin-bottom: 0.35rem;
   }
 
-  .channel h3 {
-    font-size: 0.88rem;
-    font-weight: 600;
-    color: var(--fg);
-  }
+  .channel h3 { font-size: 0.88rem; font-weight: 600; color: var(--fg); }
 
   .audience {
     font-size: 0.6rem;
@@ -123,25 +134,9 @@
     align-self: flex-start;
   }
 
-  .qr-reveal summary {
-    cursor: pointer;
-    list-style: none;
-    user-select: none;
-  }
-
-  .cta:hover,
-  .qr-reveal summary:hover {
-    background: rgba(94, 234, 212, 0.16);
-    color: var(--accent-hover);
-  }
-
+  .qr-reveal summary { cursor: pointer; list-style: none; user-select: none; }
+  .cta:hover, .qr-reveal summary:hover { background: var(--accent-soft); color: var(--accent-hover); }
   .qr-reveal summary::-webkit-details-marker { display: none; }
-  .qr-reveal summary::after {
-    content: ' ↓';
-    font-size: 0.85em;
-    opacity: 0.7;
-  }
-  .qr-reveal[open] summary::after { content: ' ↑'; }
 
   .qr {
     display: block;
@@ -164,11 +159,7 @@
   }
 
   @media (max-width: 640px) {
-    .channel-row {
-      grid-template-columns: 1fr;
-    }
-    .channel-head {
-      align-items: baseline;
-    }
+    .channel-row { grid-template-columns: 1fr; }
+    .channel-head { align-items: baseline; }
   }
 </style>
