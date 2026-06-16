@@ -33,6 +33,14 @@ const shorts     = (await getCollection('shorts')).sort((a, b) => Number(b.data.
         </div>
       </article>
     </div>
+    {courses.length > 0 && (
+      <section>
+        <h2>Claude Knowledge Base</h2>
+        <div class="card-grid">
+          {courses.map(c => <CourseCard id={c.id} {...c.data} />)}
+        </div>
+      </section>
+    )}
   </div>
 
   <!-- ② Free Resources -->
@@ -50,14 +58,6 @@ const shorts     = (await getCollection('shorts')).sort((a, b) => Number(b.data.
         <span class="banner-cta">anthropic.skilljar.com ↗</span>
       </a>
     </section>
-    {courses.length > 0 && (
-      <section>
-        <h2>Claude Knowledge Base</h2>
-        <div class="card-grid">
-          {courses.map(c => <CourseCard id={c.id} {...c.data} />)}
-        </div>
-      </section>
-    )}
   </div>
 
   <!-- ③ Projects -->
