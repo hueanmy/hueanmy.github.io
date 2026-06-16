@@ -9,11 +9,13 @@ import ProjectCard from '../components/ProjectCard.astro';
 import CourseCard from '../components/CourseCard.astro';
 import Support from '../components/Support.astro';
 
-const extensions = (await getCollection('extensions')).sort((a, b) => a.data.order - b.data.order);
-const projects   = (await getCollection('projects')).sort((a, b) => Number(b.data.featured) - Number(a.data.featured) || a.data.order - b.data.order);
-const courses    = (await getCollection('courses')).sort((a, b) => Number(b.data.featured) - Number(a.data.featured) || a.data.order - b.data.order);
-const tokenTools = (await getCollection('tokenTools')).sort((a, b) => Number(b.data.featured) - Number(a.data.featured) || a.data.order - b.data.order);
-const shorts     = (await getCollection('shorts')).sort((a, b) => Number(b.data.featured) - Number(a.data.featured) || a.data.order - b.data.order);
+const extensions   = (await getCollection('extensions')).sort((a, b) => a.data.order - b.data.order);
+const allProjects  = (await getCollection('projects')).sort((a, b) => Number(b.data.featured) - Number(a.data.featured) || a.data.order - b.data.order);
+const aidlcProjects = allProjects.filter(p => p.id.startsWith('aidlc-'));
+const projects     = allProjects.filter(p => !p.id.startsWith('aidlc-'));
+const courses      = (await getCollection('courses')).sort((a, b) => Number(b.data.featured) - Number(a.data.featured) || a.data.order - b.data.order);
+const tokenTools   = (await getCollection('tokenTools')).sort((a, b) => Number(b.data.featured) - Number(a.data.featured) || a.data.order - b.data.order);
+const shorts       = (await getCollection('shorts')).sort((a, b) => Number(b.data.featured) - Number(a.data.featured) || a.data.order - b.data.order);
 ---
 
 <Layout title="Meii">
@@ -82,6 +84,12 @@ const shorts     = (await getCollection('shorts')).sort((a, b) => Number(b.data.
       <section>
         <h2>AI Video Generators</h2>
         <div class="card-grid">{shorts.map(s => <ProjectCard {...s.data} />)}</div>
+      </section>
+    )}
+    {aidlcProjects.length > 0 && (
+      <section>
+        <h2>AIDLC Suite</h2>
+        <div class="card-grid">{aidlcProjects.map(p => <ProjectCard {...p.data} />)}</div>
       </section>
     )}
     {projects.length > 0 && (
