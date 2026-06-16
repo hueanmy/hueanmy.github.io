@@ -15,6 +15,12 @@ const projects   = (await getCollection('projects')).sort((a, b) => Number(b.dat
 const courses    = (await getCollection('courses')).sort((a, b) => Number(b.data.featured) - Number(a.data.featured) || a.data.order - b.data.order);
 const tokenTools = (await getCollection('tokenTools')).sort((a, b) => Number(b.data.featured) - Number(a.data.featured) || a.data.order - b.data.order);
 const shorts     = (await getCollection('shorts')).sort((a, b) => Number(b.data.featured) - Number(a.data.featured) || a.data.order - b.data.order);
+
+const writingCategories = [
+  { id: 'all', label: 'All' },
+  { id: 'claude-code', label: 'Claude Code', match: (tags: string[]) => tags.some(t => t.toLowerCase().includes('claude code')) },
+  { id: 'prompt',      label: 'Prompt Engineering', match: (tags: string[]) => tags.some(t => t.toLowerCase().includes('prompt') || t.toLowerCase().includes('eval')) },
+];
 ---
 
 <Layout title="Meii">
@@ -23,24 +29,38 @@ const shorts     = (await getCollection('shorts')).sort((a, b) => Number(b.data.
   <!-- ① Writing -->
   <div class="tab-panel" data-panel="writing">
     <p class="section-title">Writing</p>
-    <div class="card-grid">
-      <article class="card">
-        <div class="card-thumb-placeholder"></div>
-        <div class="card-body">
-          <div class="card-meta"><span>Coming soon</span></div>
-          <h2 class="card-title">Notes, tutorials, and things I've learned</h2>
-          <p class="card-desc">Upcoming posts on AI, Claude, developer tooling, and open source.</p>
-        </div>
-      </article>
+
+    <!-- Search + category nav -->
+    <div class="writing-toolbar">
+      <input
+        id="writing-search"
+        class="writing-search"
+        type="search"
+        placeholder="Search..."
+        aria-label="Search articles"
+      />
+      <nav class="cat-nav writing-cat-nav">
+        {writingCategories.map((c, i) => (
+          <button class={`cat-btn${i === 0 ? ' active' : ''}`} data-wcat={c.id}>
+            <span class="cat-dot"></span>{c.label}
+          </button>
+        ))}
+      </nav>
     </div>
-    {courses.length > 0 && (
-      <section>
-        <h2>Claude Knowledge Base</h2>
-        <div class="card-grid">
-          {courses.map(c => <CourseCard id={c.id} {...c.data} />)}
+
+    <div class="card-grid" id="writing-grid">
+      {courses.map(c => (
+        <div
+          class="writing-item"
+          data-tags={JSON.stringify(c.data.tags ?? [])}
+          data-title={c.data.title.toLowerCase()}
+          data-desc={(c.data.description ?? '').toLowerCase()}
+        >
+          <CourseCard id={c.id} {...c.data} />
         </div>
-      </section>
-    )}
+      ))}
+    </div>
+    <p class="writing-empty" hidden>No results found.</p>
   </div>
 
   <!-- ② Free Resources -->
@@ -63,8 +83,6 @@ const shorts     = (await getCollection('shorts')).sort((a, b) => Number(b.data.
   <!-- ③ Projects -->
   <div class="tab-panel" data-panel="projects" hidden>
     <p class="section-title">Projects</p>
-
-    <!-- Category sub-tabs -->
     <nav class="cat-nav">
       <button class="cat-btn active" data-cat="aidlc">
         <span class="cat-dot"></span>AIDLC Suite <span class="cat-count">4</span>
@@ -85,23 +103,19 @@ const shorts     = (await getCollection('shorts')).sort((a, b) => Number(b.data.
         </button>
       )}
     </nav>
-
     <section class="cat-panel" data-cat-panel="aidlc">
       <AIDLCSuite />
     </section>
-
     {tokenTools.length > 0 && (
       <section class="cat-panel" data-cat-panel="tokens" hidden>
         <div class="card-grid">{tokenTools.map(t => <ProjectCard {...t.data} />)}</div>
       </section>
     )}
-
     {shorts.length > 0 && (
       <section class="cat-panel" data-cat-panel="video" hidden>
         <div class="card-grid">{shorts.map(s => <ProjectCard {...s.data} />)}</div>
       </section>
     )}
-
     {projects.length > 0 && (
       <section class="cat-panel" data-cat-panel="oss" hidden>
         <div class="card-grid">{projects.map(p => <ProjectCard {...p.data} />)}</div>
@@ -128,15 +142,45 @@ const shorts     = (await getCollection('shorts')).sort((a, b) => Number(b.data.
 </Layout>
 
 <style>
-  /* Category nav */
+  .writing-toolbar {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .writing-search {
+    width: 100%;
+    max-width: 320px;
+    padding: 0.45rem 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--fg);
+    outline: none;
+    transition: border-color 120ms;
+  }
+  .writing-search:focus { border-color: var(--accent); }
+  .writing-search::placeholder { color: var(--fg-muted); }
+
+  .writing-empty {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--fg-muted);
+    padding: 2rem 0;
+  }
+
+  /* Category nav (shared + projects) */
   .cat-nav {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: 0;
-    margin-bottom: 1.75rem;
     border-bottom: 1px solid var(--border);
   }
+  .writing-cat-nav { margin-bottom: 0; }
 
   .cat-btn {
     display: inline-flex;
@@ -158,10 +202,7 @@ const shorts     = (await getCollection('shorts')).sort((a, b) => Number(b.data.
     white-space: nowrap;
   }
   .cat-btn:hover { color: var(--fg); }
-  .cat-btn.active {
-    color: var(--accent);
-    border-bottom-color: var(--accent);
-  }
+  .cat-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
 
   .cat-dot {
     width: 6px; height: 6px;
@@ -172,20 +213,23 @@ const shorts     = (await getCollection('shorts')).sort((a, b) => Number(b.data.
   }
   .cat-btn.active .cat-dot { opacity: 1; }
 
-  .cat-count {
-    font-size: 0.62rem;
-    opacity: 0.6;
-  }
+  .cat-count { font-size: 0.62rem; opacity: 0.6; }
+
+  /* Projects section margin */
+  [data-panel="projects"] .cat-nav { margin-bottom: 1.75rem; }
 
   .cat-panel { animation: fade-in 130ms ease both; }
+
+  .writing-item { display: contents; }
 </style>
 
 <script>
-  function initCatNav() {
-    const projectsPanel = document.querySelector('[data-panel="projects"]');
-    if (!projectsPanel) return;
-    const btns   = projectsPanel.querySelectorAll('.cat-btn');
-    const panels = projectsPanel.querySelectorAll('.cat-panel');
+  /* ── Projects category nav ── */
+  function initProjectsCatNav() {
+    const panel = document.querySelector('[data-panel="projects"]');
+    if (!panel) return;
+    const btns   = panel.querySelectorAll('.cat-btn');
+    const panels = panel.querySelectorAll('.cat-panel');
     btns.forEach(btn => {
       btn.addEventListener('click', () => {
         const cat = (btn as HTMLElement).dataset.cat;
@@ -199,5 +243,58 @@ const shorts     = (await getCollection('shorts')).sort((a, b) => Number(b.data.
       });
     });
   }
-  document.addEventListener('DOMContentLoaded', initCatNav);
+
+  /* ── Writing search + category filter ── */
+  function initWriting() {
+    const searchEl = document.getElementById('writing-search') as HTMLInputElement | null;
+    const grid     = document.getElementById('writing-grid');
+    const empty    = document.querySelector('.writing-empty') as HTMLElement | null;
+    const catBtns  = document.querySelectorAll('.writing-cat-nav .cat-btn');
+    if (!searchEl || !grid || !empty) return;
+
+    const catFilters: Record<string, (tags: string[]) => boolean> = {
+      'all':        () => true,
+      'claude-code': (tags) => tags.some(t => t.toLowerCase().includes('claude code')),
+      'prompt':     (tags) => tags.some(t => t.toLowerCase().includes('prompt') || t.toLowerCase().includes('eval')),
+    };
+
+    let activeCat = 'all';
+    let query     = '';
+
+    function applyFilter() {
+      const items = grid!.querySelectorAll<HTMLElement>('.writing-item');
+      let visible = 0;
+      items.forEach(item => {
+        const tags  = JSON.parse(item.dataset.tags ?? '[]') as string[];
+        const title = item.dataset.title ?? '';
+        const desc  = item.dataset.desc  ?? '';
+        const matchCat  = catFilters[activeCat]?.(tags) ?? true;
+        const matchText = !query || title.includes(query) || desc.includes(query) ||
+                          tags.some(t => t.toLowerCase().includes(query));
+        const show = matchCat && matchText;
+        item.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+      empty!.hidden = visible > 0;
+    }
+
+    searchEl.addEventListener('input', () => {
+      query = searchEl.value.toLowerCase().trim();
+      applyFilter();
+    });
+
+    catBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        activeCat = (btn as HTMLElement).dataset.wcat ?? 'all';
+        catBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        applyFilter();
+      });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    initProjectsCatNav();
+    initWriting();
+  });
 </script>
