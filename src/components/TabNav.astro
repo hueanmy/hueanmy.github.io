@@ -20,7 +20,6 @@ const tabs = [
       {tab.label}
     </button>
   ))}
-  <span class="tab-ink" aria-hidden="true"></span>
 </nav>
 
 <style>
@@ -29,15 +28,14 @@ const tabs = [
     top: 0;
     z-index: 50;
     display: flex;
-    align-items: center;
     gap: 0;
-    margin-bottom: 3rem;
+    margin-bottom: 2.5rem;
     margin-inline: -1.5rem;
     padding-inline: 1.5rem;
     border-bottom: 1px solid var(--border);
-    background: color-mix(in srgb, var(--bg) 85%, transparent);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    background: color-mix(in srgb, var(--bg) 92%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     overflow-x: auto;
     scrollbar-width: none;
   }
@@ -46,7 +44,7 @@ const tabs = [
 
   .tab-btn {
     position: relative;
-    padding: 0.75rem 1.1rem;
+    padding: 0.7rem 1rem;
     font-family: var(--font-sans);
     font-size: 0.875rem;
     font-weight: 500;
@@ -55,30 +53,35 @@ const tabs = [
     border: none;
     cursor: pointer;
     white-space: nowrap;
-    transition: color 150ms ease;
+    transition: color 120ms ease;
     outline: none;
     -webkit-tap-highlight-color: transparent;
     flex-shrink: 0;
   }
 
+  .tab-btn::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--fg);
+    border-radius: 1px;
+    opacity: 0;
+    transition: opacity 120ms ease;
+  }
+
   .tab-btn:hover {
-    color: var(--fg);
+    color: var(--fg-dim);
   }
 
   .tab-btn[aria-selected='true'] {
     color: var(--fg);
   }
 
-  /* sliding underline */
-  .tab-ink {
-    position: absolute;
-    bottom: -1px;
-    left: 0;
-    height: 2px;
-    background: var(--accent);
-    border-radius: 2px 2px 0 0;
-    transition: left 200ms cubic-bezier(.4,0,.2,1), width 200ms cubic-bezier(.4,0,.2,1);
-    pointer-events: none;
+  .tab-btn[aria-selected='true']::after {
+    opacity: 1;
   }
 </style>
 
@@ -88,18 +91,7 @@ const tabs = [
     if (!nav) return;
 
     const buttons = nav.querySelectorAll<HTMLButtonElement>('.tab-btn');
-    const ink     = nav.querySelector<HTMLElement>('.tab-ink');
     const panels  = document.querySelectorAll<HTMLElement>('.tab-panel');
-
-    function moveInk(btn: HTMLButtonElement) {
-      if (!ink || !nav) return;
-      const navRect = nav.getBoundingClientRect();
-      const btnRect = btn.getBoundingClientRect();
-      // account for sticky nav's scroll position
-      const scrollLeft = (nav as HTMLElement).scrollLeft;
-      ink.style.left  = `${btnRect.left - navRect.left + scrollLeft}px`;
-      ink.style.width = `${btnRect.width}px`;
-    }
 
     function activate(btn: HTMLButtonElement) {
       const target = btn.dataset.tab;
@@ -111,10 +103,8 @@ const tabs = [
       panels.forEach(p => {
         p.hidden = p.dataset.panel !== target;
       });
-      moveInk(btn);
     }
 
-    // keyboard nav
     nav.addEventListener('keydown', (e) => {
       const active = nav.querySelector<HTMLButtonElement>('.tab-btn[aria-selected="true"]');
       const list = Array.from(buttons);
@@ -122,31 +112,14 @@ const tabs = [
       if (e.key === 'ArrowRight') {
         e.preventDefault();
         const next = list[(idx + 1) % list.length];
-        next.focus();
-        activate(next);
+        next.focus(); activate(next);
       } else if (e.key === 'ArrowLeft') {
         e.preventDefault();
         const prev = list[(idx - 1 + list.length) % list.length];
-        prev.focus();
-        activate(prev);
+        prev.focus(); activate(prev);
       }
     });
 
-    buttons.forEach(btn => {
-      btn.addEventListener('click', () => activate(btn));
-    });
-
-    // init ink on first active tab
-    const first = nav.querySelector<HTMLButtonElement>('.tab-btn[aria-selected="true"]');
-    if (first) {
-      // wait for layout
-      requestAnimationFrame(() => moveInk(first));
-    }
-
-    // reposition on resize
-    window.addEventListener('resize', () => {
-      const active = nav.querySelector<HTMLButtonElement>('.tab-btn[aria-selected="true"]');
-      if (active) moveInk(active);
-    });
+    buttons.forEach(btn => btn.addEventListener('click', () => activate(btn)));
   })();
 </script>
