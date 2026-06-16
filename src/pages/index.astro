@@ -2,7 +2,6 @@
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
-import TabNav from '../components/TabNav.astro';
 import ClaudeRoadmap from '../components/ClaudeRoadmap.astro';
 import CCAFRoadmap from '../components/CCAFRoadmap.astro';
 import ExtensionCard from '../components/ExtensionCard.astro';
@@ -14,280 +13,159 @@ const extensions = (await getCollection('extensions')).sort(
   (a, b) => a.data.order - b.data.order
 );
 const projects = (await getCollection('projects')).sort(
-  (a, b) =>
-    Number(b.data.featured) - Number(a.data.featured) ||
-    a.data.order - b.data.order
+  (a, b) => Number(b.data.featured) - Number(a.data.featured) || a.data.order - b.data.order
 );
 const courses = (await getCollection('courses')).sort(
-  (a, b) =>
-    Number(b.data.featured) - Number(a.data.featured) ||
-    a.data.order - b.data.order
+  (a, b) => Number(b.data.featured) - Number(a.data.featured) || a.data.order - b.data.order
 );
 const tokenTools = (await getCollection('tokenTools')).sort(
-  (a, b) =>
-    Number(b.data.featured) - Number(a.data.featured) ||
-    a.data.order - b.data.order
+  (a, b) => Number(b.data.featured) - Number(a.data.featured) || a.data.order - b.data.order
 );
 const shorts = (await getCollection('shorts')).sort(
-  (a, b) =>
-    Number(b.data.featured) - Number(a.data.featured) ||
-    a.data.order - b.data.order
+  (a, b) => Number(b.data.featured) - Number(a.data.featured) || a.data.order - b.data.order
 );
 ---
 
-<Layout title="Meii">
-  <main>
-    <Hero />
-    <TabNav />
+<Layout title="Meii" activeTab="writing">
+  <Hero />
 
-    <!-- ① Tài liệu Free -->
-    <div class="tab-panel" data-panel="resources" role="tabpanel" id="panel-resources" aria-labelledby="tab-resources">
-
-      <ClaudeRoadmap />
-      <CCAFRoadmap />
-
-      <section id="anthropic-courses">
-        <a
-          class="external-banner"
-          href="https://anthropic.skilljar.com/"
-          target="_blank"
-          rel="noopener"
-        >
-          <div class="banner-body">
-            <span class="banner-badge">Free · Anthropic Academy</span>
-            <h3>Anthropic Free Courses</h3>
-            <p>
-              Khoá học miễn phí chính thức từ Anthropic — Claude fundamentals,
-              prompt engineering, API, MCP, Claude Code và agent building.
-            </p>
+  <!-- ① Writing (default) -->
+  <div class="tab-panel" data-panel="writing">
+    <p class="section-title">Writing</p>
+    <div class="card-grid">
+      <article class="card">
+        <div class="card-thumb-placeholder"></div>
+        <div class="card-body">
+          <div class="card-meta">
+            <span>Coming soon</span>
           </div>
-          <span class="banner-cta">anthropic.skilljar.com ↗</span>
-        </a>
-      </section>
-
-      {
-        courses.length > 0 && (
-          <section id="courses">
-            <h2>Claude Knowledge Base</h2>
-            <div class="grid">
-              {courses.map((c) => (
-                <CourseCard id={c.id} {...c.data} />
-              ))}
-            </div>
-          </section>
-        )
-      }
+          <h2 class="card-title">Notes, tutorials và những thứ tôi học được</h2>
+          <p class="card-desc">Sẽ có bài viết về AI, Claude, developer tooling và open source.</p>
+        </div>
+      </article>
     </div>
+  </div>
 
-    <!-- ② Projects -->
-    <div class="tab-panel" data-panel="projects" role="tabpanel" id="panel-projects" aria-labelledby="tab-projects" hidden>
+  <!-- ② Free Resources -->
+  <div class="tab-panel" data-panel="resources" hidden>
+    <p class="section-title">Free Resources</p>
 
-      {
-        extensions.length > 0 && (
-          <section id="extensions">
-            <h2>SDLC Pipeline</h2>
-            <div class="grid">
-              {extensions.map((e) => (
-                <ExtensionCard {...e.data} />
-              ))}
-            </div>
-          </section>
-        )
-      }
+    <section>
+      <ClaudeRoadmap />
+    </section>
 
-      {
-        tokenTools.length > 0 && (
-          <section id="token-optimization">
-            <h2>Token Optimization</h2>
-            <div class="grid">
-              {tokenTools.map((t) => (
-                <ProjectCard {...t.data} />
-              ))}
-            </div>
-          </section>
-        )
-      }
+    <section>
+      <CCAFRoadmap />
+    </section>
 
-      {
-        shorts.length > 0 && (
-          <section id="ai-shorts">
-            <h2>AI Video Generators</h2>
-            <div class="grid">
-              {shorts.map((s) => (
-                <ProjectCard {...s.data} />
-              ))}
-            </div>
-          </section>
-        )
-      }
+    <section>
+      <a class="external-banner" href="https://anthropic.skilljar.com/" target="_blank" rel="noopener">
+        <div class="banner-body">
+          <span class="banner-badge">Free · Anthropic Academy</span>
+          <h3>Anthropic Free Courses</h3>
+          <p>Khoá học miễn phí chính thức từ Anthropic — Claude fundamentals, prompt engineering, API, MCP, Claude Code và agent building.</p>
+        </div>
+        <span class="banner-cta">anthropic.skilljar.com ↗</span>
+      </a>
+    </section>
 
-      {
-        projects.length > 0 && (
-          <section id="projects">
-            <h2>Open Source</h2>
-            <div class="grid">
-              {projects.map((p) => (
-                <ProjectCard {...p.data} />
-              ))}
-            </div>
-          </section>
-        )
-      }
+    {courses.length > 0 && (
+      <section>
+        <h2>Claude Knowledge Base</h2>
+        <div class="card-grid">
+          {courses.map(c => <CourseCard id={c.id} {...c.data} />)}
+        </div>
+      </section>
+    )}
+  </div>
 
-      <section id="wfh-setup">
-        <h2>WFH Setup</h2>
-        <div class="grid">
-          <a class="card shop-card" href="/setup">
-            <h3>My Desk Setup</h3>
-            <p>Hardware, peripherals, and the small things that make my day better.</p>
-            <div class="meta">
+  <!-- ③ Projects -->
+  <div class="tab-panel" data-panel="projects" hidden>
+    <p class="section-title">Projects</p>
+
+    {extensions.length > 0 && (
+      <section>
+        <h2>SDLC Pipeline</h2>
+        <div class="card-grid">
+          {extensions.map(e => <ExtensionCard {...e.data} />)}
+        </div>
+      </section>
+    )}
+
+    {tokenTools.length > 0 && (
+      <section>
+        <h2>Token Optimization</h2>
+        <div class="card-grid">
+          {tokenTools.map(t => <ProjectCard {...t.data} />)}
+        </div>
+      </section>
+    )}
+
+    {shorts.length > 0 && (
+      <section>
+        <h2>AI Video Generators</h2>
+        <div class="card-grid">
+          {shorts.map(s => <ProjectCard {...s.data} />)}
+        </div>
+      </section>
+    )}
+
+    {projects.length > 0 && (
+      <section>
+        <h2>Open Source</h2>
+        <div class="card-grid">
+          {projects.map(p => <ProjectCard {...p.data} />)}
+        </div>
+      </section>
+    )}
+
+    <section>
+      <h2>WFH Setup</h2>
+      <div class="card-grid">
+        <a class="card" href="/setup" style="text-decoration:none;color:inherit">
+          <div class="card-thumb-placeholder"></div>
+          <div class="card-body">
+            <h2 class="card-title">My Desk Setup</h2>
+            <p class="card-desc">Hardware, peripherals, and the small things that make my day better.</p>
+            <div style="margin-top:auto;padding-top:0.5rem">
               <span class="tag">coming soon</span>
             </div>
-          </a>
-        </div>
-      </section>
-    </div>
+          </div>
+        </a>
+      </div>
+    </section>
+  </div>
 
-    <!-- ③ Writing -->
-    <div class="tab-panel" data-panel="writing" role="tabpanel" id="panel-writing" aria-labelledby="tab-writing" hidden>
-      <section class="empty-state">
-        <div class="empty-icon">✍️</div>
-        <h3>Coming soon</h3>
-        <p>Notes, tutorials, và những thứ tôi học được trên hành trình khám phá AI.</p>
-      </section>
-    </div>
+  <!-- ④ About Me -->
+  <div class="tab-panel" data-panel="about" hidden>
+    <p class="section-title">About Me</p>
 
-    <!-- ④ About Me -->
-    <div class="tab-panel" data-panel="about" role="tabpanel" id="panel-about" aria-labelledby="tab-about" hidden>
-      <section class="about-section">
-        <h2>About Me</h2>
-        <div class="about-body">
-          <p>
-            Xin chào! Tôi là <strong>Meii</strong> — developer với background về
-            mobile, desktop và web. Hiện tại tôi đang học AI và ứng dụng
-            <strong>Claude</strong> vào developer tooling, AIDLC workflow và QA automation.
-          </p>
-          <p>
-            Tôi tin rằng các công cụ tốt giúp developer làm việc hiệu quả hơn — nên tôi
-            dành nhiều thời gian build open source và chia sẻ kiến thức.
-          </p>
-        </div>
-      </section>
+    <section>
+      <div class="about-body">
+        <p>Xin chào! Tôi là <strong>Meii</strong> — developer với background về mobile, desktop và web. Hiện tại tôi đang học AI và ứng dụng Claude vào developer tooling, AIDLC workflow và QA automation.</p>
+        <p>Tôi tin rằng các công cụ tốt giúp developer làm việc hiệu quả hơn — nên tôi dành nhiều thời gian build open source và chia sẻ kiến thức.</p>
+        <p>
+          <a href="https://github.com/hueanmy">GitHub</a> ·
+          <a href="https://www.youtube.com/@studyingwithmeii">YouTube</a> ·
+          <a href="https://www.tiktok.com/@studyingwithmeii">TikTok</a> ·
+          <a href="mailto:ltmai93@gmail.com">Email</a>
+        </p>
+      </div>
+    </section>
 
-      <Support />
-    </div>
-  </main>
+    <Support />
+  </div>
 </Layout>
 
 <style is:global>
-  .tab-panel {
-    animation: panel-in 150ms ease both;
-  }
-
-  @keyframes panel-in {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-  }
-
-  .tab-panel > section {
-    margin-bottom: 2.75rem;
-  }
-
-  .tab-panel > section:last-child {
-    margin-bottom: 0;
-  }
-
-  .shop-card {
-    cursor: pointer;
-    text-decoration: none;
-    color: inherit;
-  }
-  .shop-card:hover { color: inherit; }
-
-  /* Writing / empty state */
-  .empty-state {
-    padding: 5rem 0;
-    text-align: center;
-  }
-
-  .empty-state p {
-    font-size: 0.9rem;
-    color: var(--fg-muted);
-    margin-top: 0.4rem;
-  }
-
-  /* About */
-  .about-body {
-    display: flex;
-    flex-direction: column;
-    gap: 0.85rem;
-  }
-
-  .about-body p {
-    font-size: 0.95rem;
-    color: var(--fg-dim);
-    line-height: 1.75;
-  }
-
-  /* External banner */
-  .external-banner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1.25rem;
-    flex-wrap: wrap;
-    padding: 1rem 1.25rem;
-    background: var(--bg-raised);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    color: inherit;
-    text-decoration: none;
-    transition: border-color 150ms ease, box-shadow 150ms ease;
-  }
-
-  .external-banner:hover {
-    border-color: #c9c3b3;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-  }
-
-  .banner-body {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-    min-width: 0;
-    flex: 1;
-  }
-
-  .banner-badge {
-    display: inline-block;
-    align-self: flex-start;
-    font-family: var(--font-mono);
-    font-size: 0.6rem;
+  .about-body a {
     color: var(--accent);
-    border: 1px solid var(--accent);
-    padding: 1px 7px;
-    border-radius: 20px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
   }
-
-  .external-banner h3 {
-    font-size: 0.95rem;
-    font-weight: 600;
-    margin: 0;
+  .about-body a:hover {
+    text-decoration: underline;
+  }
+  .about-body strong {
     color: var(--fg);
-  }
-
-  .external-banner p {
-    font-size: 0.82rem;
-    line-height: 1.5;
-    color: var(--fg-dim);
-    margin: 0;
-  }
-
-  .banner-cta {
-    font-size: 0.78rem;
-    color: var(--fg-muted);
-    white-space: nowrap;
+    font-weight: 600;
   }
 </style>

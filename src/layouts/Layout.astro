@@ -4,12 +4,21 @@ import '../styles/global.css';
 interface Props {
   title: string;
   description?: string;
+  activeTab?: string;
 }
 
 const {
   title,
   description = 'Meii — developer building tools, extensions, and open source.',
+  activeTab = 'writing',
 } = Astro.props;
+
+const tabs = [
+  { id: 'writing',   label: 'Writing' },
+  { id: 'resources', label: 'Free Resources' },
+  { id: 'projects',  label: 'Projects' },
+  { id: 'about',     label: 'About Me' },
+];
 ---
 
 <!doctype html>
@@ -17,7 +26,6 @@ const {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -27,12 +35,35 @@ const {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
     />
     <title>{title}</title>
   </head>
   <body>
-    <slot />
+    <header class="site-header">
+      <a href="/" class="site-logo">Meii</a>
+      <nav>
+        <ul class="site-nav" role="tablist">
+          {tabs.map(tab => (
+            <li>
+              <a
+                class={`nav-tab ${activeTab === tab.id ? 'active' : ''}`}
+                href="#"
+                data-tab={tab.id}
+                role="tab"
+                aria-selected={activeTab === tab.id ? 'true' : 'false'}
+              >
+                {tab.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </header>
+
+    <main class="site-main">
+      <slot />
+    </main>
 
     <dialog id="video-lightbox" aria-label="Video preview">
       <button class="lightbox-close" type="button" aria-label="Close">×</button>
@@ -51,7 +82,7 @@ const {
         overflow: hidden;
       }
       #video-lightbox::backdrop {
-        background: rgba(0, 0, 0, 0.78);
+        background: rgba(0,0,0,0.7);
         backdrop-filter: blur(4px);
       }
       #video-lightbox video {
@@ -59,60 +90,80 @@ const {
         height: 100%;
         max-height: 90vh;
         display: block;
-        background: #000;
       }
       #video-lightbox .lightbox-close {
         position: absolute;
         top: 0.5rem;
         right: 0.5rem;
-        width: 36px;
-        height: 36px;
+        width: 34px;
+        height: 34px;
         border-radius: 50%;
-        background: rgba(7, 9, 14, 0.85);
+        background: rgba(0,0,0,0.7);
         color: #fff;
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        font-size: 1.4rem;
-        line-height: 1;
+        border: none;
+        font-size: 1.3rem;
         cursor: pointer;
         z-index: 1;
       }
-      #video-lightbox .lightbox-close:hover {
-        background: rgba(7, 9, 14, 1);
+
+      /* Nav tab active underline */
+      .nav-tab {
+        position: relative;
+        padding-bottom: 2px;
+      }
+      .nav-tab.active::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        right: 0;
+        height: 1.5px;
+        background: var(--fg);
+        border-radius: 1px;
       }
     </style>
 
     <script is:inline>
       (() => {
+        const tabs   = document.querySelectorAll('.nav-tab');
+        const panels = document.querySelectorAll('.tab-panel');
+
+        function activate(id) {
+          tabs.forEach(t => {
+            const active = t.dataset.tab === id;
+            t.classList.toggle('active', active);
+            t.setAttribute('aria-selected', active ? 'true' : 'false');
+            t.style.color = active ? 'var(--fg)' : '';
+          });
+          panels.forEach(p => {
+            p.hidden = p.dataset.panel !== id;
+          });
+        }
+
+        tabs.forEach(t => {
+          t.addEventListener('click', e => {
+            e.preventDefault();
+            activate(t.dataset.tab);
+          });
+        });
+
+        // video lightbox
         const dlg = document.getElementById('video-lightbox');
-        if (!dlg) return;
-        const dlgVideo = dlg.querySelector('video');
-        const closeBtn = dlg.querySelector('.lightbox-close');
-
-        const close = () => {
-          dlgVideo.pause();
-          dlgVideo.removeAttribute('src');
-          dlgVideo.load();
-          if (dlg.open) dlg.close();
-        };
-
-        document.addEventListener('click', (e) => {
-          const card = e.target.closest('.card[data-video]');
-          if (!card) return;
-          const trigger = e.target.closest('.video');
-          if (!trigger) return;
-          e.preventDefault();
-          const src = card.getAttribute('data-video');
-          if (!src) return;
-          dlgVideo.src = src;
-          dlg.showModal();
-          dlgVideo.play().catch(() => {});
-        });
-
-        closeBtn.addEventListener('click', close);
-        dlg.addEventListener('close', close);
-        dlg.addEventListener('click', (e) => {
-          if (e.target === dlg) close();
-        });
+        if (dlg) {
+          const vid = dlg.querySelector('video');
+          const close = () => { vid.pause(); vid.src = ''; if (dlg.open) dlg.close(); };
+          document.addEventListener('click', e => {
+            const card = e.target.closest('.card[data-video]');
+            if (!card || !e.target.closest('.video')) return;
+            e.preventDefault();
+            vid.src = card.dataset.video;
+            dlg.showModal();
+            vid.play().catch(() => {});
+          });
+          dlg.querySelector('.lightbox-close').addEventListener('click', close);
+          dlg.addEventListener('close', close);
+          dlg.addEventListener('click', e => { if (e.target === dlg) close(); });
+        }
       })();
     </script>
   </body>
