@@ -1,0 +1,97 @@
+---
+interface Props {
+  id: string;
+  title: string;
+  description: string;
+  description_en?: string;
+  tagline?: string;
+  tags?: string[];
+  featured?: boolean;
+  date?: Date;
+}
+
+const {
+  id,
+  title,
+  description,
+  description_en,
+  tagline,
+  tags = [],
+  featured,
+  date,
+} = Astro.props;
+
+const dateStr = date ? date.toISOString().slice(0, 10) : undefined;
+---
+
+<a class={`card build${featured ? ' featured' : ''}`} href={`/builds/${id}/`}>
+  {tagline && <p class="tagline">{tagline}</p>}
+  <h3>{title}</h3>
+  {
+    description_en
+      ? (<p><span class="lang-en">{description_en}</span><span class="lang-vi">{description}</span></p>)
+      : (<p>{description}</p>)
+  }
+  <div class="build-foot">
+    {tags.length > 0 && (
+      <div class="tech">
+        {tags.slice(0, 4).map((t) => <span class="tag">{t}</span>)}
+      </div>
+    )}
+    {dateStr && <time class="build-date">{dateStr}</time>}
+  </div>
+</a>
+
+<style>
+  a.card.build {
+    display: flex;
+    flex-direction: column;
+    color: inherit;
+    padding: 0.9rem;
+    gap: 0.4rem;
+  }
+  .tagline {
+    color: var(--accent);
+    font-size: 0.7rem;
+    font-family: var(--font-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0;
+  }
+  a.card.build :global(h3) {
+    font-size: 0.95rem;
+    margin: 0;
+  }
+  a.card.build :global(p) {
+    font-size: 0.82rem;
+    line-height: 1.5;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .build-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-top: auto;
+    padding-top: 0.5rem;
+  }
+  .tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+  }
+  .tech :global(.tag) {
+    font-size: 0.66rem;
+    padding: 0.1rem 0.45rem;
+  }
+  .build-date {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    color: var(--fg-muted);
+    white-space: nowrap;
+  }
+</style>
