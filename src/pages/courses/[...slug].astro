@@ -27,7 +27,12 @@ const dateStr = d.date
     <header class="hero">
       {d.tagline && <p class="tagline">{d.tagline}</p>}
       <h1>{d.title}</h1>
-      <p class="lead">{d.description}</p>
+      <p class="lead">
+        {d.description_en
+          ? <><span class="lang-en">{d.description_en}</span><span class="lang-vi">{d.description}</span></>
+          : d.description
+        }
+      </p>
       {d.courseUrl && (
         <p class="ref">
           <span class="lang-en">Based on</span>
