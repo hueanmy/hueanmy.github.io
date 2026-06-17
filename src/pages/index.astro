@@ -45,13 +45,41 @@ const shorts     = (await getCollection('shorts')).sort((a, b) => Number(b.data.
         <button class="cat-btn" data-wcat="claude-code">
           <span class="cat-dot"></span>Claude Code
         </button>
+        {builds.length > 0 && (
+          <button class="cat-btn" data-wcat="build-logs">
+            <span class="cat-dot"></span>
+            <span class="lang-en">Build Logs</span><span class="lang-vi">Nhật ký build</span>
+            <span class="cat-count">{builds.length}</span>
+          </button>
+        )}
       </nav>
     </div>
 
     <div class="card-grid" id="writing-grid">
+      {builds.map(b => (
+        <div
+          class="writing-item"
+          data-kind="build"
+          data-tags={JSON.stringify(b.data.tags ?? [])}
+          data-title={b.data.title.toLowerCase()}
+          data-desc={`${b.data.description ?? ''} ${b.data.description_en ?? ''}`.toLowerCase()}
+        >
+          <BuildCard
+            id={b.id}
+            title={b.data.title}
+            description={b.data.description}
+            description_en={b.data.description_en}
+            tagline={b.data.tagline}
+            tags={b.data.tags}
+            featured={b.data.featured}
+            date={b.data.date}
+          />
+        </div>
+      ))}
       {courses.map(c => (
         <div
           class="writing-item"
+          data-kind="course"
           data-tags={JSON.stringify(c.data.tags ?? [])}
           data-title={c.data.title.toLowerCase()}
           data-desc={(c.data.description ?? '').toLowerCase()}
@@ -66,40 +94,7 @@ const shorts     = (await getCollection('shorts')).sort((a, b) => Number(b.data.
     </p>
   </div>
 
-  <!-- ② Build Logs -->
-  <div class="tab-panel" data-panel="builds" hidden>
-    <p class="section-title">
-      <span class="lang-en">Build Logs</span>
-      <span class="lang-vi">Nhật ký build</span>
-    </p>
-    <p class="builds-intro">
-      <span class="lang-en">Deep dives into the tools I've built — architecture, pipelines, and the AI techniques behind them.</span>
-      <span class="lang-vi">Mổ xẻ chi tiết những công cụ tôi đã build — kiến trúc, pipeline và các kỹ thuật AI bên trong.</span>
-    </p>
-    {builds.length > 0 ? (
-      <div class="card-grid">
-        {builds.map(b => (
-          <BuildCard
-            id={b.id}
-            title={b.data.title}
-            description={b.data.description}
-            description_en={b.data.description_en}
-            tagline={b.data.tagline}
-            tags={b.data.tags}
-            featured={b.data.featured}
-            date={b.data.date}
-          />
-        ))}
-      </div>
-    ) : (
-      <p class="builds-empty">
-        <span class="lang-en">No build logs yet — coming soon.</span>
-        <span class="lang-vi">Chưa có bài nào — sắp ra mắt.</span>
-      </p>
-    )}
-  </div>
-
-  <!-- ③ Free Resources -->
+  <!-- ② Free Resources -->
   <div class="tab-panel" data-panel="resources" hidden>
     <p class="section-title">
       <span class="lang-en">Free Resources</span>
@@ -128,7 +123,7 @@ const shorts     = (await getCollection('shorts')).sort((a, b) => Number(b.data.
     </section>
   </div>
 
-  <!-- ④ Projects -->
+  <!-- ③ Projects -->
   <div class="tab-panel" data-panel="projects" hidden>
     <p class="section-title">
       <span class="lang-en">Projects</span>
@@ -167,7 +162,7 @@ const shorts     = (await getCollection('shorts')).sort((a, b) => Number(b.data.
     )}
   </div>
 
-  <!-- ⑤ About Me -->
+  <!-- ④ About Me -->
   <div class="tab-panel" data-panel="about" hidden>
     <p class="section-title">
       <span class="lang-en">About Me</span>
@@ -266,20 +261,6 @@ const shorts     = (await getCollection('shorts')).sort((a, b) => Number(b.data.
 
   .cat-panel { animation: fade-in 130ms ease both; }
   .writing-item { display: contents; }
-
-  .builds-intro {
-    color: var(--fg-dim);
-    font-size: 0.92rem;
-    line-height: 1.6;
-    max-width: 640px;
-    margin: -0.75rem 0 1.75rem;
-  }
-  .builds-empty {
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    color: var(--fg-muted);
-    padding: 2rem 0;
-  }
 </style>
 
 <script>
@@ -309,9 +290,10 @@ const shorts     = (await getCollection('shorts')).sort((a, b) => Number(b.data.
     const catBtns  = document.querySelectorAll('.writing-cat-nav .cat-btn');
     if (!searchEl || !grid || !empty) return;
 
-    const catFilters: Record<string, (tags: string[]) => boolean> = {
-      'all':        () => true,
+    const catFilters: Record<string, (tags: string[], kind: string) => boolean> = {
+      'all':         () => true,
       'claude-code': (tags) => tags.some(t => t.toLowerCase().includes('claude code')),
+      'build-logs':  (_tags, kind) => kind === 'build',
     };
 
     let activeCat = 'all';
@@ -322,9 +304,10 @@ const shorts     = (await getCollection('shorts')).sort((a, b) => Number(b.data.
       let visible = 0;
       items.forEach(item => {
         const tags  = JSON.parse(item.dataset.tags ?? '[]') as string[];
+        const kind  = item.dataset.kind ?? '';
         const title = item.dataset.title ?? '';
         const desc  = item.dataset.desc  ?? '';
-        const matchCat  = catFilters[activeCat]?.(tags) ?? true;
+        const matchCat  = catFilters[activeCat]?.(tags, kind) ?? true;
         const matchText = !query || title.includes(query) || desc.includes(query) ||
                           tags.some(t => t.toLowerCase().includes(query));
         const show = matchCat && matchText;
