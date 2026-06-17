@@ -56,6 +56,22 @@ const courses = defineCollection({
   }),
 });
 
+const builds = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/builds' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    description_en: z.string().optional(),
+    tagline: z.string().optional(),
+    date: z.coerce.date().optional(),
+    tags: z.array(z.string()).default([]),
+    repoUrl: z.string().url().optional(),
+    demoUrl: z.string().optional(),
+    featured: z.boolean().default(false),
+    order: z.number().default(0),
+  }),
+});
+
 const tokenTools = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/token-tools' }),
   schema: z.object({
@@ -84,4 +100,4 @@ const shorts = defineCollection({
   }),
 });
 
-export const collections = { extensions, projects, courses, tokenTools, shorts };
+export const collections = { extensions, projects, courses, builds, tokenTools, shorts };

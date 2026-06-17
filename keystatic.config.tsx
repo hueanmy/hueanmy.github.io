@@ -56,6 +56,40 @@ export default config({
       },
     }),
 
+    builds: collection({
+      label: 'Build Logs',
+      slugField: 'title',
+      path: 'src/content/builds/*',
+      format: { contentField: 'content', data: 'yaml' },
+      entryLayout: 'content',
+      columns: ['title', 'featured', 'order'],
+      schema: {
+        title: fields.slug({ name: { label: 'Title' } }),
+        tagline: fields.text({ label: 'Tagline (optional)' }),
+        description: fields.text({
+          label: 'Description (VI)',
+          multiline: true,
+        }),
+        description_en: fields.text({
+          label: 'Description (EN, optional)',
+          multiline: true,
+        }),
+        date: fields.date({ label: 'Date' }),
+        tags: fields.array(fields.text({ label: 'Tag' }), {
+          label: 'Tags',
+          itemLabel: (props) => props.value,
+        }),
+        repoUrl: fields.url({ label: 'Repo URL (optional)' }),
+        demoUrl: fields.text({ label: 'Demo URL or path (optional)' }),
+        featured: fields.checkbox({ label: 'Featured', defaultValue: false }),
+        order: fields.integer({ label: 'Order', defaultValue: 0 }),
+        content: fields.text({
+          label: 'Body (markdown / HTML)',
+          multiline: true,
+        }),
+      },
+    }),
+
     extensions: collection({
       label: 'Extensions',
       slugField: 'title',
