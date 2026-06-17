@@ -43,10 +43,6 @@ const shorts     = (await getCollection('shorts')).sort((a, b) => Number(b.data.
         <button class="cat-btn" data-wcat="claude-code">
           <span class="cat-dot"></span>Claude Code
         </button>
-        <button class="cat-btn" data-wcat="prompt">
-          <span class="cat-dot"></span>
-          <span class="lang-en">Prompt Engineering</span><span class="lang-vi">Prompt Engineering</span>
-        </button>
       </nav>
     </div>
 
@@ -267,7 +263,6 @@ const shorts     = (await getCollection('shorts')).sort((a, b) => Number(b.data.
     const catFilters: Record<string, (tags: string[]) => boolean> = {
       'all':        () => true,
       'claude-code': (tags) => tags.some(t => t.toLowerCase().includes('claude code')),
-      'prompt':     (tags) => tags.some(t => t.toLowerCase().includes('prompt') || t.toLowerCase().includes('eval')),
     };
 
     let activeCat = 'all';
