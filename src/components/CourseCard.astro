@@ -11,6 +11,8 @@ interface Props {
   featured?: boolean;
   paid?: boolean;
   price?: string;
+  demoUrl?: string;
+  video?: string;
 }
 
 const {
@@ -25,10 +27,12 @@ const {
   featured,
   paid,
   price,
+  demoUrl,
+  video,
 } = Astro.props;
 
 const priceLabel = paid ? (price ?? 'Paid') : null;
-const href = `/courses/${id}/`;
+const href = (demoUrl && !video) ? demoUrl : `/courses/${id}/`;
 ---
 
 <a class={`card course${featured ? ' featured' : ''}`} href={href}>

@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Cheat Sheet · by Meii</title>
+<meta name="description" content="Models, prompting, agents & tools — everything in one scroll.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f7f4ed;
+    --bg-card:#ffffff;
+    --bg-subtle:#ede6d8;
+    --border:#ddd6c8;
+    --fg:#111010;
+    --fg-dim:#4a4540;
+    --fg-muted:#9a9188;
+    --accent:#c0572a;
+    --accent-hover:#a04220;
+    --accent-soft:rgba(192,87,42,.09);
+    --accent2:#7c3aed;
+    --accent2-soft:rgba(124,58,237,.08);
+    --radius:8px;
+    --mono:'JetBrains Mono',monospace;
+    --serif:'Fraunces',Georgia,serif;
+    --sans:'Inter',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--fg);
+    font-family:var(--sans);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline;text-underline-offset:3px}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+
+  /* ── progress bar ── */
+  .prog{position:fixed;top:0;left:0;height:3px;width:0;background:var(--accent);z-index:99;transition:width .1s}
+
+  /* ── lang toggle ── */
+  .lang-toggle{
+    position:fixed;top:14px;right:16px;z-index:100;
+    display:flex;gap:2px;
+    background:var(--bg-card);
+    border:1px solid var(--border);
+    border-radius:999px;
+    padding:3px;
+    box-shadow:0 1px 8px rgba(0,0,0,.08);
+  }
+  .lang-toggle button{
+    background:none;border:none;
+    font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;
+    color:var(--fg-muted);padding:5px 12px;cursor:pointer;border-radius:999px;
+    transition:background 120ms,color 120ms;
+  }
+  .lang-toggle button.active{background:var(--accent);color:#fff}
+
+  /* ── header ── */
+  header{padding:68px 0 28px;text-align:center;border-bottom:1px solid var(--border);margin-bottom:36px}
+  .kicker{
+    font-family:var(--mono);font-size:11px;letter-spacing:.28em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:16px;
+  }
+  h1{
+    font-family:var(--serif);font-size:clamp(36px,7vw,68px);
+    font-weight:700;letter-spacing:-.02em;line-height:1.05;color:var(--fg);
+  }
+  h1 .hl{color:var(--accent)}
+  .sub{color:var(--fg-dim);font-size:clamp(14px,2.2vw,18px);margin-top:14px;font-weight:400}
+  .by{
+    display:inline-flex;align-items:center;gap:8px;margin-top:20px;
+    font-family:var(--mono);font-size:12px;color:var(--fg-muted);
+    border:1px solid var(--border);padding:6px 14px;border-radius:999px;
+    background:var(--bg-card);
+  }
+  .by b{color:var(--fg);font-weight:600}
+  .bot{width:64px;height:auto;margin:0 auto 10px;display:block}
+
+  /* ── grid ── */
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;padding:0 0 80px}
+  @media(max-width:720px){.grid{grid-template-columns:1fr}}
+
+  /* ── card ── */
+  .card{
+    background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);
+    padding:20px 20px 22px;position:relative;overflow:hidden;
+    opacity:0;transform:translateY(22px);
+    transition:opacity .5s ease, transform .5s cubic-bezier(.2,.7,.2,1),
+                box-shadow 150ms ease, border-color 150ms ease;
+  }
+  .card.in{opacity:1;transform:none}
+  .card:hover{box-shadow:0 4px 20px rgba(0,0,0,.07);border-color:rgba(192,87,42,.3)}
+  .card::before{content:"";position:absolute;inset:0 0 auto 0;height:2px;background:var(--accent);opacity:.6}
+  .card.span2{grid-column:1/-1}
+
+  .num{
+    font-family:var(--mono);font-size:11px;font-weight:700;
+    color:var(--accent);background:var(--accent-soft);
+    width:28px;height:28px;border-radius:7px;display:grid;place-items:center;flex:none;
+    border:1px solid rgba(192,87,42,.2);
+  }
+  .chead{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+  .chead h2{font-family:var(--serif);font-size:17px;font-weight:600;letter-spacing:-.01em;color:var(--fg)}
+  .tag-chip{
+    font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--accent);border:1px solid rgba(192,87,42,.3);
+    padding:2px 7px;border-radius:5px;margin-left:auto;background:var(--accent-soft);
+  }
+  .tag-chip.new{color:var(--accent2);border-color:rgba(124,58,237,.3);background:var(--accent2-soft)}
+
+  ul{list-style:none;display:flex;flex-direction:column;gap:7px}
+  li{display:flex;gap:8px;font-size:14px;color:var(--fg-dim);align-items:baseline}
+  li .b{color:var(--accent);flex:none;font-family:var(--mono);font-size:13px;font-weight:700}
+  li b{color:var(--fg);font-weight:600}
+
+  code{
+    font-family:var(--mono);font-size:11.5px;
+    background:var(--accent-soft);border:1px solid rgba(192,87,42,.2);
+    padding:1px 6px;border-radius:5px;color:var(--accent);
+  }
+
+  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:2px}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--border)}
+  th{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);font-weight:500}
+  td b{color:var(--accent);font-family:var(--mono);font-weight:700}
+  tr:last-child td{border-bottom:none}
+
+  .pills{display:flex;flex-wrap:wrap;gap:7px}
+  .pill{
+    font-family:var(--mono);font-size:12px;color:var(--fg-dim);
+    background:var(--bg-subtle);border:1px solid var(--border);
+    padding:5px 10px;border-radius:7px;
+  }
+
+  .mini{display:grid;grid-template-columns:1fr 1fr;gap:5px 16px}
+  @media(max-width:420px){.mini{grid-template-columns:1fr}}
+
+  /* ── footer ── */
+  footer{
+    text-align:center;padding:28px 0 64px;
+    color:var(--fg-muted);font-size:13px;
+    border-top:1px solid var(--border);
+  }
+  footer a{color:var(--accent)}
+
+  /* ── back link ── */
+  .back{
+    display:inline-block;margin-bottom:20px;margin-top:16px;
+    font-size:13px;color:var(--fg-dim);font-family:var(--mono);
+  }
+  .back:hover{color:var(--accent);text-decoration:none}
+
+  @media(prefers-reduced-motion:reduce){
+    .card{opacity:1;transform:none;transition:none}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+<div class="prog" id="prog"></div>
+
+<div class="lang-toggle" id="lang-sw">
+  <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
+  <button id="btn-vi" onclick="setLang('vi')">VI</button>
+</div>
+
+<header>
+  <div class="wrap">
+    <a class="back" href="/">← <span class="l-en">Back</span><span class="l-vi">Trang chủ</span></a>
+    <svg class="bot" viewBox="0 0 140 178" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="bb" x1="20" y1="24" x2="120" y2="118" gradientUnits="userSpaceOnUse"><stop stop-color="#c0572a"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+        <linearGradient id="bc" x1="56" y1="2" x2="84" y2="32" gradientUnits="userSpaceOnUse"><stop stop-color="#ffb14d"/><stop offset="1" stop-color="#c0572a"/></linearGradient>
+        <radialGradient id="be" cx="0.4" cy="0.35" r="0.8"><stop stop-color="#fff8f5"/><stop offset="0.55" stop-color="#c0572a"/><stop offset="1" stop-color="#8a3010"/></radialGradient>
+      </defs>
+      <g fill="url(#bc)"><circle cx="58" cy="20" r="8.5"/><circle cx="72" cy="12" r="9.5"/><circle cx="86" cy="19" r="7.5"/></g>
+      <rect x="16" y="52" width="13" height="32" rx="6.5" fill="url(#bb)"/><rect x="111" y="52" width="13" height="32" rx="6.5" fill="url(#bb)"/>
+      <rect x="26" y="26" width="88" height="86" rx="30" fill="url(#bb)"/>
+      <rect x="37" y="42" width="66" height="56" rx="22" fill="#f7f4ed"/>
+      <rect x="51" y="56" width="12" height="26" rx="6" fill="url(#be)"/><rect x="77" y="56" width="12" height="26" rx="6" fill="url(#be)"/>
+      <path d="M64 88 H76 L70 98 Z" fill="url(#bc)"/>
+      <path d="M30 92 q-17 5 -15 27 q13 -3 19 -16 Z" fill="url(#bb)" opacity="0.85"/><path d="M110 92 q17 5 15 27 q-13 -3 -19 -16 Z" fill="url(#bb)" opacity="0.85"/>
+      <g stroke="#c0572a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M59 112 V146"/><path d="M81 112 V146"/><path d="M59 146 l-8 9 M59 146 V158 M59 146 l8 9"/><path d="M81 146 l-8 9 M81 146 V158 M81 146 l8 9"/></g>
+    </svg>
+    <div class="kicker" data-i="kicker"></div>
+    <h1><span data-i="h1a"></span> <span class="hl">Claude</span></h1>
+    <p class="sub" data-i="sub"></p>
+    <div class="by">🐤 <span data-i="by"></span> · studyingwithmeii</div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="grid" id="grid">
+
+    <div class="card">
+      <div class="chead"><span class="num">01</span><h2 data-i="t1"></h2></div>
+      <table>
+        <tr><th data-i="th_model"></th><th data-i="th_best"></th></tr>
+        <tr><td><b>Opus 4.8</b></td><td data-i="m_opus"></td></tr>
+        <tr><td><b>Sonnet 4.6</b></td><td data-i="m_son"></td></tr>
+        <tr><td><b>Haiku 4.5</b></td><td data-i="m_hai"></td></tr>
+      </table>
+      <ul style="margin-top:12px">
+        <li><span class="b">→</span><span data-i="m_api"></span></li>
+        <li><span class="b">→</span><code>claude-sonnet-4-6</code> · <code>claude-haiku-4-5</code></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="chead"><span class="num">02</span><h2 data-i="t2"></h2></div>
+      <div class="pills">
+        <span class="pill" data-i="p_role"></span><span class="pill" data-i="p_ex"></span>
+        <span class="pill" data-i="p_step"></span><span class="pill" data-i="p_cot"></span>
+        <span class="pill" data-i="p_xml"></span><span class="pill" data-i="p_fmt"></span>
+        <span class="pill" data-i="p_ctx"></span><span class="pill" data-i="p_goal"></span>
+      </div>
+      <ul style="margin-top:12px"><li><span class="b">★</span><span data-i="p_combo"></span></li></ul>
+    </div>
+
+    <div class="card">
+      <div class="chead"><span class="num">03</span><h2 data-i="t3"></h2></div>
+      <table>
+        <tr><th data-i="th_act"></th><th data-i="th_do"></th></tr>
+        <tr><td><b data-i="r_dev"></b></td><td data-i="r_dev2"></td></tr>
+        <tr><td><b data-i="r_data"></b></td><td data-i="r_data2"></td></tr>
+        <tr><td><b data-i="r_ed"></b></td><td data-i="r_ed2"></td></tr>
+        <tr><td><b data-i="r_teach"></b></td><td data-i="r_teach2"></td></tr>
+      </table>
+      <ul style="margin-top:10px"><li><span class="b">→</span><span data-i="r_out"></span> <code>table</code> · <code>JSON</code> · <code>markdown</code></li></ul>
+    </div>
+
+    <div class="card">
+      <div class="chead"><span class="num">04</span><h2 data-i="t4"></h2></div>
+      <ul>
+        <li><span class="b">→</span><span data-i="h_open"></span></li>
+        <li><span class="b">→</span><span data-i="h_mc"></span></li>
+        <li><span class="b">→</span><span data-i="h_fill"></span></li>
+        <li><span class="b">→</span><span data-i="h_cmp"></span></li>
+        <li><span class="b">→</span><span data-i="h_fb"></span></li>
+      </ul>
+    </div>
+
+    <div class="card span2">
+      <div class="chead"><span class="num">05</span><h2 data-i="t5"></h2></div>
+      <div class="mini">
+        <ul>
+          <li><span class="b">0-shot</span><span data-i="s_0"></span></li>
+          <li><span class="b">1-shot</span><span data-i="s_1"></span></li>
+        </ul>
+        <ul>
+          <li><span class="b">few-shot</span><span data-i="s_few"></span></li>
+          <li><span class="b">→</span><span data-i="s_more"></span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="chead"><span class="num">06</span><h2 data-i="t6"></h2><span class="tag-chip">claude.ai</span></div>
+      <ul>
+        <li><span class="b">→</span><span data-i="pr_1"></span></li>
+        <li><span class="b">→</span><span data-i="pr_2"></span></li>
+        <li><span class="b">→</span><span data-i="pr_3"></span></li>
+        <li><span class="b">→</span><span data-i="pr_4"></span></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="chead"><span class="num">07</span><h2 data-i="t7"></h2></div>
+      <ul>
+        <li><span class="b">→</span><span data-i="ar_1"></span></li>
+        <li><span class="b">→</span>React, HTML, SVG, Mermaid</li>
+        <li><span class="b">→</span><span data-i="ar_3"></span></li>
+        <li><span class="b">→</span><span data-i="ar_4"></span></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="chead"><span class="num">08</span><h2 data-i="t8"></h2><span class="tag-chip new" data-i="tag_conn"></span></div>
+      <ul>
+        <li><span class="b">→</span><span data-i="mc_1"></span></li>
+        <li><span class="b">→</span><span data-i="mc_2"></span></li>
+        <li><span class="b">→</span>Drive, Gmail, Calendar, Slack, Figma…</li>
+        <li><span class="b">→</span><span data-i="mc_4"></span></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="chead"><span class="num">09</span><h2>Claude Code</h2><span class="tag-chip" data-i="tag_term"></span></div>
+      <ul>
+        <li><span class="b">→</span><span data-i="cc_1"></span></li>
+        <li><span class="b">→</span><span data-i="cc_2"></span></li>
+        <li><span class="b">→</span><span data-i="cc_3"></span></li>
+        <li><span class="b">→</span><span data-i="cc_4"></span> <code>npm i -g @anthropic-ai/claude-code</code></li>
+        <li><span class="b">→</span><span data-i="cc_5"></span></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="chead"><span class="num">10</span><h2 data-i="t10"></h2><span class="tag-chip new">new</span></div>
+      <ul>
+        <li><span class="b">→</span><span data-i="sk_1"></span></li>
+        <li><span class="b">→</span><span data-i="sk_2"></span></li>
+        <li><span class="b">→</span><span data-i="sk_3"></span></li>
+        <li><span class="b">→</span><span data-i="sk_4"></span></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="chead"><span class="num">11</span><h2 data-i="t11"></h2></div>
+      <div class="mini">
+        <ul>
+          <li><span class="b">·</span><span data-i="pd_web"></span></li>
+          <li><span class="b">·</span><span data-i="pd_dm"></span></li>
+          <li><span class="b">·</span>Claude Code</li>
+          <li><span class="b">·</span>Claude Cowork</li>
+        </ul>
+        <ul>
+          <li><span class="b">·</span>API</li>
+          <li><span class="b">·</span>Claude in Chrome</li>
+          <li><span class="b">·</span>Claude in Excel</li>
+          <li><span class="b">·</span>Claude Design</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card span2">
+      <div class="chead"><span class="num">12</span><h2 data-i="t12"></h2></div>
+      <div class="mini">
+        <ul>
+          <li><span class="b">›</span><span data-i="ps_1"></span></li>
+          <li><span class="b">›</span><span data-i="ps_2"></span></li>
+          <li><span class="b">›</span><span data-i="ps_3"></span></li>
+          <li><span class="b">›</span><span data-i="ps_4"></span></li>
+        </ul>
+        <ul>
+          <li><span class="b">›</span><span data-i="ps_5"></span></li>
+          <li><span class="b">›</span><span data-i="ps_6"></span></li>
+          <li><span class="b">›</span><span data-i="ps_7"></span></li>
+          <li><span class="b">›</span><span data-i="ps_8"></span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="chead"><span class="num">13</span><h2 data-i="t13"></h2><span class="tag-chip">anthropic</span></div>
+      <ul>
+        <li><span class="b">→</span><span data-i="fc_1"></span></li>
+        <li><span class="b">→</span><span data-i="fc_2"></span></li>
+        <li><span class="b">→</span><span data-i="fc_3"></span></li>
+        <li><span class="b">→</span>MCP &amp; Claude Code</li>
+        <li><span class="b">→</span><span data-i="fc_5"></span> <code>anthropic.skilljar.com</code></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="chead"><span class="num">14</span><h2 data-i="t14"></h2></div>
+      <ul>
+        <li><span class="b">→</span><span data-i="tp_1"></span></li>
+        <li><span class="b">→</span><span data-i="tp_2"></span></li>
+        <li><span class="b">→</span><span data-i="tp_3"></span></li>
+        <li><span class="b">→</span><span data-i="tp_4"></span></li>
+        <li><span class="b">→</span><code>CLAUDE.md</code> <span data-i="tp_5"></span></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<footer class="wrap">
+  <span data-i="ft_1"></span> <a href="https://hueanmy.github.io/">hueanmy.github.io</a><br>
+  <span style="font-family:var(--mono);font-size:11px;color:var(--fg-muted)" data-i="ft_2"></span>
+</footer>
+
+<script>
+  var T={
+    kicker:{en:"The Cheat Sheet",vi:"Bản tra nhanh"},
+    h1a:{en:"Working with",vi:"Làm việc với"},
+    sub:{en:"Models, prompting, agents & tools — everything in one scroll.",vi:"Model, prompt, agent & công cụ — tất cả trong một lần cuộn."},
+    by:{en:"made by <b>Meii</b>",vi:"làm bởi <b>Meii</b>"},
+
+    t1:{en:"Claude Models",vi:"Mô hình Claude"},
+    th_model:{en:"Model",vi:"Model"},th_best:{en:"Best for",vi:"Hợp cho"},
+    m_opus:{en:"Hardest tasks, deep reasoning",vi:"Task khó nhất, suy luận sâu"},
+    m_son:{en:"Daily work, coding, writing",vi:"Việc hằng ngày, code, viết"},
+    m_hai:{en:"Fast, cheap, simple tasks",vi:"Nhanh, rẻ, task đơn giản"},
+    m_api:{en:"API ids: <code>claude-opus-4-8</code>",vi:"Tên API: <code>claude-opus-4-8</code>"},
+
+    t2:{en:"Prompting Techniques",vi:"Kỹ thuật prompt"},
+    p_role:{en:"Role playing",vi:"Đóng vai"},p_ex:{en:"Add examples",vi:"Cho ví dụ"},
+    p_step:{en:"Step-by-step",vi:"Từng bước"},p_cot:{en:"Chain of thought",vi:"Chuỗi suy luận"},
+    p_xml:{en:"XML tags",vi:"Thẻ XML"},p_fmt:{en:"Set the format",vi:"Định dạng output"},
+    p_ctx:{en:"Give context",vi:"Cho ngữ cảnh"},p_goal:{en:"Tell it the goal",vi:"Nói rõ mục tiêu"},
+    p_combo:{en:"Best combo: <b>Role + Examples + Step-by-step</b>",vi:"Combo tốt nhất: <b>Đóng vai + Ví dụ + Từng bước</b>"},
+
+    t3:{en:"Role · Task · Format",vi:"Vai trò · Nhiệm vụ · Định dạng"},
+    th_act:{en:"Act as",vi:"Đóng vai"},th_do:{en:"To do",vi:"Để làm"},
+    r_dev:{en:"Senior dev",vi:"Senior dev"},r_dev2:{en:"Review & debug code",vi:"Review & sửa lỗi code"},
+    r_data:{en:"Data analyst",vi:"Data analyst"},r_data2:{en:"Read a CSV, find trends",vi:"Đọc CSV, tìm xu hướng"},
+    r_ed:{en:"Editor",vi:"Biên tập"},r_ed2:{en:"Tighten my writing",vi:"Gọt lại bài viết"},
+    r_teach:{en:"Teacher",vi:"Gia sư"},r_teach2:{en:"Explain like I'm new",vi:"Giải thích như mình mới học"},
+    r_out:{en:"Ask for output:",vi:"Yêu cầu output:"},
+
+    t4:{en:"How to Prompt",vi:"Cách đặt câu hỏi"},
+    h_open:{en:"<b>Open-ended</b> — broad exploration",vi:"<b>Mở</b> — khám phá rộng"},
+    h_mc:{en:"<b>Multiple choice</b> — force a pick",vi:"<b>Trắc nghiệm</b> — buộc chọn"},
+    h_fill:{en:"<b>Fill-in-the-blank</b> — complete a template",vi:"<b>Điền chỗ trống</b> — hoàn thành mẫu"},
+    h_cmp:{en:"<b>Compare</b> — \"X vs Y, which & why\"",vi:"<b>So sánh</b> — \"X vs Y, cái nào & vì sao\""},
+    h_fb:{en:"<b>Feedback</b> — \"review this & improve\"",vi:"<b>Phản hồi</b> — \"review & cải thiện\""},
+
+    t5:{en:"Examples = better output. Always.",vi:"Ví dụ = output tốt hơn. Luôn vậy."},
+    s_0:{en:"Just ask. Fast, but vaguest.",vi:"Hỏi thẳng. Nhanh nhưng mơ hồ nhất."},
+    s_1:{en:"Give one example of what \"good\" looks like.",vi:"Cho 1 ví dụ \"thế nào là tốt\"."},
+    s_few:{en:"2–5 examples — Claude matches the pattern.",vi:"2–5 ví dụ — Claude bắt theo mẫu."},
+    s_more:{en:"More examples → more consistent results.",vi:"Càng nhiều ví dụ → kết quả càng ổn định."},
+
+    t6:{en:"Projects",vi:"Projects (Dự án)"},
+    pr_1:{en:"Group chats by topic or client",vi:"Gom chat theo chủ đề/khách hàng"},
+    pr_2:{en:"Upload files as shared knowledge",vi:"Upload file làm kiến thức chung"},
+    pr_3:{en:"Set custom instructions per project",vi:"Đặt chỉ dẫn riêng cho từng project"},
+    pr_4:{en:"Keep context in one place",vi:"Giữ ngữ cảnh ở một chỗ"},
+
+    t7:{en:"Artifacts",vi:"Artifacts"},
+    ar_1:{en:"Live code, docs & visualizations",vi:"Code, tài liệu & hình ảnh chạy trực tiếp"},
+    ar_3:{en:"Persistent storage across sessions",vi:"Lưu dữ liệu qua nhiều phiên"},
+    ar_4:{en:"Build AI-powered apps inside chat",vi:"Tạo app dùng AI ngay trong chat"},
+
+    t8:{en:"MCP & Connectors",vi:"MCP & Kết nối"},tag_conn:{en:"connect",vi:"kết nối"},
+    mc_1:{en:"<b>MCP</b> = Model Context Protocol",vi:"<b>MCP</b> = giao thức kết nối ngữ cảnh"},
+    mc_2:{en:"Connect Claude to external tools",vi:"Nối Claude với công cụ bên ngoài"},
+    mc_4:{en:"No API keys — just connect & allow",vi:"Không cần API key — chỉ cần kết nối & cho phép"},
+
+    tag_term:{en:"terminal",vi:"terminal"},
+    cc_1:{en:"Agentic coding from your terminal",vi:"Code tự động ngay từ terminal"},
+    cc_2:{en:"Reads the whole codebase, edits, tests",vi:"Đọc cả codebase, sửa, test"},
+    cc_3:{en:"Runs commands, opens PRs",vi:"Chạy lệnh, mở PR"},
+    cc_4:{en:"Install:",vi:"Cài:"},
+    cc_5:{en:"Hooks + MCP + subagents supported",vi:"Hỗ trợ Hooks + MCP + subagents"},
+
+    t10:{en:"Skills & Hooks",vi:"Skills & Hooks"},
+    sk_1:{en:"<b>Skills</b> — reusable instruction packs loaded on demand",vi:"<b>Skills</b> — gói chỉ dẫn tái dùng, Claude tự nạp khi cần"},
+    sk_2:{en:"Auto-triggered by task type",vi:"Tự kích hoạt theo loại task"},
+    sk_3:{en:"<b>Hooks</b> — run a command at lifecycle points",vi:"<b>Hooks</b> — chạy lệnh tại các mốc vòng đời"},
+    sk_4:{en:"e.g. lint or test after every edit",vi:"vd: lint/test sau mỗi lần sửa"},
+
+    t11:{en:"Claude Products",vi:"Sản phẩm Claude"},
+    pd_web:{en:"claude.ai (web)",vi:"claude.ai (web)"},
+    pd_dm:{en:"Desktop & Mobile",vi:"Desktop & Mobile"},
+
+    t12:{en:"Prompt Starters to Steal",vi:"Câu lệnh mẫu để \"chôm\""},
+    ps_1:{en:"\"Act as a [role] and [task]\"",vi:"\"Đóng vai [vai] và [task]\""},
+    ps_2:{en:"\"Explain [topic] like I'm 10\"",vi:"\"Giải thích [chủ đề] như mình 10 tuổi\""},
+    ps_3:{en:"\"Compare [X] vs [Y] in a table\"",vi:"\"So sánh [X] vs [Y] trong bảng\""},
+    ps_4:{en:"\"Rewrite this to be more [tone]\"",vi:"\"Viết lại cho [giọng] hơn\""},
+    ps_5:{en:"\"Find 5 problems with this\"",vi:"\"Tìm 5 lỗi trong cái này\""},
+    ps_6:{en:"\"Give me a step-by-step plan for [goal]\"",vi:"\"Lập kế hoạch từng bước cho [mục tiêu]\""},
+    ps_7:{en:"\"Summarize this in 3 bullets\"",vi:"\"Tóm tắt trong 3 gạch đầu dòng\""},
+    ps_8:{en:"\"Debug this code & explain the fix\"",vi:"\"Sửa code này & giải thích cách sửa\""},
+
+    t13:{en:"Free Courses",vi:"Khóa học miễn phí"},
+    fc_1:{en:"Claude fundamentals & essentials",vi:"Nền tảng Claude"},
+    fc_2:{en:"Prompt engineering",vi:"Prompt engineering"},
+    fc_3:{en:"API, Tool use & agents",vi:"API, Tool use & agents"},
+    fc_5:{en:"Free at",vi:"Miễn phí tại"},
+
+    t14:{en:"Pro Tips",vi:"Mẻ o hay"},
+    tp_1:{en:"Use Projects for every client/topic",vi:"Dùng Projects cho mỗi khách/chủ đề"},
+    tp_2:{en:"XML tags structure complex prompts",vi:"Thẻ XML giúp prompt phức tạp gọn gàng"},
+    tp_3:{en:"Ask Claude to critique its own answer",vi:"Bảo Claude tự soi lại câu trả lời"},
+    tp_4:{en:"Lower temp = factual · higher = creative (API)",vi:"Temp thấp = chính xác · cao = sáng tạo (API)"},
+    tp_5:{en:"= memory that persists in Code",vi:"= bộ nhớ giữ lại trong Code"},
+
+    ft_1:{en:"Free to share 🫶 — more at",vi:"Thoải mái chia sẻ 🫶 — xem thêm tại"},
+    ft_2:{en:"Built with the AIDLC bot 🐤 · @studyingwithmeii",vi:"Làm cùng bot AIDLC 🐤 · @studyingwithmeii"}
+  };
+
+  function setLang(l){
+    document.documentElement.setAttribute('data-lang',l);
+    document.documentElement.lang=l;
+    document.getElementById('btn-en').classList.toggle('active',l==='en');
+    document.getElementById('btn-vi').classList.toggle('active',l==='vi');
+    document.querySelectorAll('[data-i]').forEach(function(el){
+      var k=el.getAttribute('data-i');
+      if(T[k]&&T[k][l]!=null) el.innerHTML=T[k][l];
+    });
+    document.querySelectorAll('.l-en').forEach(function(e){e.style.display=l==='en'?'':'none'});
+    document.querySelectorAll('.l-vi').forEach(function(e){e.style.display=l==='vi'?'':'none'});
+    try{localStorage.setItem('lang',l);}catch(e){}
+  }
+
+  (function(){
+    var saved='en';
+    try{saved=localStorage.getItem('lang')||'en';}catch(e){}
+    setLang(saved);
+  })();
+
+  var prog=document.getElementById('prog');
+  function onScroll(){
+    var h=document.documentElement;
+    prog.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';
+  }
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+  var cards=[].slice.call(document.querySelectorAll('.card'));
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+    },{threshold:.1,rootMargin:'0px 0px -6% 0px'});
+    cards.forEach(function(c){io.observe(c)});
+  }else{cards.forEach(function(c){c.classList.add('in')});}
+</script>
+</body>
+</html>

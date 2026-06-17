@@ -58,7 +58,7 @@ const shorts     = (await getCollection('shorts')).sort((a, b) => Number(b.data.
           data-title={c.data.title.toLowerCase()}
           data-desc={(c.data.description ?? '').toLowerCase()}
         >
-          <CourseCard id={c.id} {...c.data} />
+          <CourseCard id={c.id} {...c.data} demoUrl={c.data.demoUrl} video={c.data.video} />
         </div>
       ))}
     </div>
