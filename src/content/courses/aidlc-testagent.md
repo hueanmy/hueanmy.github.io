@@ -58,6 +58,58 @@ explore → plan → [confirm] → generate → execute → heal
 
 Cuối pipeline, agent tính **verdict**: target pass nếu đạt đủ `minScenarios`, `mustPass`, stability threshold và không vượt budget.
 
+## Manual Explore — Ghi lại hành vi thực tế
+
+Khi app quá phức tạp để agent tự khám phá, dùng chế độ **manual explore**: bạn navigate trực tiếp trong browser thật, agent lặng lẽ ghi lại từng bước.
+
+```bash
+ata explore <target> --manual --headed
+```
+
+### Auto capture
+
+- Mở browser thật (headed), bạn navigate tự do — agent tự động snap mỗi khi DOM idle
+- **Tự đặt tên step từ DOM:** dialog title → heading → URL path → page title
+- **Click capture:** mỗi lần click ghi lại tên element → step name = `click "Generate" — studio`
+- **SPA-safe:** fingerprint gồm URL + title, nên route change luôn tạo step mới
+
+### Toolbar (góc trên phải)
+
+| Nút | Tác dụng |
+|-----|----------|
+| 📌 Checkpoint | Chọn step, đặt tên, đánh dấu common precondition (vd. `after-login`) → lưu `checkpoints/<name>.json` |
+| 🎬 Use case | Chọn start step, navigate, bấm 🏁 End → LLM tự generate markdown test doc → `use-cases/<name>.md` |
+| ✅ Done | Mở review panel |
+
+### Review panel
+
+- **Test case name:** điền tên → tự tạo use case bao toàn bộ session
+- Danh sách tất cả steps với ô rename
+- **👁 eye toggle** trên mỗi step: mờ → click → sáng xanh + preview ảnh full-screen → click lại hoặc ESC để đóng
+- **Keep exploring** để quay lại, **✅ Save & Done** để lưu
+
+### Output
+
+```
+generated/<target>/
+  perception.json          ← toàn bộ steps, dùng với --reuse-perception
+  use-cases/<name>.md      ← markdown test doc do LLM sinh
+  checkpoints/<name>.json  ← named checkpoints
+  .auth/<target>.json      ← browser session, specs load tự động
+```
+
+### Dùng lại session đã record
+
+Record một lần, chạy nhiều lần — kể cả trong CI:
+
+```bash
+# Dùng lại perception.json + use-cases đã capture để plan
+ata plan dreem --reuse-perception
+
+# Full loop, bỏ qua bước explore
+ata run dreem --reuse-perception --yes
+```
+
 ## Behavior khi apply
 
 ### Chạy lần đầu
@@ -170,6 +222,58 @@ explore → plan → [confirm] → generate → execute → heal
 6. **Heal** — Test fails → agent re-observes, sends error context, regenerates, retries. If `maxHealAttempts` is exceeded → mark as failed and report.
 
 At the end of the pipeline, the agent computes a **verdict**: the target passes if it meets `minScenarios`, `mustPass`, the stability threshold, and stays within budget.
+
+## Manual Explore — Record real behavior
+
+When the app is too complex for the agent to explore automatically, use **manual explore** mode: you navigate directly in a real headed browser while the agent silently records every step.
+
+```bash
+ata explore <target> --manual --headed
+```
+
+### Auto capture
+
+- Opens a real headed browser — you navigate freely, agent auto-snaps on DOM idle
+- **Auto-names steps from DOM:** dialog title → heading → URL path → page title
+- **Click capture:** every click records the element name → step name = `click "Generate" — studio`
+- **SPA-safe:** fingerprint uses URL + title, so route changes always create a new step
+
+### Toolbar (top right)
+
+| Button | Effect |
+|--------|--------|
+| 📌 Checkpoint | Select a step, name it, mark as a common precondition (e.g. `after-login`) → saves `checkpoints/<name>.json` |
+| 🎬 Use case | Select start step, navigate, hit 🏁 End → LLM generates a markdown test doc → `use-cases/<name>.md` |
+| ✅ Done | Opens the review panel |
+
+### Review panel
+
+- **Test case name:** fill in → auto-creates a use case covering the full session
+- List of all steps with rename inputs
+- **👁 eye toggle** on each step: dimmed → click → highlighted + full-screen screenshot preview → click again or ESC to close
+- **Keep exploring** to go back, **✅ Save & Done** to save
+
+### Output
+
+```
+generated/<target>/
+  perception.json          ← all steps, used with --reuse-perception
+  use-cases/<name>.md      ← LLM-generated markdown test doc
+  checkpoints/<name>.json  ← named checkpoints
+  .auth/<target>.json      ← browser session, auto-loaded by specs
+```
+
+### Reuse a recorded session
+
+Record once, run many times — including in CI:
+
+```bash
+# Reuse perception.json + captured use-cases for planning
+ata plan dreem --reuse-perception
+
+# Full loop, skip the explore step
+ata run dreem --reuse-perception --yes
+```
 
 ## Behavior When Applied
 
