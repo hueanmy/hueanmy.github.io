@@ -3,8 +3,8 @@ title: aidlc-testagent
 tagline: AIDLC · AI TEST AGENT
 description: AI agent tự động sinh, chạy và tự heal bộ E2E test — chỉ cần trỏ vào target, duyệt plan, nhận lại test suite đã pass.
 description_en: An AI agent that automatically generates, runs, and self-heals E2E test suites — point it at a target, approve the plan, get back a passing test suite.
-date: 2026-06-17
-tags: [AIDLC, AI Agent, Testing, Playwright, TypeScript]
+date: 2026-06-23
+tags: [AIDLC, AI Agent, Testing, Playwright, TypeScript, v0.6.0]
 repoUrl: https://github.com/aidlc-io/aidlc-testagent
 featured: true
 order: 1
@@ -18,6 +18,9 @@ order: 1
 <p class="lang-vi"><code>aidlc-testagent</code> giải quyết một vấn đề cụ thể: <strong>viết và duy trì E2E test tốn thời gian</strong>. Tool này đóng vai trò một agent tự động hóa toàn bộ vòng đời test — từ khám phá giao diện, lên kế hoạch, sinh code, chạy thử, đến tự sửa khi test fail. Mục tiêu cuối là có một test suite có thể commit vào repo, không phải chỉ là output tạm thời.</p>
 <p class="lang-en">Supported surfaces: web apps (Playwright), Electron desktop apps, REST APIs, and mobile (roadmap).</p>
 <p class="lang-vi">Phạm vi áp dụng: web app (Playwright), Electron desktop app, REST API, và mobile (roadmap).</p>
+
+<p class="lang-en"><strong>What's new in v0.6.0</strong> — a <strong>manual explore mode</strong> with an in-browser toolbar (checkpoints with screenshot previews, use-case recording → auto-generated markdown docs, live XHR/fetch monitoring, and HAR capture per use case), plus <a href="https://www.npmjs.com/package/@playwright/mcp" target="_blank" rel="noopener"><code>@playwright/mcp</code></a> integration so the agent drives the browser through the Playwright MCP server. Requires Node ≥ 20.</p>
+<p class="lang-vi"><strong>Mới ở v0.6.0</strong> — <strong>manual explore mode</strong> với toolbar ngay trong trình duyệt (checkpoint kèm screenshot preview, ghi use case → tự sinh markdown docs, theo dõi XHR/fetch trực tiếp, và bắt HAR theo từng use case), cùng tích hợp <a href="https://www.npmjs.com/package/@playwright/mcp" target="_blank" rel="noopener"><code>@playwright/mcp</code></a> để agent điều khiển trình duyệt qua Playwright MCP server. Yêu cầu Node ≥ 20.</p>
 
 <h2>
   <span class="lang-en">Architecture</span>
@@ -107,9 +110,9 @@ order: 1
         <div class="arch-box-desc lang-vi">Gọi qua local CLI (vd. claude). Không có API key trong repo.</div>
       </div>
       <div class="arch-box">
-        <div class="arch-box-title">Perception</div>
-        <div class="arch-box-desc lang-en">PerceptionSnapshot — accessibility tree, element list, endpoints</div>
-        <div class="arch-box-desc lang-vi">PerceptionSnapshot — accessibility tree, element list, endpoint</div>
+        <div class="arch-box-title">Perception · Playwright MCP</div>
+        <div class="arch-box-desc lang-en">PerceptionSnapshot via @playwright/mcp — accessibility tree, element list, endpoints; auto + manual explore</div>
+        <div class="arch-box-desc lang-vi">PerceptionSnapshot qua @playwright/mcp — accessibility tree, element list, endpoint; explore tự động + thủ công</div>
       </div>
       <div class="arch-box">
         <div class="arch-box-title">Config Loader</div>
@@ -226,20 +229,68 @@ order: 1
 </div>
 
 <ol>
-  <li class="lang-en"><strong>Explore</strong> — Adapter navigates to the target, observes accessibility tree + DOM → <code>PerceptionSnapshot</code>.</li>
+  <li class="lang-en"><strong>Explore</strong> — Adapter navigates to the target (autonomously, or driven by you in <strong>manual mode</strong>), observes accessibility tree + DOM → <code>PerceptionSnapshot</code>. The snapshot persists to <code>perception.json</code> and is reused across runs without reopening the browser.</li>
   <li class="lang-en"><strong>Plan</strong> — LLM receives snapshot + trust-ordered grounding context → structured test plan with stages: <code>setup → smoke → core → edge → teardown</code>.</li>
   <li class="lang-en"><strong>Confirm</strong> — Terminal shows the plan for human approval (Y/n). Only proceeds after explicit sign-off.</li>
   <li class="lang-en"><strong>Generate</strong> — Approved plan → Playwright specs + Page Object Models, Zod-validated before write.</li>
   <li class="lang-en"><strong>Execute</strong> — Tests run N times through the stability gate. Flaky tests are quarantined, never committed.</li>
   <li class="lang-en"><strong>Heal</strong> — Failures trigger re-observation + LLM regeneration. Retries up to <code>maxHealAttempts</code>.</li>
 
-  <li class="lang-vi"><strong>Explore</strong> — Adapter điều hướng đến target, quan sát accessibility tree + DOM → <code>PerceptionSnapshot</code>.</li>
+  <li class="lang-vi"><strong>Explore</strong> — Adapter điều hướng đến target (tự động, hoặc do bạn điều khiển ở <strong>manual mode</strong>), quan sát accessibility tree + DOM → <code>PerceptionSnapshot</code>. Snapshot được lưu vào <code>perception.json</code> và tái sử dụng giữa các run mà không cần mở lại browser.</li>
   <li class="lang-vi"><strong>Plan</strong> — LLM nhận snapshot + grounding context theo thứ tự ưu tiên → test plan có cấu trúc: <code>setup → smoke → core → edge → teardown</code>.</li>
   <li class="lang-vi"><strong>Confirm</strong> — Terminal hiện plan để duyệt (Y/n). Chỉ tiếp tục sau khi được approve.</li>
   <li class="lang-vi"><strong>Generate</strong> — Plan đã duyệt → Playwright specs + Page Object Models, Zod-validated trước khi ghi.</li>
   <li class="lang-vi"><strong>Execute</strong> — Test chạy N lần qua stability gate. Test flaky bị quarantine, không commit.</li>
   <li class="lang-vi"><strong>Heal</strong> — Fail → re-observe + LLM regenerate. Retry tối đa <code>maxHealAttempts</code> lần.</li>
 </ol>
+
+<h2>
+  <span class="lang-en">Manual Explore Mode <span style="font-weight:400">· new in v0.6.0</span></span>
+  <span class="lang-vi">Manual Explore Mode <span style="font-weight:400">· mới ở v0.6.0</span></span>
+</h2>
+<p class="lang-en">Autonomous exploration doesn't always reach the screen you care about — behind a login, a multi-step wizard, a feature flag. Manual mode hands you the keyboard: you drive a real headed browser to the exact state you want, and an in-browser toolbar records it as grounded context the planner can trust.</p>
+<p class="lang-vi">Explore tự động không phải lúc nào cũng tới được màn hình bạn cần — sau login, qua wizard nhiều bước, hay sau feature flag. Manual mode trao quyền điều khiển cho bạn: bạn tự lái một headed browser tới đúng trạng thái mong muốn, và toolbar ngay trong trình duyệt ghi lại nó thành grounding context mà planner tin cậy.</p>
+
+<pre><code>npx ata explore myapp --manual --headed</code></pre>
+
+<table class="technique-table">
+  <thead>
+    <tr>
+      <th><span class="lang-en">Toolbar action</span><span class="lang-vi">Hành động trên toolbar</span></th>
+      <th><span class="lang-en">What it captures</span><span class="lang-vi">Ghi lại gì</span></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Checkpoint</td>
+      <td>
+        <span class="lang-en">Snapshots the current DOM + accessibility tree with a screenshot preview, so the planner sees the exact state you reached.</span>
+        <span class="lang-vi">Chụp DOM + accessibility tree hiện tại kèm screenshot preview, để planner thấy đúng trạng thái bạn đã tới.</span>
+      </td>
+    </tr>
+    <tr>
+      <td>Record use case</td>
+      <td>
+        <span class="lang-en">Records a named flow of your actions and auto-generates a markdown doc describing the steps — committable grounding for the plan.</span>
+        <span class="lang-vi">Ghi lại một flow có tên từ thao tác của bạn và tự sinh markdown doc mô tả các bước — grounding có thể commit cho plan.</span>
+      </td>
+    </tr>
+    <tr>
+      <td>Network monitor</td>
+      <td>
+        <span class="lang-en">Live XHR/fetch call log surfaces the endpoints each screen depends on, feeding the API surface map.</span>
+        <span class="lang-vi">Log XHR/fetch trực tiếp cho thấy endpoint mỗi màn hình phụ thuộc, bổ sung cho API surface map.</span>
+      </td>
+    </tr>
+    <tr>
+      <td>HAR capture</td>
+      <td>
+        <span class="lang-en">Writes a HAR file per recorded use case — a complete network trace for debugging and replay.</span>
+        <span class="lang-vi">Ghi một file HAR cho mỗi use case — network trace đầy đủ để debug và replay.</span>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 <h2>
   <span class="lang-en">AI Techniques</span>
@@ -259,6 +310,13 @@ order: 1
       <td>
         <span class="lang-en">Adapter normalizes DOM into an accessibility tree + element list (<code>PerceptionSnapshot</code>) rather than feeding raw HTML to the LLM. Reduces hallucination.</span>
         <span class="lang-vi">Adapter chuẩn hóa DOM thành accessibility tree + element list (<code>PerceptionSnapshot</code>) thay vì đưa raw HTML vào LLM. Giảm hallucination.</span>
+      </td>
+    </tr>
+    <tr>
+      <td>Browser Control via MCP</td>
+      <td>
+        <span class="lang-en">Perception and exploration run through <code>@playwright/mcp</code> — the agent observes and drives the browser over the Playwright MCP server instead of hand-rolled scripting.</span>
+        <span class="lang-vi">Perception và exploration chạy qua <code>@playwright/mcp</code> — agent quan sát và điều khiển browser qua Playwright MCP server thay vì script thủ công.</span>
       </td>
     </tr>
     <tr>
@@ -316,12 +374,14 @@ order: 1
   <span class="lang-vi">Chạy lần đầu</span>
 </h3>
 
-<pre><code>npx ata config          # Interactive setup: LLM provider, budget
-npx ata plan todomvc    # Propose plan only, no code generated
-npx ata run todomvc     # Full loop: explore → plan → confirm → generate → execute → heal</code></pre>
+<pre><code>npx playwright install chromium     # One-time browser setup
+npx ata config                      # Interactive setup: LLM provider, budget
+npx ata explore myapp --manual --headed   # Optional: drive the browser yourself, record use cases
+npx ata plan todomvc                # Propose plan only, no code generated
+npx ata run todomvc                 # Full loop: explore → plan → [confirm] → generate → execute (+stability) → heal</code></pre>
 
-<p class="lang-en">When <code>npx ata run</code> executes, the agent opens a headless browser, navigates to the configured URL, generates a PerceptionSnapshot, asks the LLM to plan, pauses for your approval, then generates Playwright spec files and runs them through the stability gate. If any fail, the healing loop kicks in automatically. The result is a <code>tests/</code> directory with committable spec files.</p>
-<p class="lang-vi">Khi <code>npx ata run</code> chạy, agent mở browser headless, navigate đến URL trong config, sinh PerceptionSnapshot, hỏi LLM để lên plan, dừng chờ bạn duyệt, sau đó sinh Playwright spec files và chạy qua stability gate. Nếu có fail, healing loop tự động chạy. Kết quả là thư mục <code>tests/</code> với spec files có thể commit.</p>
+<p class="lang-en">When <code>npx ata run</code> executes, the agent opens a browser, navigates to the configured URL (or reuses a saved <code>perception.json</code>), generates a PerceptionSnapshot, asks the LLM to plan, pauses for your approval, then generates Playwright spec files and runs them through the stability gate. If any fail, the healing loop kicks in automatically. Each run leaves behind a committable <code>tests/</code> directory plus <code>perception.json</code> (session reuse), a human-readable <code>plan.md</code> and machine <code>plan.json</code>, and per-use-case HAR network logs.</p>
+<p class="lang-vi">Khi <code>npx ata run</code> chạy, agent mở browser, navigate đến URL trong config (hoặc tái dùng <code>perception.json</code> đã lưu), sinh PerceptionSnapshot, hỏi LLM để lên plan, dừng chờ bạn duyệt, sau đó sinh Playwright spec files và chạy qua stability gate. Nếu có fail, healing loop tự động chạy. Mỗi run để lại thư mục <code>tests/</code> có thể commit cùng <code>perception.json</code> (tái dùng session), <code>plan.md</code> cho người đọc và <code>plan.json</code> cho máy, và HAR network log theo từng use case.</p>
 
 <h3>CI Gate</h3>
 
